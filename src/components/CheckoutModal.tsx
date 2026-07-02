@@ -127,13 +127,13 @@ export function CheckoutModal() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <>
+        <div className="fixed inset-0 z-[60] flex items-end md:items-center justify-center pointer-events-none">
           <motion.div
             key="overlay"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-mocha/50 z-[60]"
+            className="absolute inset-0 bg-mocha/50 pointer-events-auto"
             onClick={closeCheckout}
             aria-hidden="true"
           />
@@ -143,7 +143,7 @@ export function CheckoutModal() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[60] w-full h-[100dvh] md:h-auto md:inset-x-auto md:left-1/2 md:bottom-auto md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-[450px] bg-ivory md:rounded-2xl shadow-[0_-20px_40px_rgba(0,0,0,0.1)] overflow-hidden md:max-h-[90vh] flex flex-col"
+            className="relative w-full h-[92dvh] md:h-auto md:max-h-[90vh] md:w-[450px] bg-ivory rounded-t-3xl md:rounded-3xl shadow-[0_-20px_40px_rgba(0,0,0,0.1)] overflow-hidden flex flex-col pointer-events-auto"
             role="dialog"
             aria-modal="true"
             aria-labelledby="checkout-title"

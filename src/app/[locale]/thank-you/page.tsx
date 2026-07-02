@@ -68,7 +68,20 @@ export default function ThankYouPage() {
             <Package size={18} className="text-rose" aria-hidden="true" />
             {t('whatsNext')}
           </h2>
-          <ol className="space-y-3">
+          
+          <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-5 shadow-sm">
+            <p className="text-red-700 font-bold text-sm md:text-base leading-snug mb-2 flex items-center gap-2">
+              <span className="animate-pulse">🚨</span>
+              {locale === 'ar' ? 'هام جداً: خطوة أخيرة لتأكيد طلبك' : 'VERY IMPORTANT: Final step to confirm your order'}
+            </p>
+            <p className="text-red-600/90 text-xs md:text-sm font-medium leading-relaxed">
+              {locale === 'ar' 
+                ? 'سيتصل بك فريق التأكيد من الإمارات خلال الـ 24 ساعة القادمة. يرجى الرد على المكالمة لتأكيد العنوان وشحن الطلب فوراً. (إذا لم يتم الرد، سيتم إلغاء الطلب تلقائياً)'
+                : 'Our confirmation team will call you within the next 24 hours. Please answer the call to confirm your address and ship the order immediately. (If unanswered, the order will be automatically cancelled)'}
+            </p>
+          </div>
+
+          <ol className="space-y-3 mb-6">
             {([1, 2, 3] as const).map((step) => (
               <li key={step} className="flex items-start gap-3">
                 <div className="w-6 h-6 rounded-full bg-rose/15 flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -78,6 +91,22 @@ export default function ThankYouPage() {
               </li>
             ))}
           </ol>
+          
+          {/* WhatsApp Fast Track */}
+          <div className="pt-5 border-t border-sand/60 text-center">
+            <p className="text-xs md:text-sm text-taupe font-medium mb-3">
+              {locale === 'ar' ? 'مستعجلة؟ أكدي طلبك الآن عبر الواتساب لتسريع الشحن' : 'In a hurry? Confirm your order now via WhatsApp for faster shipping'}
+            </p>
+            <a 
+              href={`https://wa.me/971556710680?text=${encodeURIComponent(locale === 'ar' ? `مرحباً، أود تأكيد طلبي السريع. رقم الطلب: ${orderNumber || 'جديد'}` : `Hello, I want to confirm my fast-track order. Order ID: ${orderNumber || 'New'}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex w-full items-center justify-center gap-2 bg-[#25D366] text-white px-6 py-3.5 rounded-xl font-bold hover:bg-[#20bd5a] transition-all shadow-md active:scale-95"
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              {locale === 'ar' ? 'تأكيد الطلب فوراً عبر واتساب' : 'Confirm Order Now via WhatsApp'}
+            </a>
+          </div>
         </div>
 
         {/* Back to store */}
