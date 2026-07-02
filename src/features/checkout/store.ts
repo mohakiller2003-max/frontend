@@ -10,6 +10,7 @@ type CheckoutState = {
   customerName: string | null;
   upsellProductId: string | null;
   showUpsell: boolean;
+  upsellDismissed: boolean;
   upsellAccepted: boolean;
   purchaseEventId: string | null;
 
@@ -41,6 +42,7 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
   customerName: null,
   upsellProductId: null,
   showUpsell: false,
+  upsellDismissed: false,
   upsellAccepted: false,
   purchaseEventId: null,
 
@@ -57,13 +59,14 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
       customerPhone: params.customerPhone,
       upsellProductId: params.upsellProductId,
       purchaseEventId: params.purchaseEventId,
-      isOpen: false, // Close checkout modal explicitly
-      showUpsell: !!params.upsellProductId, // Open upsell automatically if available
+      isOpen: false,
+      showUpsell: !!params.upsellProductId,
+      upsellDismissed: false,
     }),
 
   openUpsell: () => set({ showUpsell: true }),
-  closeUpsell: () => set({ showUpsell: false }),
-  setUpsellAccepted: (totalAed) => set({ upsellAccepted: true, totalAed, showUpsell: false }),
+  closeUpsell: () => set({ showUpsell: false, upsellDismissed: true }),
+  setUpsellAccepted: (totalAed) => set({ upsellAccepted: true, totalAed, showUpsell: false, upsellDismissed: true }),
 
   reset: () =>
     set({
@@ -76,6 +79,7 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
       customerName: null,
       upsellProductId: null,
       showUpsell: false,
+      upsellDismissed: false,
       upsellAccepted: false,
       purchaseEventId: null,
     }),
