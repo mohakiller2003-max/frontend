@@ -12,7 +12,7 @@ import { PRODUCT_MAP, UPSELL_PRICE_AED } from '@/data/products';
 import { firePixelEvent } from '@/features/tracking/pixels';
 import { ImagePlaceholder } from './ImagePlaceholder';
 
-const UPSELL_SECONDS = 180; // Give them 3 full minutes (DTC standard for OTOs)
+const UPSELL_SECONDS = 15; // Decreased from 180s to 15s to increase urgency
 
 export function UpsellModal() {
   const t = useTranslations('upsell');
