@@ -36,10 +36,13 @@ export function CheckoutModal() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
     setError,
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+  } = useForm<FormData>({ 
+    resolver: zodResolver(schema),
+    mode: 'onChange' // Triggers validation as user types, no blur required
+  });
 
   useEffect(() => {
     if (isOpen) {
@@ -99,6 +102,8 @@ export function CheckoutModal() {
         order_id: result.order_number,
       }, purchaseEventId);
 
+      clearCart(); // Explicitly clear the cart to ensure it's empty
+      
       setOrderConfirmed({
         orderId: result.order_id,
         orderNumber: result.order_number,
@@ -109,7 +114,6 @@ export function CheckoutModal() {
         purchaseEventId,
       });
 
-      clearCart();
       reset();
     } catch (err: unknown) {
       const detail = (err as { detail?: { code?: string } })?.detail;

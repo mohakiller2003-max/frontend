@@ -57,7 +57,8 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
       customerPhone: params.customerPhone,
       upsellProductId: params.upsellProductId,
       purchaseEventId: params.purchaseEventId,
-      isOpen: false,
+      isOpen: false, // Close checkout modal explicitly
+      showUpsell: !!params.upsellProductId, // Open upsell automatically if available
     }),
 
   openUpsell: () => set({ showUpsell: true }),

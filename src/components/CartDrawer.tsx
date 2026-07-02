@@ -184,7 +184,10 @@ export function CartDrawer() {
                   <span className="text-xl font-bold text-mocha">{formatAED(total())}</span>
                 </div>
                 <button
-                  onClick={() => { openCheckout(); }}
+                  onClick={() => {
+                    close(); // Close cart drawer
+                    setTimeout(() => openCheckout(), 250); // Open checkout after cart animation finishes
+                  }}
                   className="w-full bg-mocha text-ivory py-4 rounded-pill font-semibold text-base hover:bg-mocha/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mocha shadow-soft animate-pulse"
                 >
                   {t('checkout')}
