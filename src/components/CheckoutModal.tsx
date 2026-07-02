@@ -313,7 +313,7 @@ export function CheckoutModal() {
               </div>
             </form>
           </motion.div>
-        </>
+        </div>
       )}
     </AnimatePresence>
   );
