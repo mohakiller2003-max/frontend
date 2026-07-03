@@ -91,17 +91,6 @@ export function Footer() {
             <LanguageSwitcher className="border-ivory/30 text-ivory hover:border-ivory/60 hover:bg-ivory/10" />
           </div>
 
-          {/* Quick Links */}
-          <FooterSection title={t('quickLinks')}>
-            <ul className="space-y-2.5">
-              {quickLinks.map((l) => (
-                <li key={l.href}>
-                  <Link href={l.href} className={linkClass}>{l.label}</Link>
-                </li>
-              ))}
-            </ul>
-          </FooterSection>
-
           {/* Products */}
           <FooterSection title={t('products')}>
             <ul className="space-y-2.5">
@@ -127,6 +116,17 @@ export function Footer() {
               <a href="https://snapchat.com" target="_blank" rel="noopener noreferrer" aria-label="Snapchat" className="w-8 h-8 rounded-full bg-ivory/10 flex items-center justify-center hover:bg-ivory/20 transition-colors text-xs font-bold">SC</a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full bg-ivory/10 flex items-center justify-center hover:bg-ivory/20 transition-colors text-xs font-bold">IG</a>
             </div>
+          </FooterSection>
+
+          {/* Quick Links — last on mobile & desktop column order */}
+          <FooterSection title={t('quickLinks')}>
+            <ul className="space-y-2.5">
+              {quickLinks.map((l) => (
+                <li key={l.href}>
+                  <Link href={l.href} className={linkClass}>{l.label}</Link>
+                </li>
+              ))}
+            </ul>
           </FooterSection>
         </div>
 

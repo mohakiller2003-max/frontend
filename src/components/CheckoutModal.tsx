@@ -36,7 +36,7 @@ export function CheckoutModal() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors },
     reset,
     setError,
   } = useForm<FormData>({ 
@@ -152,28 +152,28 @@ export function CheckoutModal() {
             aria-modal="true"
             aria-labelledby="checkout-title"
           >
-            {/* Header */}
-            <div className="flex flex-col px-4 md:px-5 pt-12 pb-4 md:py-4 border-b border-sand shrink-0 bg-white relative">
+            {/* Header — compact on mobile so form fields stay visible */}
+            <div className="flex flex-col px-4 md:px-5 pt-10 pb-3 md:pt-12 md:pb-4 border-b border-sand shrink-0 bg-white relative">
               <button
                 onClick={closeCheckout}
                 className={cn(
-                  "absolute top-4 p-2 text-taupe hover:text-mocha rounded-full hover:bg-pearl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose",
-                  locale === 'ar' ? 'left-4' : 'right-4'
+                  "absolute top-3 md:top-4 p-2 text-taupe hover:text-mocha rounded-full hover:bg-pearl transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-rose",
+                  locale === 'ar' ? 'left-3 md:left-4' : 'right-3 md:right-4'
                 )}
                 aria-label="Close"
               >
-                <X size={24} />
+                <X size={22} className="md:w-6 md:h-6" />
               </button>
               
-              <div className="text-center mb-3 mt-1 md:mt-0">
-                <h2 id="checkout-title" className="font-extrabold text-mocha text-2xl mb-1">{t('title')}</h2>
+              <div className="text-center mb-2 md:mb-3 mt-0 md:mt-0">
+                <h2 id="checkout-title" className="font-extrabold text-mocha text-xl md:text-2xl mb-1">{t('title')}</h2>
               </div>
               
-              <div className="bg-red-50 border border-red-100 rounded-lg p-2 text-center mb-3 mx-4">
-                <p className="text-[13px] font-bold text-red-600 animate-pulse">{t('urgency')}</p>
+              <div className="bg-red-50 border border-red-100 rounded-lg px-2 py-1.5 md:p-2 text-center mb-2 md:mb-3 mx-0 md:mx-4">
+                <p className="text-[11px] md:text-[13px] font-bold text-red-600 md:animate-pulse leading-snug">{t('urgency')}</p>
               </div>
               
-              <div className="flex justify-center items-center gap-1.5 text-xs font-medium text-mocha/80">
+              <div className="hidden md:flex justify-center items-center gap-1.5 text-xs font-medium text-mocha/80">
                 <div className="flex text-gold">
                   <Star size={14} className="fill-gold" />
                   <Star size={14} className="fill-gold" />
@@ -185,8 +185,8 @@ export function CheckoutModal() {
               </div>
             </div>
 
-            {/* Order summary */}
-            <div className="px-5 py-4 bg-pearl border-b border-sand shrink-0">
+            {/* Order summary — desktop only (mobile total lives inside form) */}
+            <div className="hidden md:block px-5 py-4 bg-pearl border-b border-sand shrink-0">
               <h3 className="font-bold text-mocha text-sm mb-3">{t('yourOrder')}</h3>
               <div className="space-y-3">
                 {items.map((item) => {
@@ -217,20 +217,26 @@ export function CheckoutModal() {
               </div>
             </div>
 
-            {/* Form */}
-            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 overflow-hidden bg-white" noValidate>
-              <div className="px-4 md:px-5 py-3 md:py-5 overflow-y-auto space-y-3 md:space-y-4">
+            {/* Form — name + phone stacked, visible together on mobile */}
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col flex-1 min-h-0 overflow-hidden bg-white" noValidate>
+              <div className="px-4 md:px-5 pt-3 pb-2 md:py-5 shrink-0 space-y-2.5 md:space-y-4 md:overflow-y-auto md:flex-1">
+                {/* Mobile: compact total above fields */}
+                <div className="flex items-center justify-between rounded-xl bg-pearl px-3 py-2 border border-sand/60 md:hidden">
+                  <span className="font-bold text-mocha text-sm">{t('total')}</span>
+                  <span className="text-lg font-black text-mocha">{formatAED(total())}</span>
+                </div>
                 {/* Name */}
                 <div>
-                  <label htmlFor="name" className="block text-[13px] md:text-sm font-bold text-mocha mb-1 md:mb-1.5">
+                  <label htmlFor="name" className="block text-[13px] md:text-sm font-bold text-mocha mb-1">
                     {t('nameLabel')}
                   </label>
                   <input
                     id="name"
                     type="text"
                     autoComplete="name"
+                    enterKeyHint="next"
                     className={cn(
-                      'w-full px-3 py-2.5 md:px-4 md:py-3.5 rounded-xl border bg-pearl/30 text-mocha placeholder:text-taupe/40 text-[13px] md:text-sm focus:outline-none focus:ring-2 focus:ring-mocha transition-all',
+                      'w-full px-3 py-2.5 md:px-4 md:py-3.5 rounded-xl border bg-pearl/30 text-mocha placeholder:text-taupe/40 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-mocha transition-all',
                       errors.name ? 'border-error focus:ring-error' : 'border-sand focus:border-mocha'
                     )}
                     placeholder={t('namePlaceholder')}
@@ -245,7 +251,7 @@ export function CheckoutModal() {
 
                 {/* Phone */}
                 <div>
-                  <label htmlFor="phone" className="block text-[13px] md:text-sm font-bold text-mocha mb-1 md:mb-1.5">
+                  <label htmlFor="phone" className="block text-[13px] md:text-sm font-bold text-mocha mb-1">
                     {t('phoneLabel')}
                   </label>
                   <input
@@ -253,9 +259,10 @@ export function CheckoutModal() {
                     type="tel"
                     inputMode="tel"
                     autoComplete="tel"
+                    enterKeyHint="done"
                     dir="ltr"
                     className={cn(
-                      'w-full px-3 py-2.5 md:px-4 md:py-3.5 rounded-xl border bg-pearl/30 text-mocha placeholder:text-taupe/40 text-[13px] md:text-sm focus:outline-none focus:ring-2 focus:ring-mocha transition-all',
+                      'w-full px-3 py-2.5 md:px-4 md:py-3.5 rounded-xl border bg-pearl/30 text-mocha placeholder:text-taupe/40 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-mocha transition-all',
                       locale === 'ar' ? 'text-right' : 'text-left',
                       errors.phone ? 'border-error focus:ring-error' : 'border-sand focus:border-mocha'
                     )}
@@ -267,7 +274,7 @@ export function CheckoutModal() {
                   {errors.phone ? (
                     <p id="phone-error" className="mt-1 text-[11px] md:text-xs text-error font-medium" role="alert">{errors.phone.message}</p>
                   ) : (
-                    <p className="mt-1 md:mt-1.5 text-[10px] md:text-[11px] text-taupe/80">{t('phoneSubNote')}</p>
+                    <p className="hidden md:block mt-1.5 text-[11px] text-taupe/80">{t('phoneSubNote')}</p>
                   )}
                 </div>
 
@@ -296,7 +303,7 @@ export function CheckoutModal() {
                   )}
                 </button>
 
-                <div className="flex justify-between items-center px-1 md:px-2">
+                <div className="hidden md:flex justify-between items-center px-1 md:px-2">
                   <div className="flex flex-col items-center gap-0.5 md:gap-1">
                     <ShieldCheck size={14} className="text-success md:w-4 md:h-4" />
                     <span className="text-[9px] md:text-[10px] font-bold text-mocha">{t('benefit1')}</span>
