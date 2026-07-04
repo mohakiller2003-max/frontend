@@ -5,12 +5,13 @@ import { routing } from './routing';
 const intlMiddleware = createMiddleware(routing);
 
 export default function middleware(request: NextRequest) {
-  if (request.nextUrl.pathname.startsWith('/admin')) {
+  const path = request.nextUrl.pathname;
+  if (path.startsWith('/admin') || path.startsWith('/preview')) {
     return NextResponse.next();
   }
   return intlMiddleware(request);
 }
 
 export const config = {
-  matcher: ['/((?!api|admin|_next|_vercel|.*\\..*).*)'],
+  matcher: ['/((?!api|admin|preview|_next|_vercel|.*\\..*).*)'],
 };
