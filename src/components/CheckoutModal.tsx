@@ -54,8 +54,17 @@ export function CheckoutModal() {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!errors.root) return;
+    document.getElementById('checkout-root-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [errors.root]);
+
   const onSubmit = async (data: FormData) => {
     if (isSubmitting) return;
+    if (items.length === 0) {
+      setError('root', { message: vt('submitError') });
+      return;
+    }
     setSubmitting(true);
 
     const purchaseEventId = generateEventId('Purchase');
@@ -126,7 +135,10 @@ export function CheckoutModal() {
         setError('phone', { message: vt('phoneInvalid') });
       } else if (code === 'GEO_BLOCKED') {
         setError('root', { message: vt('geoBlocked') });
-      } else if (err instanceof TypeError) {
+      } else if (
+        err instanceof TypeError ||
+        (err instanceof DOMException && err.name === 'AbortError')
+      ) {
         setError('root', { message: vt('networkError') });
       } else {
         setError('root', { message: vt('submitError') });
@@ -288,7 +300,7 @@ export function CheckoutModal() {
 
                 {/* Root error */}
                 {errors.root && (
-                  <p className="text-[11px] md:text-xs text-error bg-error/5 border border-error/20 rounded-lg px-3 py-2 font-medium" role="alert">
+                  <p id="checkout-root-error" className="text-[11px] md:text-xs text-error bg-error/5 border border-error/20 rounded-lg px-3 py-2 font-medium" role="alert">
                     {errors.root.message}
                   </p>
                 )}

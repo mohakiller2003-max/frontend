@@ -74,8 +74,20 @@ export type AcceptUpsellResponse = {
   upsell_accepted: boolean;
 };
 
+const REQUEST_TIMEOUT_MS = 30_000;
+
+async function fetchWithTimeout(url: string, init: RequestInit): Promise<Response> {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...init, signal: controller.signal });
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 export async function createOrder(payload: CreateOrderPayload): Promise<CreateOrderResponse> {
-  const res = await fetch(`${getApiBaseUrl()}/orders`, {
+  const res = await fetchWithTimeout(`${getApiBaseUrl()}/orders`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -91,7 +103,7 @@ export async function acceptUpsell(
   orderId: string,
   payload: AcceptUpsellPayload
 ): Promise<AcceptUpsellResponse> {
-  const res = await fetch(`${getApiBaseUrl()}/orders/${orderId}/upsell`, {
+  const res = await fetchWithTimeout(`${getApiBaseUrl()}/orders/${orderId}/upsell`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),

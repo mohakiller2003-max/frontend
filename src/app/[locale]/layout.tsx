@@ -8,6 +8,7 @@ import { CartDrawer } from '@/components/CartDrawer';
 import { CheckoutModal } from '@/components/CheckoutModal';
 import { UpsellModal } from '@/components/UpsellModal';
 import { UpsellTrigger } from '@/components/UpsellTrigger';
+import { OrderCompleteHandler } from '@/components/OrderCompleteHandler';
 import { PixelDeferredLoader } from '@/components/PixelDeferredLoader';
 import { AnnouncementBar } from '@/components/AnnouncementBar';
 import type { Metadata } from 'next';
@@ -49,6 +50,7 @@ export default async function LocaleLayout({ children, params: { locale } }: Pro
           <CheckoutModal />
           <UpsellModal />
           <UpsellTrigger />
+          <OrderCompleteHandler />
         </NextIntlClientProvider>
       </body>
     </html>

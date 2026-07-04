@@ -34,6 +34,12 @@ export function UpsellModal() {
   }, [closeUpsell, router, locale]);
 
   useEffect(() => {
+    if (showUpsell && upsellProductId && !PRODUCT_MAP[upsellProductId]) {
+      goToThankYou();
+    }
+  }, [showUpsell, upsellProductId, goToThankYou]);
+
+  useEffect(() => {
     if (!showUpsell) {
       setSecondsLeft(UPSELL_SECONDS);
       return;
