@@ -11,6 +11,8 @@ import { ImagePlaceholder } from '@/components/ImagePlaceholder';
 import { TrustBadges } from '@/components/TrustBadges';
 import { ProductOfferSection } from './ProductOfferSection';
 import { CrossSellSection } from './CrossSellSection';
+import { ProductRatingBar } from '@/components/ProductRatingBar';
+import { ProductHeroTrustPills } from '@/components/ProductHeroTrustPills';
 
 type Props = { params: { locale: string; slug: string } };
 
@@ -55,58 +57,54 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
 
   return (
     <>
-      {/* 1. CRO Hero — namabeauty-style */}
+      {/* 1. CRO Hero — copy left, photo right (desktop) */}
       <section className="bg-gradient-to-b from-pearl via-ivory to-sand py-8 md:py-14 overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
-            {/* Copy — first in RTL = right side */}
-            <div>
-              <h1 className="text-2xl md:text-4xl lg:text-[2.75rem] font-black text-mocha mb-4 leading-[1.15] tracking-tight">
+          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
+            {/* Copy + offers — left column on desktop */}
+            <div className="flex flex-col order-2 md:order-none md:col-start-1 md:row-start-1 min-h-0">
+              <h1 className="text-2xl md:text-[2rem] lg:text-[2.35rem] font-black text-mocha mb-3 md:mb-4 leading-[1.2] tracking-tight">
                 {product.heroHeadline[loc]}
               </h1>
-              <p className="text-taupe text-base md:text-lg leading-relaxed mb-5 font-medium">
+              <p className="text-taupe text-base md:text-[1.05rem] leading-relaxed mb-4 md:mb-5 font-medium">
                 {product.subheadline[loc]}
               </p>
 
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-sm font-bold text-taupe">
-                <div className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={15} className="text-gold fill-gold" />
-                  ))}
-                </div>
-                <span>
-                  {product.ratingPlaceholder} ({product.reviewCountPlaceholder}{' '}
-                  {offersT('confirmedReviews')})
-                </span>
-                <span className="text-sand">·</span>
-                <span className="text-mocha">
-                  {offersT('priceFromBottle', { price: loc === 'ar' ? '199 درهم' : '199 AED' })}
-                </span>
-              </div>
+              <ProductRatingBar
+                locale={loc}
+                rating={product.ratingPlaceholder}
+                reviewCount={product.reviewCountPlaceholder}
+                confirmedLabel={offersT('confirmedReviews')}
+                priceLabel={offersT('priceFromBottle', {
+                  price: loc === 'ar' ? '199 درهم' : '199 AED',
+                })}
+              />
 
               <ProductOfferSection product={product} locale={loc} />
             </div>
 
-            {/* Product image */}
-            <div className="relative order-first md:order-none">
-              <div className="relative aspect-square max-w-md mx-auto bg-white rounded-[2rem] border border-sand shadow-2xl p-6 md:p-10">
+            {/* Product image — right column on desktop */}
+            <div className="order-1 md:order-none md:col-start-2 md:row-start-1 flex items-center justify-center">
+              <div className="relative w-full max-w-[420px] aspect-square bg-white rounded-[2rem] border border-sand shadow-2xl p-6 md:p-8">
                 <Image
                   src={product.imageUrl}
                   alt={product.name[loc]}
                   fill
                   className="object-contain p-4"
                   priority
-                  sizes="(max-width: 768px) 100vw, 480px"
+                  sizes="(max-width: 768px) 100vw, 420px"
                 />
-              </div>
-              <div className="absolute top-4 start-4 z-10 bg-white/95 backdrop-blur-md px-3 py-2 rounded-full border border-sand shadow-lg flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-gold" />
-                <span className="text-xs font-bold text-mocha">
-                  {loc === 'ar' ? 'ضمان 30 يوم' : '30-day guarantee'}
-                </span>
+                <div className="absolute top-4 end-4 z-10 bg-white/95 backdrop-blur-md px-3 py-2 rounded-full border border-sand shadow-lg flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-gold" />
+                  <span className="text-xs font-bold text-mocha">
+                    {loc === 'ar' ? 'ضمان 30 يوم' : '30-day guarantee'}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
+
+          <ProductHeroTrustPills locale={loc} />
         </div>
       </section>
 

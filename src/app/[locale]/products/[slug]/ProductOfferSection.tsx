@@ -54,7 +54,7 @@ export function ProductOfferSection({ product, locale, dark = false, stickyMobil
   }
 
   return (
-    <div id="offer-selector" className={cn('space-y-4', dark && 'text-ivory')}>
+    <div id="offer-selector" className={cn('flex flex-col flex-1 min-h-0', dark && 'text-ivory')}>
       <CroOfferSelector product={product} onAdd={handleAdd} />
     </div>
   );
