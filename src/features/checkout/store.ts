@@ -1,5 +1,11 @@
 import { create } from 'zustand';
 
+export type ConfirmedOrderItem = {
+  productId: string;
+  quantity: number;
+  priceAed: number;
+};
+
 type CheckoutState = {
   isOpen: boolean;
   isSubmitting: boolean;
@@ -8,6 +14,7 @@ type CheckoutState = {
   totalAed: number | null;
   customerPhone: string | null;
   customerName: string | null;
+  orderItems: ConfirmedOrderItem[];
   upsellProductId: string | null;
   showUpsell: boolean;
   upsellDismissed: boolean;
@@ -23,12 +30,13 @@ type CheckoutState = {
     totalAed: number;
     customerName: string;
     customerPhone: string;
+    orderItems: ConfirmedOrderItem[];
     upsellProductId: string | null;
     purchaseEventId: string;
   }) => void;
   openUpsell: () => void;
   closeUpsell: () => void;
-  setUpsellAccepted: (totalAed: number) => void;
+  setUpsellAccepted: (params: { totalAed: number; productId: string; priceAed: number }) => void;
   reset: () => void;
 };
 
@@ -40,6 +48,7 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
   totalAed: null,
   customerPhone: null,
   customerName: null,
+  orderItems: [],
   upsellProductId: null,
   showUpsell: false,
   upsellDismissed: false,
@@ -57,6 +66,7 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
       totalAed: params.totalAed,
       customerName: params.customerName,
       customerPhone: params.customerPhone,
+      orderItems: params.orderItems,
       upsellProductId: params.upsellProductId,
       purchaseEventId: params.purchaseEventId,
       isOpen: false,
@@ -66,7 +76,17 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
 
   openUpsell: () => set({ showUpsell: true }),
   closeUpsell: () => set({ showUpsell: false, upsellDismissed: true }),
-  setUpsellAccepted: (totalAed) => set({ upsellAccepted: true, totalAed, showUpsell: false, upsellDismissed: true }),
+  setUpsellAccepted: ({ totalAed, productId, priceAed }) =>
+    set((state) => ({
+      upsellAccepted: true,
+      totalAed,
+      showUpsell: false,
+      upsellDismissed: true,
+      orderItems: [
+        ...state.orderItems,
+        { productId, quantity: 1, priceAed },
+      ],
+    })),
 
   reset: () =>
     set({
@@ -77,6 +97,7 @@ export const useCheckoutStore = create<CheckoutState>((set) => ({
       totalAed: null,
       customerPhone: null,
       customerName: null,
+      orderItems: [],
       upsellProductId: null,
       showUpsell: false,
       upsellDismissed: false,

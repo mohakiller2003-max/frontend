@@ -65,7 +65,11 @@ export function UpsellModal() {
         event_id: eventId,
       });
       firePixelEvent('UpsellAccepted', { value: UPSELL_PRICE_AED, currency: 'AED' }, eventId);
-      setUpsellAccepted(result.total_aed);
+      setUpsellAccepted({
+        totalAed: result.total_aed,
+        productId: upsellProductId,
+        priceAed: UPSELL_PRICE_AED,
+      });
     } catch {
       // If upsell fails, still go to thank-you
     } finally {
