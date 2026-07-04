@@ -10,6 +10,15 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
+  async rewrites() {
+    const backend = process.env.BACKEND_URL || 'https://api.skinouva.shop';
+    return [
+      {
+        source: '/api/backend/:path*',
+        destination: `${backend.replace(/\/$/, '')}/:path*`,
+      },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);
