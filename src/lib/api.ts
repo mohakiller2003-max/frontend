@@ -1,4 +1,30 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.skinouva.shop';
+const SERVER_API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.skinouva.shop';
+
+/** Browser uses same-origin proxy (/api/backend) to avoid CORS and DNS issues. */
+export function getApiBaseUrl(): string {
+  if (typeof window !== 'undefined') {
+    return '/api/backend';
+  }
+  return SERVER_API_URL;
+}
+
+type ApiErrorPayload = {
+  detail?: { code?: string; message?: string } | unknown[];
+  code?: string;
+  message?: string;
+};
+
+export function getApiErrorCode(err: unknown): string | undefined {
+  const payload = (err as { detail?: ApiErrorPayload })?.detail;
+  if (!payload || typeof payload !== 'object') return undefined;
+
+  const nested = payload.detail;
+  if (nested && typeof nested === 'object' && !Array.isArray(nested)) {
+    return (nested as { code?: string }).code;
+  }
+
+  return payload.code;
+}
 
 export type OrderItemPayload = {
   product_id: string;
@@ -49,14 +75,14 @@ export type AcceptUpsellResponse = {
 };
 
 export async function createOrder(payload: CreateOrderPayload): Promise<CreateOrderResponse> {
-  const res = await fetch(`${API_URL}/orders`, {
+  const res = await fetch(`${getApiBaseUrl()}/orders`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw Object.assign(new Error('ORDER_FAILED'), { detail: err });
+    const errBody = await res.json().catch(() => ({}));
+    throw Object.assign(new Error('ORDER_FAILED'), { detail: errBody });
   }
   return res.json();
 }
@@ -65,14 +91,14 @@ export async function acceptUpsell(
   orderId: string,
   payload: AcceptUpsellPayload
 ): Promise<AcceptUpsellResponse> {
-  const res = await fetch(`${API_URL}/orders/${orderId}/upsell`, {
+  const res = await fetch(`${getApiBaseUrl()}/orders/${orderId}/upsell`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   });
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw Object.assign(new Error('UPSELL_FAILED'), { detail: err });
+    const errBody = await res.json().catch(() => ({}));
+    throw Object.assign(new Error('UPSELL_FAILED'), { detail: errBody });
   }
   return res.json();
 }

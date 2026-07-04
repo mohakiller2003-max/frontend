@@ -96,6 +96,7 @@
     "phoneRequired": "Enter your mobile number",
     "phoneInvalid": "Enter a valid UAE number starting with 05 or +971",
     "geoBlocked": "Orders are currently available in the UAE only. If you are in the UAE, please try again or contact us.",
+    "networkError": "Could not reach the server. Check your connection and try again.",
     "submitError": "Something went wrong. Please try again or contact us."
   },
   "upsell": {

@@ -9,7 +9,7 @@ import { X, ShieldCheck, Loader2, Star } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/features/cart/store';
 import { useCheckoutStore } from '@/features/checkout/store';
-import { createOrder } from '@/lib/api';
+import { createOrder, getApiErrorCode } from '@/lib/api';
 import { generateEventId, formatAED, isValidUAEPhone } from '@/lib/utils';
 import { getStoredUtm, getFbCookies } from '@/lib/utm';
 import { PRODUCT_MAP } from '@/data/products';
@@ -121,12 +121,13 @@ export function CheckoutModal() {
 
       reset();
     } catch (err: unknown) {
-      const detail = (err as { detail?: { code?: string } })?.detail;
-      const code = detail?.code;
+      const code = getApiErrorCode(err);
       if (code === 'INVALID_PHONE') {
         setError('phone', { message: vt('phoneInvalid') });
       } else if (code === 'GEO_BLOCKED') {
         setError('root', { message: vt('geoBlocked') });
+      } else if (err instanceof TypeError) {
+        setError('root', { message: vt('networkError') });
       } else {
         setError('root', { message: vt('submitError') });
       }

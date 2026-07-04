@@ -11,7 +11,10 @@ const nextConfig = {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
   async rewrites() {
-    const backend = process.env.BACKEND_URL || 'https://api.skinouva.shop';
+    const backend =
+      process.env.BACKEND_URL ||
+      process.env.NEXT_PUBLIC_API_URL ||
+      'https://api.skinouva.shop';
     return [
       {
         source: '/api/backend/:path*',
