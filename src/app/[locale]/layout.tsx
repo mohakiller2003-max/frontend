@@ -9,6 +9,7 @@ import { CheckoutModal } from '@/components/CheckoutModal';
 import { UpsellModal } from '@/components/UpsellModal';
 import { UpsellTrigger } from '@/components/UpsellTrigger';
 import { OrderCompleteHandler } from '@/components/OrderCompleteHandler';
+import { AnalyticsTracker } from '@/components/AnalyticsTracker';
 import { PixelDeferredLoader } from '@/components/PixelDeferredLoader';
 import { AnnouncementBar } from '@/components/AnnouncementBar';
 import type { Metadata } from 'next';
@@ -42,6 +43,7 @@ export default async function LocaleLayout({ children, params: { locale } }: Pro
       <body>
         <NextIntlClientProvider messages={messages}>
           <PixelDeferredLoader />
+          <AnalyticsTracker />
           <AnnouncementBar />
           <Header />
           <main>{children}</main>

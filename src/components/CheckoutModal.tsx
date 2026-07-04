@@ -15,6 +15,7 @@ import { getStoredUtm, getFbCookies } from '@/lib/utm';
 import { PRODUCT_MAP } from '@/data/products';
 import { cn } from '@/lib/utils';
 import { firePixelEvent } from '@/features/tracking/pixels';
+import { trackEvent } from '@/lib/analytics';
 
 function makeSchema(t: (k: string) => string) {
   return z.object({
@@ -48,6 +49,7 @@ export function CheckoutModal() {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
       firePixelEvent('InitiateCheckout', {}, generateEventId('InitiateCheckout'));
+      trackEvent({ event_type: 'initiate_checkout', page_path: typeof window !== 'undefined' ? window.location.pathname : undefined });
     } else {
       document.body.style.overflow = '';
     }

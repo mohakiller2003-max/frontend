@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { OFFERS_BY_QUANTITY, PRODUCT_MAP } from '@/data/products';
+import { trackEvent } from '@/lib/analytics';
 
 export type CartItem = {
   productId: string;
@@ -43,6 +44,7 @@ export const useCartStore = create<CartState>()(
           }
           return { items: [...state.items, { productId, quantity, priceAed: price }] };
         });
+        trackEvent({ event_type: 'add_to_cart', product_id: productId, page_path: typeof window !== 'undefined' ? window.location.pathname : undefined });
       },
 
       removeItem: (productId) =>
