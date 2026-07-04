@@ -8,6 +8,10 @@ export type Offer = {
   priceAed: number;
   badge: LocalizedText;
   labelKey: string;
+  title: LocalizedText;
+  subtitle: LocalizedText;
+  savings?: LocalizedText;
+  topRibbon?: LocalizedText;
 };
 
 export type Ingredient = {
@@ -33,6 +37,9 @@ export type Product = {
   complementaryId: string;
   ratingPlaceholder: number;
   reviewCountPlaceholder: number;
+  imageUrl: string;
+  urgencyLine: LocalizedText;
+  ctaRoutine: LocalizedText;
 };
 
 export const PRODUCTS: Product[] = [
@@ -55,8 +62,8 @@ export const PRODUCTS: Product[] = [
       en: 'Dark spots and uneven-looking tone',
     },
     subheadline: {
-      ar: 'شمس الخليج والتكييف يثبّت التصبّغ تحت الجلد. سيروم 15% TXA + Niacinamide يستهدف المصدر — بدون تقشير ولا فترة نقاهة.',
-      en: 'Gulf sun and AC lock pigment beneath the skin. 15% TXA + Niacinamide targets the source — no harsh peeling, no downtime.',
+      ar: 'شمس الإمارات والتكييف يخزّنون التصبّغ تحت الجلد. سيروم 15% TXA + Niacinamide يستهدف المصدر — بدون إبر، بدون تقشير.',
+      en: 'UAE sun and AC store pigment beneath your skin. 15% TXA + Niacinamide targets the source — no needles, no harsh peeling.',
     },
     description: {
       ar: 'صُمِّم هذا السيروم للمساعدة في تقليل مظهر البقع الداكنة وتفاوت لون البشرة. يجمع حمض الترانيكساميك والنياسيناميد في تركيبة يومية للحصول على مظهر أكثر إشراقًا وتوازنًا مع الاستخدام المنتظم.',
@@ -83,9 +90,33 @@ export const PRODUCTS: Product[] = [
       },
     ],
     offers: [
-      { quantity: 1, priceAed: 199, badge: { ar: 'للتجربة', en: 'Starter' }, labelKey: 'one' },
-      { quantity: 2, priceAed: 279, badge: { ar: 'الأكثر طلبًا', en: 'Most Popular' }, labelKey: 'two' },
-      { quantity: 3, priceAed: 349, badge: { ar: 'أفضل قيمة', en: 'Best Value' }, labelKey: 'three' },
+      {
+        quantity: 1,
+        priceAed: 199,
+        badge: { ar: 'للتجربة', en: 'Try first' },
+        labelKey: 'one',
+        topRibbon: { ar: 'نتيجة من الزجاجة الأولى', en: 'Results from bottle one' },
+        title: { ar: 'زجاجة واحدة', en: 'One bottle' },
+        subtitle: { ar: '30 مل · شهر كامل', en: '30 ml · full month' },
+      },
+      {
+        quantity: 2,
+        priceAed: 279,
+        badge: { ar: 'الأكثر اختياراً', en: 'Most chosen' },
+        labelKey: 'two',
+        title: { ar: 'زجاجتان · ثبّتي النتيجة', en: 'Two bottles · lock results' },
+        subtitle: { ar: '60 مل · شهر النتيجة + شهر التثبيت', en: '60 ml · results + lock-in month' },
+        savings: { ar: 'وفّري 119 درهم', en: 'Save 119 AED' },
+      },
+      {
+        quantity: 3,
+        priceAed: 349,
+        badge: { ar: 'الأكثر توفيراً', en: 'Best savings' },
+        labelKey: 'three',
+        title: { ar: 'ثلاث زجاجات · النتيجة الكاملة', en: 'Three bottles · full routine' },
+        subtitle: { ar: '90 مل · نتيجة + تثبيت + أفضل قيمة', en: '90 ml · results + lock-in + best value' },
+        savings: { ar: 'وفّري 248 درهم', en: 'Save 248 AED' },
+      },
     ],
     benefitBullets: [
       {
@@ -120,6 +151,15 @@ export const PRODUCTS: Product[] = [
     complementaryId: 'azelaic-acne-marks-serum',
     ratingPlaceholder: 5.0,
     reviewCountPlaceholder: 428,
+    imageUrl: '/products/medicube-txa-niacinamide.png',
+    urgencyLine: {
+      ar: 'آخر ٤٨ ساعة على عرض الشحن المجاني هذا الأسبوع داخل الإمارات',
+      en: 'Last 48 hours for free shipping this week across the UAE',
+    },
+    ctaRoutine: {
+      ar: 'ابدئي روتين التفتيح الآن',
+      en: 'Start your brightening routine now',
+    },
   },
   {
     id: 'azelaic-acne-marks-serum',
@@ -161,9 +201,33 @@ export const PRODUCTS: Product[] = [
       },
     ],
     offers: [
-      { quantity: 1, priceAed: 199, badge: { ar: 'للتجربة', en: 'Starter' }, labelKey: 'one' },
-      { quantity: 2, priceAed: 279, badge: { ar: 'الأكثر طلبًا', en: 'Most Popular' }, labelKey: 'two' },
-      { quantity: 3, priceAed: 349, badge: { ar: 'أفضل قيمة', en: 'Best Value' }, labelKey: 'three' },
+      {
+        quantity: 1,
+        priceAed: 199,
+        badge: { ar: 'للتجربة', en: 'Try first' },
+        labelKey: 'one',
+        topRibbon: { ar: 'نتيجة من الزجاجة الأولى', en: 'Results from bottle one' },
+        title: { ar: 'زجاجة واحدة', en: 'One bottle' },
+        subtitle: { ar: '30 مل · شهر كامل', en: '30 ml · full month' },
+      },
+      {
+        quantity: 2,
+        priceAed: 279,
+        badge: { ar: 'الأكثر اختياراً', en: 'Most chosen' },
+        labelKey: 'two',
+        title: { ar: 'زجاجتان · ثبّتي النتيجة', en: 'Two bottles · lock results' },
+        subtitle: { ar: '60 مل · شهر النتيجة + شهر التثبيت', en: '60 ml · results + lock-in month' },
+        savings: { ar: 'وفّري 119 درهم', en: 'Save 119 AED' },
+      },
+      {
+        quantity: 3,
+        priceAed: 349,
+        badge: { ar: 'الأكثر توفيراً', en: 'Best savings' },
+        labelKey: 'three',
+        title: { ar: 'ثلاث زجاجات · النتيجة الكاملة', en: 'Three bottles · full routine' },
+        subtitle: { ar: '90 مل · نتيجة + تثبيت + أفضل قيمة', en: '90 ml · results + lock-in + best value' },
+        savings: { ar: 'وفّري 248 درهم', en: 'Save 248 AED' },
+      },
     ],
     benefitBullets: [
       {
@@ -198,6 +262,15 @@ export const PRODUCTS: Product[] = [
     complementaryId: 'tranexamic-niacinamide-serum',
     ratingPlaceholder: 5.0,
     reviewCountPlaceholder: 386,
+    imageUrl: '/products/bb-calming-azelaic.png',
+    urgencyLine: {
+      ar: 'آخر ٤٨ ساعة على عرض الشحن المجاني هذا الأسبوع داخل الإمارات',
+      en: 'Last 48 hours for free shipping this week across the UAE',
+    },
+    ctaRoutine: {
+      ar: 'ابدئي روتين الهدوء الآن',
+      en: 'Start your calming routine now',
+    },
   },
 ];
 

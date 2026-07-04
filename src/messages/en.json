@@ -51,7 +51,10 @@
     "perPiece": "per piece",
     "addToCart": "Complete Your Order Now",
     "scarcity": "Stock is selling fast",
-    "selectOffer": "Choose Offer"
+    "selectOffer": "Choose your offer:",
+    "codNote": "Cash on delivery · no online payment",
+    "priceFromBottle": "From {price} / bottle",
+    "confirmedReviews": "reviews · verified"
   },
   "cart": {
     "title": "Your Cart",

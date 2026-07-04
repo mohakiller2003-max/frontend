@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
 import { getTranslations } from 'next-intl/server';
 import { Star, CheckCircle2, ShieldCheck, FlaskConical, Stethoscope, Leaf, Award, XCircle, ChevronRight, Check } from 'lucide-react';
 import { getProductBySlug, PRODUCTS } from '@/data/products';
@@ -26,6 +27,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
   if (!product) notFound();
 
   const t = await getTranslations({ locale, namespace: 'product' });
+  const offersT = await getTranslations({ locale, namespace: 'offers' });
   const cro = await getTranslations({ locale, namespace: 'productCro' });
   const faqT = await getTranslations({ locale, namespace: 'faq' });
   const reviewT = await getTranslations({ locale, namespace: 'reviews' });
@@ -53,43 +55,68 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
 
   return (
     <>
-      {/* 1. Enhanced Hero Section */}
-      <section className="bg-gradient-to-br from-ivory via-pearl to-sand py-10 md:py-16 overflow-hidden">
-        <div className="max-w-content mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid md:grid-cols-2 gap-12 items-start">
-            <div className="order-1 md:order-1 relative">
-              <div className="absolute -top-4 -left-4 z-10 bg-white/95 backdrop-blur-md px-4 py-2 rounded-full border border-sand shadow-lg flex items-center gap-2">
-                 <ShieldCheck className="w-5 h-5 text-gold" />
-                 <span className="text-sm font-bold text-mocha">{loc === 'ar' ? 'ضمان 30 يوم استرجاع' : '30-Day Refund Guarantee'}</span>
-              </div>
-              <ImagePlaceholder aspect="portrait" variant="serum" className="max-w-md mx-auto shadow-2xl rounded-[2rem] border-4 border-white" />
-            </div>
-
-            <div className="order-2 md:order-2">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="flex gap-0.5">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} size={16} className="text-gold fill-gold" />
-                  ))}
-                </div>
-                <span className="text-sm font-bold text-taupe">5.0 ({product.reviewCountPlaceholder} {t('reviewCount')})</span>
-              </div>
-
-              <h1 className="text-3xl md:text-5xl font-extrabold text-mocha mb-4 leading-tight">
+      {/* 1. CRO Hero — namabeauty-style */}
+      <section className="bg-gradient-to-b from-pearl via-ivory to-sand py-8 md:py-14 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-4 md:px-6">
+          <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-start">
+            {/* Copy — first in RTL = right side */}
+            <div>
+              <h1 className="text-2xl md:text-4xl lg:text-[2.75rem] font-black text-mocha mb-4 leading-[1.15] tracking-tight">
                 {product.heroHeadline[loc]}
               </h1>
-              <p className="text-taupe text-lg md:text-xl leading-relaxed mb-6 font-medium">{product.subheadline[loc]}</p>
+              <p className="text-taupe text-base md:text-lg leading-relaxed mb-5 font-medium">
+                {product.subheadline[loc]}
+              </p>
 
-              <div className="bg-rose/10 border-l-4 border-rose p-4 mb-8 rounded-r-xl">
-                 <p className="text-sm md:text-base font-bold text-rose/90">{cro('stat')}</p>
-                 <p className="text-[10px] text-taupe mt-1">{cro('statSource')}</p>
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-6 text-sm font-bold text-taupe">
+                <div className="flex gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={15} className="text-gold fill-gold" />
+                  ))}
+                </div>
+                <span>
+                  {product.ratingPlaceholder} ({product.reviewCountPlaceholder}{' '}
+                  {offersT('confirmedReviews')})
+                </span>
+                <span className="text-sand">·</span>
+                <span className="text-mocha">
+                  {offersT('priceFromBottle', { price: loc === 'ar' ? '199 درهم' : '199 AED' })}
+                </span>
               </div>
 
               <ProductOfferSection product={product} locale={loc} />
             </div>
+
+            {/* Product image */}
+            <div className="relative order-first md:order-none">
+              <div className="relative aspect-square max-w-md mx-auto bg-white rounded-[2rem] border border-sand shadow-2xl p-6 md:p-10">
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name[loc]}
+                  fill
+                  className="object-contain p-4"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 480px"
+                />
+              </div>
+              <div className="absolute top-4 start-4 z-10 bg-white/95 backdrop-blur-md px-3 py-2 rounded-full border border-sand shadow-lg flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-gold" />
+                <span className="text-xs font-bold text-mocha">
+                  {loc === 'ar' ? 'ضمان 30 يوم' : '30-day guarantee'}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* Stat — UAE social proof */}
+      <div className="bg-rose/5 border-y border-rose/10 py-4">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <p className="text-sm md:text-base font-bold text-mocha">{cro('stat')}</p>
+          <p className="text-[11px] text-taupe mt-1">{cro('statSource')}</p>
+        </div>
+      </div>
 
       {/* 2. Trust Strip */}
       <div className="bg-white border-y border-sand py-6 shadow-sm">

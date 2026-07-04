@@ -51,7 +51,10 @@
     "perPiece": "للقطعة",
     "addToCart": "أكملي طلبك الآن",
     "scarcity": "الكمية تنفد بسرعة",
-    "selectOffer": "اختاري العرض"
+    "selectOffer": "اختاري العرض:",
+    "codNote": "الدفع عند الاستلام · بدون دفع أونلاين",
+    "priceFromBottle": "من {price} / زجاجة",
+    "confirmedReviews": "تقييم · مؤكدة"
   },
   "cart": {
     "title": "سلتك",
