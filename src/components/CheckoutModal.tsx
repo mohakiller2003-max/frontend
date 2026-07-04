@@ -110,6 +110,11 @@ export function CheckoutModal() {
         totalAed: result.total_aed,
         customerName: data.name.trim(),
         customerPhone: data.phone.trim(),
+        orderItems: items.map((item) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          priceAed: item.priceAed,
+        })),
         upsellProductId: result.upsell?.product_id || null,
         purchaseEventId,
       });
@@ -120,6 +125,8 @@ export function CheckoutModal() {
       const code = detail?.code;
       if (code === 'INVALID_PHONE') {
         setError('phone', { message: vt('phoneInvalid') });
+      } else if (code === 'GEO_BLOCKED') {
+        setError('root', { message: vt('geoBlocked') });
       } else {
         setError('root', { message: vt('submitError') });
       }

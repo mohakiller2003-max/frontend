@@ -95,6 +95,7 @@
     "nameRequired": "Enter your full name",
     "phoneRequired": "Enter your mobile number",
     "phoneInvalid": "Enter a valid UAE number starting with 05 or +971",
+    "geoBlocked": "Orders are currently available in the UAE only. If you are in the UAE, please try again or contact us.",
     "submitError": "Something went wrong. Please try again or contact us."
   },
   "upsell": {
@@ -107,17 +108,92 @@
   },
   "thankYou": {
     "headline": "Order received successfully ✓",
-    "body": "Our confirmation team may contact you on the registered number before delivery.",
+    "headlineNamed": "Thank you, {name}! Your order is reserved ✓",
+    "body": "One quick phone call stands between you and delivery. Please keep your phone nearby.",
     "orderNumber": "Order Number",
-    "orderTotal": "Order Total",
-    "phone": "Registered Mobile Number",
-    "paymentMethod": "Payment Method",
+    "orderTotal": "Total",
+    "phone": "Mobile Number",
+    "paymentMethod": "Payment",
     "cod": "Cash on Delivery",
     "continueShopping": "Back to Store",
     "whatsNext": "What happens next?",
-    "step1": "Our team will contact you to confirm your order",
-    "step2": "Your order will be shipped within the UAE",
-    "step3": "Receive your order and pay at the door"
+    "step1": "We call you to confirm your address (takes 1 minute)",
+    "step2": "Your order ships across the UAE within 24–48 hours",
+    "step3": "Receive at your door — pay only when it arrives",
+    "callBanner": {
+      "withinHours": {
+        "badge": "Action required",
+        "headline": "Expect our call within 10 minutes",
+        "body": "Our confirmation team calls from a UAE number. It may appear as unknown or private — please answer so we can ship your order today.",
+        "timer": "Calling hours: 9 AM – 9 PM (UAE time)"
+      },
+      "beforeHours": {
+        "badge": "Scheduled call",
+        "headline": "We'll call you this morning from 9 AM",
+        "body": "You ordered outside our calling hours (9 AM – 9 PM). We'll contact you first thing this morning to confirm your address and start shipping.",
+        "timer": "Keep your phone on silent-off from 9 AM"
+      },
+      "afterHours": {
+        "badge": "Scheduled call",
+        "headline": "We'll call you tomorrow morning from 9 AM",
+        "body": "You ordered after 9 PM. Our team will call you tomorrow morning to confirm your address. Your order is already reserved.",
+        "timer": "Calling hours: 9 AM – 9 PM (UAE time)"
+      }
+    },
+    "callPrep": {
+      "title": "What to expect on the call",
+      "unknownNumber": "The call may show as Unknown or Private — that's us confirming your Skinouva order.",
+      "whatWeAsk": "We'll ask for your delivery address in the UAE and confirm your order details. Takes about 60 seconds.",
+      "whyAnswer": "Answering this call is what unlocks shipping. Most customers who answer receive their order within 2–4 days.",
+      "ifMiss": "If we can't reach you, your order may be cancelled to free stock for other customers."
+    },
+    "yourDetails": {
+      "title": "Your confirmation details",
+      "nameLabel": "Name on order",
+      "phoneLabel": "We'll call this number",
+      "phoneHint": "Make sure this phone is nearby and not on silent",
+      "orderLabel": "Order reference"
+    },
+    "orderSummary": {
+      "title": "Order summary",
+      "qty": "×{qty}",
+      "subtotal": "Subtotal",
+      "codNote": "Pay only when your order arrives — no card needed"
+    },
+    "results": {
+      "title": "Your skin journey starts soon",
+      "tranexamic": "Tranexamic + Niacinamide helps fade the look of dark spots and even out tone with daily use.",
+      "azelaic": "Azelaic Serum targets hormonal blemishes and marks for a clearer-looking complexion.",
+      "both": "Using both serums together is our fastest path to brighter, more even-looking skin — exactly what UAE customers love about the full routine."
+    },
+    "socialProof": {
+      "title": "You're in good company",
+      "stat1Value": "2–4 days",
+      "stat1Label": "Average UAE delivery",
+      "stat2Value": "94%",
+      "stat2Label": "Orders confirmed on first call",
+      "stat3Value": "COD",
+      "stat3Label": "Pay only at your door"
+    },
+    "suggestions": {
+      "title": "Complete your routine",
+      "subtitle": "Customers who add the complementary serum see faster, more even results.",
+      "cta": "View product"
+    },
+    "whatsapp": {
+      "hint": "Can't wait for the call? Confirm your address instantly on WhatsApp",
+      "cta": "Confirm on WhatsApp now"
+    },
+    "reviews": {
+      "r1": {
+        "text": "I answered the confirmation call and got my order in 3 days. The serum actually works — my dark spots look softer already.",
+        "city": "Dubai"
+      },
+      "r2": {
+        "text": "The call was quick and friendly. COD made it easy to try without any risk.",
+        "city": "Abu Dhabi"
+      }
+    }
   },
   "about": {
     "headline": "About Skinouva",
