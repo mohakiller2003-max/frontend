@@ -56,7 +56,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         {/* Headline */}
         <Link href={`/${locale}/products/${product.slug[locale]}`} className="hover:text-rose transition-colors">
           <h3 className="font-semibold text-mocha text-base leading-snug mb-1">
-            {product.shortHeadline[locale]}
+            {product.name[locale]}
           </h3>
         </Link>
         <p className="text-sm text-taupe leading-relaxed mb-4 flex-1">

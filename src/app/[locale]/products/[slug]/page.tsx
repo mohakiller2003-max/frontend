@@ -76,7 +76,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
               </div>
 
               <h1 className="text-3xl md:text-5xl font-extrabold text-mocha mb-4 leading-tight">
-                {product.shortHeadline[loc]}
+                {product.heroHeadline[loc]}
               </h1>
               <p className="text-taupe text-lg md:text-xl leading-relaxed mb-6 font-medium">{product.subheadline[loc]}</p>
 

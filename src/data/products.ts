@@ -19,6 +19,7 @@ export type Product = {
   id: string;
   slug: LocalizedText;
   name: LocalizedText;
+  heroHeadline: LocalizedText;
   shortHeadline: LocalizedText;
   subheadline: LocalizedText;
   description: LocalizedText;
@@ -42,16 +43,20 @@ export const PRODUCTS: Product[] = [
       en: 'tranexamic-niacinamide-serum',
     },
     name: {
-      ar: 'سيروم الترانيكساميك + النياسيناميد ضد البقع الداكنة وتفاوت لون البشرة',
-      en: 'Tranexamic + Niacinamide Dark Spot Serum',
+      ar: 'سيروم الترانيكساميك + النياسيناميد 15% ضد البقع الداكنة',
+      en: '15% TXA + Niacinamide Dark Spot Serum',
+    },
+    heroHeadline: {
+      ar: 'بقعك الداكنة ولا تروح — السبب مو الكريمات',
+      en: "Your dark spots won't fade — the problem isn't your creams",
     },
     shortHeadline: {
-      ar: 'للبقع الداكنة وتفاوت لون البشرة',
-      en: 'For dark spots and uneven-looking tone',
+      ar: 'البقع الداكنة وتفاوت لون البشرة',
+      en: 'Dark spots and uneven-looking tone',
     },
     subheadline: {
-      ar: 'سيروم مركز بالترانيكساميك والنياسيناميد لمظهر بشرة أكثر إشراقًا وتجانسًا مع الاستخدام المنتظم.',
-      en: 'A focused serum with tranexamic and niacinamide for a brighter-looking, more even-looking complexion over time.',
+      ar: 'شمس الخليج والتكييف يثبّت التصبّغ تحت الجلد. سيروم 15% TXA + Niacinamide يستهدف المصدر — بدون تقشير ولا فترة نقاهة.',
+      en: 'Gulf sun and AC lock pigment beneath the skin. 15% TXA + Niacinamide targets the source — no harsh peeling, no downtime.',
     },
     description: {
       ar: 'صُمِّم هذا السيروم للمساعدة في تقليل مظهر البقع الداكنة وتفاوت لون البشرة. يجمع حمض الترانيكساميك والنياسيناميد في تركيبة يومية للحصول على مظهر أكثر إشراقًا وتوازنًا مع الاستخدام المنتظم.',
@@ -123,16 +128,20 @@ export const PRODUCTS: Product[] = [
       en: 'azelaic-acne-marks-serum',
     },
     name: {
-      ar: 'سيروم الأزيليك لحب الشباب الهرموني وآثاره',
-      en: 'Azelaic Serum for Hormonal Acne and Marks',
+      ar: 'سيروم BB Calming 16% Azelaic ضد حب الشباب وآثاره',
+      en: 'BB Calming 16% Azelaic Acne Serum',
+    },
+    heroHeadline: {
+      ar: 'حب الشباب رجع كل شهر — السبب مو غسول وجهك',
+      en: "Your breakouts keep coming back — it's not your face wash",
     },
     shortHeadline: {
-      ar: 'لحب الشباب الهرموني وآثاره',
-      en: 'For hormonal breakouts and blemish marks',
+      ar: 'حب الشباب الهرموني وآثاره',
+      en: 'Hormonal breakouts and blemish marks',
     },
     subheadline: {
-      ar: 'سيروم أزيليك لمظهر بشرة أهدأ وأنقى، مع تركيز على آثار الحبوب والملمس غير المتوازن.',
-      en: 'An azelaic-focused serum for calmer-looking skin and the appearance of post-blemish marks.',
+      ar: '16% Azelaic Acid يهدّئ مظهر البشرة ويدعم تقليل ظهور آثار الحبوب — روتين يومي بسيط بدون أدوية قوية.',
+      en: '16% Azelaic Acid calms the look of skin and helps reduce blemish marks — a simple daily routine without harsh meds.',
     },
     description: {
       ar: 'صُمِّم هذا السيروم للمساعدة في تقليل مظهر آثار الحبوب والبشرة غير المتوازنة. يحتوي على حمض الأزيليك في تركيبة يومية لمظهر بشرة أهدأ وأكثر نقاءً مع الاستخدام المنتظم.',
