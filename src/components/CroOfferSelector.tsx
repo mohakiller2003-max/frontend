@@ -29,7 +29,7 @@ export function CroOfferSelector({ product, onAdd }: Props) {
 
       <p className="text-base font-black text-mocha">{t('selectOffer')}</p>
 
-      <div className="flex flex-col flex-1 gap-3 md:gap-4 justify-between min-h-[280px] md:min-h-[340px]">
+      <div className="flex flex-col flex-1 gap-3 md:gap-4 justify-between min-h-[320px] md:min-h-[400px] lg:min-h-[440px]">
         {product.offers.map((offer) => (
           <OfferCard
             key={offer.quantity}
@@ -70,7 +70,7 @@ function OfferCard({
       type="button"
       onClick={onSelect}
       className={cn(
-        'w-full text-start flex-1 min-h-[88px] md:min-h-[100px] p-5 md:p-6 rounded-2xl border-2 transition-all relative overflow-hidden',
+        'w-full text-start flex-1 min-h-[96px] md:min-h-[118px] lg:min-h-[128px] p-5 md:p-6 rounded-2xl border-2 transition-all relative overflow-hidden',
         selected
           ? 'border-mocha bg-mocha/[0.04] shadow-md ring-1 ring-mocha/10'
           : 'border-sand bg-white hover:border-taupe'

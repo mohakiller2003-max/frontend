@@ -60,9 +60,16 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
       {/* 1. CRO Hero — copy left, photo right (desktop) */}
       <section className="bg-gradient-to-b from-pearl via-ivory to-sand py-8 md:py-14 overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch">
-            {/* Copy + offers — left column on desktop */}
-            <div className="flex flex-col order-2 md:order-none md:col-start-1 md:row-start-1 min-h-0">
+          {/* dir=ltr keeps copy LEFT + photo RIGHT on all locales (Arabic page is RTL globally) */}
+          <div
+            className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch md:min-h-[520px]"
+            dir="ltr"
+          >
+            {/* LEFT — copy + offers */}
+            <div
+              className="flex flex-col min-h-0 order-2 md:order-1"
+              dir={loc === 'ar' ? 'rtl' : 'ltr'}
+            >
               <h1 className="text-2xl md:text-[2rem] lg:text-[2.35rem] font-black text-mocha mb-3 md:mb-4 leading-[1.2] tracking-tight">
                 {product.heroHeadline[loc]}
               </h1>
@@ -83,16 +90,16 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
               <ProductOfferSection product={product} locale={loc} />
             </div>
 
-            {/* Product image — right column on desktop */}
-            <div className="order-1 md:order-none md:col-start-2 md:row-start-1 flex items-center justify-center">
-              <div className="relative w-full max-w-[420px] aspect-square bg-white rounded-[2rem] border border-sand shadow-2xl p-6 md:p-8">
+            {/* RIGHT — product photo */}
+            <div className="flex items-center justify-center order-1 md:order-2 md:min-h-[520px]">
+              <div className="relative w-full max-w-[440px] aspect-square md:aspect-auto md:h-full md:max-h-[520px] md:min-h-[480px] bg-white rounded-[2rem] border border-sand shadow-2xl p-6 md:p-8">
                 <Image
                   src={product.imageUrl}
                   alt={product.name[loc]}
                   fill
                   className="object-contain p-4"
                   priority
-                  sizes="(max-width: 768px) 100vw, 420px"
+                  sizes="(max-width: 768px) 100vw, 440px"
                 />
                 <div className="absolute top-4 end-4 z-10 bg-white/95 backdrop-blur-md px-3 py-2 rounded-full border border-sand shadow-lg flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-gold" />
@@ -104,7 +111,9 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
             </div>
           </div>
 
-          <ProductHeroTrustPills locale={loc} />
+          <div dir={loc === 'ar' ? 'rtl' : 'ltr'}>
+            <ProductHeroTrustPills locale={loc} />
+          </div>
         </div>
       </section>
 
