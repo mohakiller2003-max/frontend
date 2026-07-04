@@ -22,6 +22,14 @@ const nextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      { source: '/ar/admin', destination: '/admin', permanent: false },
+      { source: '/ar/admin/:path*', destination: '/admin/:path*', permanent: false },
+      { source: '/en/admin', destination: '/admin', permanent: false },
+      { source: '/en/admin/:path*', destination: '/admin/:path*', permanent: false },
+    ];
+  },
 };
 
 export default withNextIntl(nextConfig);
