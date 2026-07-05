@@ -28,6 +28,11 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
   return {
     title: `${t('name')} | ${t('nameEn')}`,
     description: t('tagline'),
+    icons: {
+      icon: [{ url: '/icon.png', type: 'image/png' }],
+      apple: [{ url: '/apple-icon.png', type: 'image/png' }],
+      shortcut: [{ url: '/icon.png', type: 'image/png' }],
+    },
   };
 }
 
@@ -39,7 +44,11 @@ export default async function LocaleLayout({ children, params: { locale } }: Pro
 
   return (
     <html lang={locale} dir={isRTL ? 'rtl' : 'ltr'}>
-      <head />
+      <head>
+        <link rel="icon" href="/icon.png" type="image/png" sizes="32x32" />
+        <link rel="shortcut icon" href="/icon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
+      </head>
       <body>
         <NextIntlClientProvider messages={messages}>
           <PixelDeferredLoader />
