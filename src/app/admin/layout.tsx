@@ -20,6 +20,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (isLogin) {
     return (
       <html lang="en" dir="ltr">
+        <head>
+          <link rel="icon" href="/icon.png" type="image/png" />
+        </head>
         <body className="bg-pearl text-mocha min-h-screen">{children}</body>
       </html>
     );
@@ -32,6 +35,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <html lang="en" dir="ltr">
+      <head>
+        <link rel="icon" href="/icon.png" type="image/png" />
+      </head>
       <body className="bg-pearl text-mocha min-h-screen">
         <div className="flex min-h-screen">
           <aside className="w-64 bg-mocha text-ivory flex flex-col shrink-0">

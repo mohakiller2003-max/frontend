@@ -7,6 +7,7 @@ import { ChevronDown } from 'lucide-react';
 import { Logo } from './Logo';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { cn } from '@/lib/utils';
+import { CONTACT_EMAIL } from '@/lib/site';
 
 function FooterSection({ title, children }: { title: string; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
@@ -77,6 +78,13 @@ export function Footer() {
             <Logo locale={locale} className="[&_div]:bg-ivory/20 [&_span]:text-ivory [&_.font-arabic]:text-ivory [&_.text-taupe]:text-ivory/60" />
           </div>
           <p className="text-ivory/60 text-sm leading-relaxed mb-3">{t('tagline')}</p>
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="text-ivory/80 text-sm hover:text-ivory transition-colors block mb-3"
+            dir="ltr"
+          >
+            {CONTACT_EMAIL}
+          </a>
           <LanguageSwitcher className="border-ivory/30 text-ivory hover:border-ivory/60 hover:bg-ivory/10" />
         </div>
 
@@ -87,7 +95,14 @@ export function Footer() {
             <div className="mb-4">
               <Logo locale={locale} className="[&_div]:bg-ivory/20 [&_span]:text-ivory [&_.font-arabic]:text-ivory [&_.text-taupe]:text-ivory/60" />
             </div>
-            <p className="text-ivory/60 text-sm leading-relaxed mb-4">{t('tagline')}</p>
+            <p className="text-ivory/60 text-sm leading-relaxed mb-3">{t('tagline')}</p>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="text-ivory/80 text-sm hover:text-ivory transition-colors block mb-4"
+              dir="ltr"
+            >
+              {CONTACT_EMAIL}
+            </a>
             <LanguageSwitcher className="border-ivory/30 text-ivory hover:border-ivory/60 hover:bg-ivory/10" />
           </div>
 

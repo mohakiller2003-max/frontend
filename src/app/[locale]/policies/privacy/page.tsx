@@ -1,4 +1,5 @@
 import { getTranslations } from 'next-intl/server';
+import { CONTACT_EMAIL } from '@/lib/site';
 
 type Props = { params: { locale: string } };
 
@@ -18,7 +19,13 @@ export default async function PrivacyPage({ params: { locale } }: Props) {
             <h2 className="font-semibold text-mocha">كيف نستخدم المعلومات</h2>
             <p>لمعالجة الطلب، التأكيد، والتوصيل داخل الإمارات. لا نبيع بياناتك لأطراف ثالثة.</p>
             <h2 className="font-semibold text-mocha">الاتصال بنا</h2>
-            <p>لأي استفسار عن خصوصيتك، تواصلي معنا عبر صفحة التواصل.</p>
+            <p>
+              لأي استفسار عن خصوصيتك، تواصلي معنا على{' '}
+              <a href={`mailto:${CONTACT_EMAIL}`} className="text-rose hover:underline" dir="ltr">
+                {CONTACT_EMAIL}
+              </a>
+              .
+            </p>
           </>
         ) : (
           <>
@@ -28,7 +35,13 @@ export default async function PrivacyPage({ params: { locale } }: Props) {
             <h2 className="font-semibold text-mocha">How We Use Information</h2>
             <p>To process orders, confirm, and deliver within the UAE. We do not sell your data to third parties.</p>
             <h2 className="font-semibold text-mocha">Contact Us</h2>
-            <p>For any privacy queries, contact us via the contact page.</p>
+            <p>
+              For any privacy queries, email us at{' '}
+              <a href={`mailto:${CONTACT_EMAIL}`} className="text-rose hover:underline" dir="ltr">
+                {CONTACT_EMAIL}
+              </a>
+              .
+            </p>
           </>
         )}
       </div>

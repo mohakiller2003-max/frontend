@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { CheckCircle2, Loader2 } from 'lucide-react';
+import { CheckCircle2, Loader2, Mail } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { CONTACT_EMAIL } from '@/lib/site';
 
 export default function ContactPage() {
   const t = useTranslations('contact');
@@ -23,7 +24,15 @@ export default function ContactPage() {
     <div className="bg-gradient-to-br from-ivory via-pearl to-sand min-h-screen py-16 md:py-24">
       <div className="max-w-lg mx-auto px-4 md:px-6">
         <h1 className="text-3xl font-bold text-mocha mb-2 text-center">{t('headline')}</h1>
-        <p className="text-taupe text-center mb-8">{t('intro')}</p>
+        <p className="text-taupe text-center mb-6">{t('intro')}</p>
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          className="flex items-center justify-center gap-2 text-mocha font-medium mb-8 hover:text-rose transition-colors"
+          dir="ltr"
+        >
+          <Mail size={18} className="shrink-0" />
+          {CONTACT_EMAIL}
+        </a>
 
         {submitted ? (
           <div className="bg-ivory border border-success/30 rounded-card-lg p-8 text-center">
@@ -59,7 +68,7 @@ export default function ContactPage() {
                 type="email"
                 dir="ltr"
                 className="w-full px-4 py-3 rounded-card border border-sand bg-white text-mocha placeholder:text-taupe/60 focus:outline-none focus:ring-2 focus:ring-rose"
-                placeholder="email@example.com"
+                placeholder="you@example.com"
               />
             </div>
             <div>
