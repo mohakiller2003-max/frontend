@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLocale, useTranslations } from 'next-intl';
 import { Star } from 'lucide-react';
-import { ImagePlaceholder } from './ImagePlaceholder';
 import { cn, formatAED } from '@/lib/utils';
 import type { Product } from '@/data/products';
 import { useCartStore } from '@/features/cart/store';
@@ -29,12 +29,15 @@ export function ProductCard({ product, className }: ProductCardProps) {
     <div className={cn('bg-ivory border border-sand rounded-card-lg overflow-hidden shadow-soft hover:shadow-card transition-shadow duration-200 flex flex-col', className)}>
       {/* Product Image */}
       <Link href={`/${locale}/products/${product.slug[locale]}`} tabIndex={-1} aria-hidden="true">
-        <ImagePlaceholder
-          className="rounded-none"
-          aspect="portrait"
-          label={product.name[locale]}
-          variant="serum"
-        />
+        <div className="relative aspect-[3/4] bg-white">
+          <Image
+            src={product.imageUrl}
+            alt={product.name[locale]}
+            fill
+            className="object-contain p-4"
+            sizes="(max-width: 768px) 100vw, 320px"
+          />
+        </div>
       </Link>
 
       <div className="p-5 flex flex-col flex-1">

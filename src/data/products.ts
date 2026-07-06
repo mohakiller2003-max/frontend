@@ -151,7 +151,7 @@ export const PRODUCTS: Product[] = [
     complementaryId: 'azelaic-acne-marks-serum',
     ratingPlaceholder: 5.0,
     reviewCountPlaceholder: 428,
-    imageUrl: '/products/medicube-txa-niacinamide.png',
+    imageUrl: '/products/medicube-txa-niacinamide-v2.png',
     urgencyLine: {
       ar: 'باقي يومين على شحن مجاني لكل الإمارات — لا يفوتج العرض',
       en: 'Two days left for free UAE shipping — offer ends soon',
@@ -262,7 +262,7 @@ export const PRODUCTS: Product[] = [
     complementaryId: 'tranexamic-niacinamide-serum',
     ratingPlaceholder: 5.0,
     reviewCountPlaceholder: 386,
-    imageUrl: '/products/bb-calming-azelaic.png',
+    imageUrl: '/products/bb-calming-azelaic-v2.png',
     urgencyLine: {
       ar: 'شحن مجاني هذا الأسبوع — ينتهي خلال 48 ساعة',
       en: 'Free shipping this week — ends in 48 hours',

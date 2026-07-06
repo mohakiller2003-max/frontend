@@ -24,7 +24,7 @@ const nextConfig = {
   },
   async redirects() {
     return [
-      { source: '/favicon.ico', destination: '/icon.png', permanent: false },
+      { source: '/favicon.ico', destination: '/icon-cropped.png', permanent: false },
       { source: '/ar/admin', destination: '/admin', permanent: false },
       { source: '/ar/admin/:path*', destination: '/admin/:path*', permanent: false },
       { source: '/en/admin', destination: '/admin', permanent: false },

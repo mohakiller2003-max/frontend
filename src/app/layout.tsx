@@ -5,8 +5,8 @@ export const metadata: Metadata = {
   title: 'سكينوفا | Skinouva',
   description: 'سيرومات مختارة لمظهر بشرة أصفى وأكثر توازنًا | Selected serums for clearer-looking, more even skin',
   icons: {
-    icon: [{ url: '/icon.png', type: 'image/png' }],
-    apple: [{ url: '/apple-icon.png', type: 'image/png' }],
+    icon: [{ url: '/icon-cropped.png', type: 'image/png' }],
+    apple: [{ url: '/apple-icon-cropped.png', type: 'image/png' }],
   },
 };
 
