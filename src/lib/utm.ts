@@ -7,6 +7,11 @@ type UtmData = Partial<Record<UtmKey, string>>;
 
 const STORAGE_KEY = 'skn_utm';
 
+/** Snapchat ads append ?ScCid= to landing URLs — map it to sc_click_id for backend CAPI. */
+function readSnapClickId(params: URLSearchParams): string | undefined {
+  return params.get('ScCid') || params.get('sc_cid') || params.get('sc_click_id') || undefined;
+}
+
 export function captureUtmFromUrl(): void {
   if (typeof window === 'undefined') return;
   const params = new URLSearchParams(window.location.search);
@@ -15,9 +20,14 @@ export function captureUtmFromUrl(): void {
     const val = params.get(key);
     if (val) data[key] = val;
   });
+
+  const snapClickId = readSnapClickId(params);
+  if (snapClickId) data.sc_click_id = snapClickId;
+
   if (Object.keys(data).length > 0) {
     try {
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      const existing = getStoredUtm();
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify({ ...existing, ...data }));
     } catch {}
   }
 }

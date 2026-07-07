@@ -31,6 +31,18 @@ const SNAP_EVENT_MAP: Record<string, string> = {
   Purchase: 'PURCHASE',
 };
 
+function snapTrackParams(name: string, params: PixelEventParams, eventId: string): PixelEventParams {
+  const snapParams: PixelEventParams = { ...params, client_dedup_id: eventId };
+
+  if (name === 'Purchase') {
+    snapParams.transaction_id = params.order_id || eventId;
+    if (params.value != null) snapParams.price = params.value;
+    if (Array.isArray(params.content_ids)) snapParams.item_ids = params.content_ids;
+  }
+
+  return snapParams;
+}
+
 function flushEvent(event: QueuedEvent) {
   const { name, params, eventId } = event;
 
@@ -53,7 +65,8 @@ function flushEvent(event: QueuedEvent) {
   if (SNAP_PIXEL_ID && typeof window !== 'undefined' && (window as unknown as { snaptr?: Function }).snaptr) {
     try {
       const snapName = SNAP_EVENT_MAP[name] || name;
-      (window as unknown as { snaptr: Function }).snaptr('track', snapName, { ...params, client_dedup_id: eventId });
+      const snapParams = snapTrackParams(name, params, eventId);
+      (window as unknown as { snaptr: Function }).snaptr('track', snapName, snapParams);
     } catch {}
   }
 }
@@ -119,7 +132,7 @@ function injectSnapPixel() {
   if (!SNAP_PIXEL_ID) return;
   const script = document.createElement('script');
   script.text = `
-    (function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');
+    (function(e,t,n){if(e.snaptr)return;var a=e.snaptr=function(){a.handleRequest?a.handleRequest.apply(a,arguments):a.queue.push(arguments)};a.queue=[];var s='script';var r=t.createElement(s);r.async=!0;r.src=n;var u=t.getElementsByTagName(s)[0];u.parentNode.insertBefore(r,u);})(window,document,'https://sc-static.net/scevent.min.js');
     snaptr('init', '${SNAP_PIXEL_ID}', {});
     snaptr('track', 'PAGE_VIEW');
   `;

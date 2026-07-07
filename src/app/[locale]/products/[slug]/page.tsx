@@ -13,6 +13,7 @@ import { ProductOfferSection } from './ProductOfferSection';
 import { CrossSellSection } from './CrossSellSection';
 import { ProductRatingBar } from '@/components/ProductRatingBar';
 import { ProductHeroTrustPills } from '@/components/ProductHeroTrustPills';
+import { ProductViewPixel } from '@/components/ProductViewPixel';
 
 type Props = { params: { locale: string; slug: string } };
 
@@ -57,6 +58,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
 
   return (
     <>
+      <ProductViewPixel productId={product.id} valueAed={199} />
       {/* 1. CRO Hero — copy left, photo right (desktop) */}
       <section className="bg-gradient-to-b from-pearl via-ivory to-sand py-8 md:py-14 overflow-hidden">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
