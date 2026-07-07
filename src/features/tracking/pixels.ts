@@ -1,12 +1,22 @@
 'use client';
 
+import { firstNameForPixels, phoneFormatsForPixels } from '@/lib/phonePixels';
+
 type PixelEventParams = Record<string, unknown>;
+
+export type PixelUser = {
+  phone?: string;
+  name?: string;
+};
 
 type QueuedEvent = {
   name: string;
   params: PixelEventParams;
   eventId: string;
+  user?: PixelUser;
 };
+
+type StandardEventName = 'ViewContent' | 'AddToCart' | 'InitiateCheckout' | 'Purchase';
 
 const queue: QueuedEvent[] = [];
 let loaded = false;
@@ -15,71 +25,191 @@ const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || '';
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID || '';
 const SNAP_PIXEL_ID = process.env.NEXT_PUBLIC_SNAP_PIXEL_ID || '';
 
-// TikTok event name mapping
-const TIKTOK_EVENT_MAP: Record<string, string> = {
+const TIKTOK_EVENT_MAP: Record<StandardEventName, string> = {
   ViewContent: 'ViewContent',
   AddToCart: 'AddToCart',
   InitiateCheckout: 'InitiateCheckout',
   Purchase: 'CompletePayment',
 };
 
-// Snap event name mapping
-const SNAP_EVENT_MAP: Record<string, string> = {
+const SNAP_EVENT_MAP: Record<StandardEventName, string> = {
   ViewContent: 'VIEW_CONTENT',
   AddToCart: 'ADD_CART',
   InitiateCheckout: 'START_CHECKOUT',
   Purchase: 'PURCHASE',
 };
 
-function snapTrackParams(name: string, params: PixelEventParams, eventId: string): PixelEventParams {
-  const snapParams: PixelEventParams = { ...params, client_dedup_id: eventId };
+function applyPixelUser(user?: PixelUser) {
+  if (!user?.phone) return;
+  const formats = phoneFormatsForPixels(user.phone);
+  if (!formats) return;
+  const fn = user.name ? firstNameForPixels(user.name) : undefined;
 
-  if (name === 'Purchase') {
-    snapParams.transaction_id = params.order_id || eventId;
-    if (params.value != null) snapParams.price = params.value;
-    if (Array.isArray(params.content_ids)) snapParams.item_ids = params.content_ids;
+  if (META_PIXEL_ID && (window as unknown as { fbq?: Function }).fbq) {
+    try {
+      (window as unknown as { fbq: Function }).fbq('init', META_PIXEL_ID, {
+        ph: formats.meta,
+        ...(fn ? { fn } : {}),
+      });
+    } catch {}
   }
 
-  return snapParams;
+  if (TIKTOK_PIXEL_ID && (window as unknown as { ttq?: { identify: Function } }).ttq?.identify) {
+    try {
+      (window as unknown as { ttq: { identify: Function } }).ttq.identify({
+        phone_number: formats.tiktok,
+      });
+    } catch {}
+  }
+
+  if (SNAP_PIXEL_ID && (window as unknown as { snaptr?: Function }).snaptr) {
+    try {
+      (window as unknown as { snaptr: Function }).snaptr('init', SNAP_PIXEL_ID, {
+        user_phone_number: formats.snap,
+      });
+    } catch {}
+  }
 }
 
-function flushEvent(event: QueuedEvent) {
-  const { name, params, eventId } = event;
+function metaParams(name: StandardEventName, params: PixelEventParams): PixelEventParams {
+  const base: PixelEventParams = {
+    currency: params.currency || 'AED',
+    content_type: 'product',
+  };
 
-  // Meta Pixel
-  if (META_PIXEL_ID && typeof window !== 'undefined' && (window as unknown as { fbq?: Function }).fbq) {
+  if (name === 'ViewContent' || name === 'AddToCart') {
+    return {
+      ...base,
+      content_ids: params.content_ids,
+      content_name: params.content_name,
+      value: params.value,
+    };
+  }
+
+  if (name === 'InitiateCheckout') {
+    return {
+      ...base,
+      content_ids: params.content_ids,
+      value: params.value,
+      num_items: params.num_items,
+    };
+  }
+
+  return {
+    ...base,
+    value: params.value,
+    content_ids: params.content_ids,
+    contents: params.contents,
+    num_items: params.num_items,
+    order_id: params.order_id,
+  };
+}
+
+function tiktokParams(name: StandardEventName, params: PixelEventParams, eventId: string): PixelEventParams {
+  const contents = Array.isArray(params.contents)
+    ? (params.contents as { id: string; quantity: number }[]).map((item) => ({
+        content_id: item.id,
+        content_type: 'product',
+        quantity: item.quantity,
+      }))
+    : params.content_ids
+      ? (params.content_ids as string[]).map((id) => ({ content_id: id, content_type: 'product', quantity: 1 }))
+      : [];
+
+  return {
+    contents,
+    value: params.value,
+    currency: params.currency || 'AED',
+    content_type: 'product',
+    event_id: eventId,
+  };
+}
+
+function snapParams(name: StandardEventName, params: PixelEventParams, eventId: string): PixelEventParams {
+  const snap: PixelEventParams = {
+    currency: params.currency || 'AED',
+    client_dedup_id: eventId,
+  };
+
+  if (params.value != null) snap.price = params.value;
+  if (Array.isArray(params.content_ids)) snap.item_ids = params.content_ids;
+  if (params.num_items != null) snap.number_items = params.num_items;
+
+  if (name === 'Purchase') {
+    snap.transaction_id = params.order_id || eventId;
+  }
+
+  return snap;
+}
+
+const STANDARD_EVENTS = new Set<StandardEventName>([
+  'ViewContent',
+  'AddToCart',
+  'InitiateCheckout',
+  'Purchase',
+]);
+
+function isStandardEvent(name: string): name is StandardEventName {
+  return STANDARD_EVENTS.has(name as StandardEventName);
+}
+
+function flushCustomEvent(name: string, params: PixelEventParams, eventId: string, user?: PixelUser) {
+  applyPixelUser(user);
+  if (META_PIXEL_ID && (window as unknown as { fbq?: Function }).fbq) {
     try {
       (window as unknown as { fbq: Function }).fbq('track', name, params, { eventID: eventId });
     } catch {}
   }
+}
 
-  // TikTok Pixel
-  if (TIKTOK_PIXEL_ID && typeof window !== 'undefined' && (window as unknown as { ttq?: { track: Function } }).ttq) {
+function flushEvent(event: QueuedEvent) {
+  const { name, params, eventId, user } = event;
+
+  if (!isStandardEvent(name)) {
+    flushCustomEvent(name, params, eventId, user);
+    return;
+  }
+
+  applyPixelUser(user);
+
+  if (META_PIXEL_ID && (window as unknown as { fbq?: Function }).fbq) {
     try {
-      const ttName = TIKTOK_EVENT_MAP[name] || name;
-      (window as unknown as { ttq: { track: Function } }).ttq.track(ttName, { ...params, event_id: eventId });
+      (window as unknown as { fbq: Function }).fbq('track', name, metaParams(name, params), { eventID: eventId });
     } catch {}
   }
 
-  // Snapchat Pixel
-  if (SNAP_PIXEL_ID && typeof window !== 'undefined' && (window as unknown as { snaptr?: Function }).snaptr) {
+  if (TIKTOK_PIXEL_ID && (window as unknown as { ttq?: { track: Function } }).ttq) {
     try {
-      const snapName = SNAP_EVENT_MAP[name] || name;
-      const snapParams = snapTrackParams(name, params, eventId);
-      (window as unknown as { snaptr: Function }).snaptr('track', snapName, snapParams);
+      const ttName = TIKTOK_EVENT_MAP[name];
+      (window as unknown as { ttq: { track: Function } }).ttq.track(ttName, tiktokParams(name, params, eventId));
+    } catch {}
+  }
+
+  if (SNAP_PIXEL_ID && (window as unknown as { snaptr?: Function }).snaptr) {
+    try {
+      const snapName = SNAP_EVENT_MAP[name];
+      (window as unknown as { snaptr: Function }).snaptr('track', snapName, snapParams(name, params, eventId));
     } catch {}
   }
 }
 
-export function firePixelEvent(name: string, params: PixelEventParams, eventId: string) {
+export function firePixelEvent(
+  name: string,
+  params: PixelEventParams,
+  eventId: string,
+  user?: PixelUser,
+) {
   if (typeof window === 'undefined') return;
+  const payload: QueuedEvent = { name, params, eventId, user };
+
   if (loaded) {
-    flushEvent({ name, params, eventId });
+    flushEvent(payload);
   } else {
-    queue.push({ name, params, eventId });
+    queue.push(payload);
   }
 }
 
+/** Load Meta/TikTok/Snap browser pixels after idle — events queue until scripts init. */
 export function loadPixels() {
   if (typeof window === 'undefined' || loaded) return;
   loaded = true;
@@ -96,7 +226,6 @@ export function loadPixels() {
     injectMetaPixel();
     injectTikTokPixel();
     injectSnapPixel();
-    // Flush queued events after a short delay to allow scripts to init
     setTimeout(() => {
       queue.forEach(flushEvent);
       queue.length = 0;

@@ -22,7 +22,7 @@ export function ProductViewPixel({ productId, valueAed }: Props) {
         currency: 'AED',
         value: valueAed,
       },
-      generateEventId('ViewContent')
+      generateEventId('ViewContent'),
     );
   }, [productId, valueAed]);
 

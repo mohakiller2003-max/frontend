@@ -105,13 +105,19 @@ export function CheckoutModal() {
       });
 
       // Fire browser purchase pixel after backend confirms
-      firePixelEvent('Purchase', {
-        value: result.total_aed,
-        currency: 'AED',
-        content_ids: items.map((i) => i.productId),
-        contents: items.map((i) => ({ id: i.productId, quantity: i.quantity })),
-        order_id: result.order_number,
-      }, purchaseEventId);
+      firePixelEvent(
+        'Purchase',
+        {
+          value: result.total_aed,
+          currency: 'AED',
+          content_ids: items.map((i) => i.productId),
+          contents: items.map((i) => ({ id: i.productId, quantity: i.quantity })),
+          num_items: items.reduce((sum, i) => sum + i.quantity, 0),
+          order_id: result.order_number,
+        },
+        purchaseEventId,
+        { phone: data.phone.trim(), name: data.name.trim() },
+      );
 
       clearCart(); // Explicitly clear the cart to ensure it's empty
       

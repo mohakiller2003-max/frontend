@@ -24,10 +24,11 @@ export function ProductOfferSection({ product, locale, dark = false, stickyMobil
       'AddToCart',
       {
         content_ids: [product.id],
+        content_name: product.name[locale],
         value: product.offers.find((o) => o.quantity === quantity)?.priceAed,
         currency: 'AED',
       },
-      generateEventId('AddToCart')
+      generateEventId('AddToCart'),
     );
   };
 
