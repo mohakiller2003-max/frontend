@@ -48,7 +48,6 @@ export function CheckoutModal() {
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      firePixelEvent('InitiateCheckout', {}, generateEventId('InitiateCheckout'));
       trackEvent({ event_type: 'initiate_checkout', page_path: typeof window !== 'undefined' ? window.location.pathname : undefined });
     } else {
       document.body.style.overflow = '';

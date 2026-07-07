@@ -7,7 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useCartStore } from '@/features/cart/store';
 import { useCheckoutStore } from '@/features/checkout/store';
 import { PRODUCT_MAP, PRODUCTS } from '@/data/products';
-import { cn, formatAED } from '@/lib/utils';
+import { cn, formatAED, generateEventId } from '@/lib/utils';
+import { firePixelEvent } from '@/features/tracking/pixels';
 import { TrustBadges } from './TrustBadges';
 import { ImagePlaceholder } from './ImagePlaceholder';
 
@@ -185,8 +186,18 @@ export function CartDrawer() {
                 </div>
                 <button
                   onClick={() => {
-                    close(); // Close cart drawer
-                    setTimeout(() => openCheckout(), 250); // Open checkout after cart animation finishes
+                    firePixelEvent(
+                      'InitiateCheckout',
+                      {
+                        content_ids: items.map((i) => i.productId),
+                        value: total(),
+                        currency: 'AED',
+                        num_items: items.reduce((sum, i) => sum + i.quantity, 0),
+                      },
+                      generateEventId('InitiateCheckout'),
+                    );
+                    close();
+                    setTimeout(() => openCheckout(), 250);
                   }}
                   className="w-full bg-mocha text-ivory py-4 rounded-pill font-semibold text-base hover:bg-mocha/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mocha shadow-soft animate-pulse"
                 >
