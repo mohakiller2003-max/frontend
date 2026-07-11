@@ -221,7 +221,7 @@ export default function ThankYouPage() {
                       </p>
                     </div>
                     <p className="text-sm font-bold text-mocha shrink-0 tabular-nums">
-                      {formatAED(item.priceAed)}
+                      {formatAED(item.priceAed, locale)}
                     </p>
                   </li>
                 );
@@ -230,7 +230,7 @@ export default function ThankYouPage() {
             <div className="flex items-center justify-between pt-3 border-t border-sand">
               <span className="font-semibold text-mocha">{t('orderSummary.subtotal')}</span>
               <span className="text-xl font-black text-mocha tabular-nums">
-                {formatAED(totalAed ?? orderItems.reduce((s, i) => s + i.priceAed, 0))}
+                {formatAED(totalAed ?? orderItems.reduce((s, i) => s + i.priceAed, 0), locale)}
               </span>
             </div>
             <p className="text-xs text-taupe mt-3 flex items-center gap-1.5">
@@ -333,7 +333,7 @@ export default function ThankYouPage() {
                     </p>
                     <p className="text-xs text-taupe mb-3">{product.concern[locale]}</p>
                     <div className="flex items-center justify-between gap-2 mt-auto">
-                      <span className="font-bold text-mocha">{formatAED(199)}</span>
+                      <span className="font-bold text-mocha">{formatAED(199, locale)}</span>
                       <button
                         type="button"
                         onClick={() => {

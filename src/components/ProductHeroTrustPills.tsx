@@ -1,8 +1,13 @@
 import { Clock, Droplets, RotateCcw, Truck } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import type { ProductTheme } from '@/lib/productTheme';
 
-type Props = { locale: 'ar' | 'en' };
+type Props = {
+  locale: 'ar' | 'en';
+  theme: ProductTheme;
+};
 
-export function ProductHeroTrustPills({ locale }: Props) {
+export function ProductHeroTrustPills({ locale, theme }: Props) {
   const ar = locale === 'ar';
   const items = [
     { icon: Droplets, value: '30', label: ar ? 'مل في الزجاجة' : 'ml per bottle' },
@@ -16,11 +21,11 @@ export function ProductHeroTrustPills({ locale }: Props) {
       {items.map(({ icon: Icon, value, label }) => (
         <div
           key={label}
-          className="bg-white border border-sand rounded-2xl p-4 md:p-5 text-center shadow-soft"
+          className={cn('glass-card p-4 md:p-5 text-center', theme.accentMuted)}
         >
-          <Icon size={20} className="mx-auto text-mocha mb-2" />
-          <p className="font-black text-mocha text-lg md:text-xl">{value}</p>
-          <p className="text-xs text-taupe font-semibold mt-1">{label}</p>
+          <Icon size={18} className={cn('mx-auto mb-2', theme.accent)} />
+          <p className="font-extrabold text-ink text-lg md:text-xl">{value}</p>
+          <p className="text-[11px] text-taupe font-semibold mt-1">{label}</p>
         </div>
       ))}
     </div>

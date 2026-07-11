@@ -5,8 +5,18 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function formatAED(amount: number): string {
-  return `${amount} AED`;
+/** Eastern Arabic digits on AR pages (١٩٩), Western on EN (199). */
+export function formatLocaleNumber(
+  amount: number,
+  locale?: 'ar' | 'en' | string,
+  options?: Intl.NumberFormatOptions,
+): string {
+  return amount.toLocaleString(locale === 'ar' ? 'ar-AE' : 'en-AE', options);
+}
+
+export function formatAED(amount: number, locale?: 'ar' | 'en' | string): string {
+  const currency = locale === 'ar' ? 'د.ا' : 'AED';
+  return `${formatLocaleNumber(amount, locale)} ${currency}`;
 }
 
 export function generateEventId(eventName: string): string {

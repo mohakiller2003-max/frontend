@@ -46,7 +46,7 @@ export function OfferSelector({ offers, defaultQuantity = 2, onAdd, ctaLabel }: 
                   : 'border-sand bg-ivory hover:border-taupe'
               )}
               aria-pressed={isSelected}
-              aria-label={`${labelMap[offer.labelKey]} - ${formatAED(offer.priceAed)}`}
+              aria-label={`${labelMap[offer.labelKey]} - ${formatAED(offer.priceAed, locale)}`}
             >
               <div className="flex items-center gap-3">
                 {/* Radio indicator */}
@@ -77,13 +77,13 @@ export function OfferSelector({ offers, defaultQuantity = 2, onAdd, ctaLabel }: 
                     </div>
                   </div>
                   <span className="text-xs text-taupe mt-0.5 block">
-                    {formatAED(perPiece)} {t('perPiece')}
+                    {formatAED(perPiece, locale)} {t('perPiece')}
                   </span>
                 </div>
               </div>
 
               <div className="text-end">
-                <span className="text-lg font-bold text-mocha">{formatAED(offer.priceAed)}</span>
+                <span className="text-lg font-bold text-mocha">{formatAED(offer.priceAed, locale)}</span>
               </div>
             </div>
           );

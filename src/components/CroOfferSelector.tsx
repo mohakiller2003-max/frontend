@@ -1,42 +1,45 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { Check, Clock } from 'lucide-react';
 import { cn, formatAED } from '@/lib/utils';
 import type { Offer, Product } from '@/data/products';
+import { useOfferSelectionStore } from '@/features/offers/store';
+import { UrgencyCountdown } from '@/components/UrgencyCountdown';
 
 type Props = {
   product: Product;
   onAdd: (quantity: 1 | 2 | 3) => void;
+  compact?: boolean;
 };
 
-export function CroOfferSelector({ product, onAdd }: Props) {
+export function CroOfferSelector({ product, onAdd, compact = false }: Props) {
   const t = useTranslations('offers');
   const locale = useLocale() as 'ar' | 'en';
-  const [selected, setSelected] = useState<1 | 2 | 3>(2);
-
+  const selected = useOfferSelectionStore((s) => s.selectedByProduct[product.id] ?? 2);
+  const setSelected = useOfferSelectionStore((s) => s.setSelected);
   const selectedOffer = product.offers.find((o) => o.quantity === selected)!;
 
   return (
-    <div className="flex flex-col flex-1 gap-4 md:gap-5 min-h-0">
-      <p className="flex items-center gap-2 text-sm md:text-base font-bold text-red-600">
-        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-red-50 border border-red-100 shrink-0">
-          <Clock size={16} />
-        </span>
-        {product.urgencyLine[locale]}
-      </p>
+    <div className="flex flex-col gap-4 md:gap-3.5">
+      {!compact && (
+        <UrgencyCountdown
+          locale={locale}
+          fallback={product.urgencyLine[locale]}
+          hoursFromNow={product.id.includes('azelaic') ? 48 : 46}
+        />
+      )}
 
-      <p className="text-base font-black text-mocha">{t('selectOffer')}</p>
+      <p className="text-[13px] md:text-sm font-bold text-ink">{t('selectOffer')}</p>
 
-      <div className="flex flex-col flex-1 gap-3 md:gap-4 justify-between min-h-[320px] md:min-h-[400px] lg:min-h-[440px]">
+      {/* Extra top padding so corner badges don’t collide between cards */}
+      <div className="flex flex-col gap-4 md:gap-3.5 pt-1">
         {product.offers.map((offer) => (
           <OfferCard
             key={offer.quantity}
             offer={offer}
             locale={locale}
             selected={selected === offer.quantity}
-            onSelect={() => setSelected(offer.quantity)}
+            onSelect={() => setSelected(product.id, offer.quantity)}
           />
         ))}
       </div>
@@ -44,12 +47,12 @@ export function CroOfferSelector({ product, onAdd }: Props) {
       <button
         type="button"
         onClick={() => onAdd(selected)}
-        className="w-full bg-mocha text-ivory py-4 md:py-5 rounded-2xl font-black text-base md:text-lg hover:bg-mocha/90 active:scale-[0.99] transition-all shadow-xl mt-1"
+        className="w-full btn-primary py-4 md:py-3.5 text-[15px] mt-1"
       >
-        {product.ctaRoutine[locale]} · {formatAED(selectedOffer.priceAed)}
+        {product.ctaRoutine[locale]} · {formatAED(selectedOffer.priceAed, locale)}
       </button>
 
-      <p className="text-center text-sm font-bold text-taupe pb-1">{t('codNote')}</p>
+      <p className="text-center text-[11px] font-medium text-taupe -mt-1">{t('codNote')}</p>
     </div>
   );
 }
@@ -65,56 +68,68 @@ function OfferCard({
   selected: boolean;
   onSelect: () => void;
 }) {
+  const isFavourite = offer.quantity === 2;
+  const isBestValue = offer.quantity === 3;
+  const isStarter = offer.quantity === 1;
+
   return (
     <button
       type="button"
       onClick={onSelect}
       className={cn(
-        'w-full text-start flex-1 min-h-[96px] md:min-h-[118px] lg:min-h-[128px] p-5 md:p-6 rounded-2xl border-2 transition-all relative overflow-hidden',
+        'relative w-full rounded-2xl border-2 text-start transition-colors',
+        'px-3.5 py-3.5 md:px-3.5 md:py-3',
         selected
-          ? 'border-mocha bg-mocha/[0.04] shadow-md ring-1 ring-mocha/10'
-          : 'border-sand bg-white hover:border-taupe'
+          ? 'border-ink bg-[#F7F4F0]'
+          : 'border-sand bg-white hover:border-taupe/35',
       )}
     >
-      {offer.topRibbon && (
-        <span className="absolute top-0 inset-x-0 bg-pearl text-[11px] font-bold text-taupe text-center py-1.5 border-b border-sand">
-          {offer.topRibbon[locale]}
+      {isStarter && (
+        <span className="absolute -top-2.5 start-3 z-10 text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#E8F5EF] text-[#4E7D5A]">
+          {locale === 'ar' ? 'نتيجة من الأولى' : 'From bottle 1'}
+        </span>
+      )}
+      {isFavourite && (
+        <span className="absolute -top-2.5 start-3 z-10 text-[9px] md:text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-gold text-ink">
+          {locale === 'ar' ? 'الأكثر اختياراً' : 'Most chosen'}
+        </span>
+      )}
+      {isBestValue && (
+        <span className="absolute -top-2.5 start-3 z-10 text-[9px] md:text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-gold text-ink">
+          {locale === 'ar' ? 'الأكثر توفيراً' : 'Best value'}
         </span>
       )}
 
-      <div className={cn('flex items-center justify-between gap-4 h-full', offer.topRibbon && 'pt-6')}>
-        <div className="flex gap-3 min-w-0 items-center">
-          <div
-            className={cn(
-              'w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0',
-              selected ? 'border-mocha bg-mocha text-ivory' : 'border-sand bg-white'
-            )}
-          >
-            {selected && <Check size={14} strokeWidth={3} />}
-          </div>
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2 mb-1.5">
-              <span className="font-black text-mocha text-base md:text-lg">{offer.title[locale]}</span>
-              {offer.quantity !== 1 && (
-                <span
-                  className={cn(
-                    'text-[11px] px-2.5 py-0.5 rounded-full font-bold',
-                    offer.quantity === 2 ? 'bg-rose/15 text-rose' : 'bg-gold/15 text-gold'
-                  )}
-                >
-                  {offer.badge[locale]}
-                </span>
-              )}
-            </div>
-            <p className="text-sm text-taupe font-medium">{offer.subtitle[locale]}</p>
-            {offer.savings && (
-              <p className="text-sm font-bold text-green-700 mt-1">{offer.savings[locale]}</p>
-            )}
-          </div>
-        </div>
-        <span className="text-2xl md:text-[1.65rem] font-black text-mocha shrink-0 tabular-nums">
-          {formatAED(offer.priceAed)}
+      <div className="flex items-center gap-3">
+        <span
+          className={cn(
+            'shrink-0 w-[18px] h-[18px] rounded-full border-2 flex items-center justify-center',
+            selected ? 'border-ink' : 'border-[#D4CBC3]',
+          )}
+          aria-hidden
+        >
+          {selected ? <span className="w-2 h-2 rounded-full bg-ink" /> : null}
         </span>
+
+        <div className="flex-1 min-w-0">
+          <p className="font-bold text-ink text-[13px] md:text-sm leading-snug">{offer.title[locale]}</p>
+          <p className="text-[11px] md:text-xs text-taupe mt-1 leading-snug">{offer.subtitle[locale]}</p>
+        </div>
+
+        <div className="shrink-0 text-end ps-2">
+          <p className="text-base md:text-[15px] font-extrabold text-ink tabular-nums leading-none">
+            {formatAED(offer.priceAed, locale)}
+          </p>
+          {offer.savings ? (
+            <p className="text-[10px] md:text-[11px] font-semibold text-taupe mt-1 leading-tight">
+              {offer.savings[locale]}
+            </p>
+          ) : (
+            <p className="text-[10px] text-transparent mt-1 select-none" aria-hidden>
+              —
+            </p>
+          )}
+        </div>
       </div>
     </button>
   );

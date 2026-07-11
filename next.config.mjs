@@ -6,6 +6,7 @@ const withNextIntl = createNextIntlPlugin('./src/i18n.ts');
 const nextConfig = {
   images: {
     remotePatterns: [],
+    formats: ['image/avif', 'image/webp'],
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],

@@ -200,7 +200,7 @@ export function CheckoutModal() {
                 <p className="text-[11px] md:text-[13px] font-bold text-red-600 md:animate-pulse leading-snug">{t('urgency')}</p>
               </div>
               
-              <div className="hidden md:flex justify-center items-center gap-1.5 text-xs font-medium text-mocha/80">
+              <div className="flex justify-center items-center gap-1.5 text-xs font-medium text-mocha/80 mb-2">
                 <div className="flex text-gold">
                   <Star size={14} className="fill-gold" />
                   <Star size={14} className="fill-gold" />
@@ -221,8 +221,8 @@ export function CheckoutModal() {
                   if (!p) return null;
                   return (
                     <div key={item.productId} className="flex gap-3">
-                      <div className="w-12 h-12 flex-shrink-0 bg-white rounded-md border border-sand p-1">
-                        <img src="/placeholder.png" alt="" className="w-full h-full object-cover opacity-10" />
+                      <div className="w-12 h-12 flex-shrink-0 relative rounded-md overflow-hidden bg-white border border-sand">
+                        <img src={p.imageUrl} alt="" className="w-full h-full object-contain p-0.5" />
                       </div>
                       <div className="flex-1 min-w-0">
                         <p className="font-bold text-mocha text-[13px] leading-snug line-clamp-2">{p.name[locale]}</p>
@@ -230,7 +230,7 @@ export function CheckoutModal() {
                           {item.quantity} {item.quantity === 1 ? t('month') : t('months')}
                         </p>
                       </div>
-                      <div className="font-bold text-mocha text-sm flex-shrink-0 ms-2">{formatAED(item.priceAed)}</div>
+                      <div className="font-bold text-mocha text-sm flex-shrink-0 ms-2">{formatAED(item.priceAed, locale)}</div>
                     </div>
                   );
                 })}
@@ -239,7 +239,7 @@ export function CheckoutModal() {
                     <span className="font-bold text-mocha text-sm">{t('total')}</span>
                     <span className="text-[11px] font-bold text-success mt-0.5">{t('shipping')}</span>
                   </div>
-                  <span className="text-xl font-black text-mocha">{formatAED(total())}</span>
+                  <span className="text-xl font-black text-mocha">{formatAED(total(), locale)}</span>
                 </div>
               </div>
             </div>
@@ -250,7 +250,7 @@ export function CheckoutModal() {
                 {/* Mobile: compact total above fields */}
                 <div className="flex items-center justify-between rounded-xl bg-pearl px-3 py-2 border border-sand/60 md:hidden">
                   <span className="font-bold text-mocha text-sm">{t('total')}</span>
-                  <span className="text-lg font-black text-mocha">{formatAED(total())}</span>
+                  <span className="text-lg font-black text-mocha">{formatAED(total(), locale)}</span>
                 </div>
                 {/* Name */}
                 <div>
@@ -330,16 +330,16 @@ export function CheckoutModal() {
                   )}
                 </button>
 
-                <div className="hidden md:flex justify-between items-center px-1 md:px-2">
-                  <div className="flex flex-col items-center gap-0.5 md:gap-1">
+                <div className="flex justify-between items-center px-1 mt-2 md:mt-0 md:px-2">
+                  <div className="flex flex-col items-center gap-0.5">
                     <ShieldCheck size={14} className="text-success md:w-4 md:h-4" />
                     <span className="text-[9px] md:text-[10px] font-bold text-mocha">{t('benefit1')}</span>
                   </div>
-                  <div className="flex flex-col items-center gap-0.5 md:gap-1">
+                  <div className="flex flex-col items-center gap-0.5">
                     <ShieldCheck size={14} className="text-success md:w-4 md:h-4" />
                     <span className="text-[9px] md:text-[10px] font-bold text-mocha">{t('benefit2')}</span>
                   </div>
-                  <div className="flex flex-col items-center gap-0.5 md:gap-1">
+                  <div className="flex flex-col items-center gap-0.5">
                     <ShieldCheck size={14} className="text-success md:w-4 md:h-4" />
                     <span className="text-[9px] md:text-[10px] font-bold text-mocha">{t('benefit3')}</span>
                   </div>

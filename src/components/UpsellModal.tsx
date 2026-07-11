@@ -160,10 +160,10 @@ export function UpsellModal() {
                       {product.shortHeadline[locale]}
                     </p>
                     <div className="flex items-center gap-2 mb-1">
-                      <p className="text-sm text-taupe line-through font-medium">{formatAED(199)}</p>
+                      <p className="text-sm text-taupe line-through font-medium">{formatAED(199, locale)}</p>
                       <div className="bg-red-100 text-red-600 text-[10px] font-bold px-1.5 rounded">50% OFF</div>
                     </div>
-                    <p className="text-2xl font-black text-rose">{formatAED(UPSELL_PRICE_AED)}</p>
+                    <p className="text-2xl font-black text-rose">{formatAED(UPSELL_PRICE_AED, locale)}</p>
                   </div>
                 </div>
               </div>

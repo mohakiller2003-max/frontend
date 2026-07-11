@@ -1,19 +1,32 @@
-import { notFound } from 'next/navigation';
-import Image from 'next/image';
-import { getTranslations } from 'next-intl/server';
-import { Star, CheckCircle2, ShieldCheck, FlaskConical, Stethoscope, Leaf, Award, XCircle, ChevronRight, Check } from 'lucide-react';
 import { getProductBySlug, PRODUCTS } from '@/data/products';
 import { SectionShell } from '@/components/SectionShell';
-import { IngredientCard } from '@/components/IngredientCard';
-import { ReviewCard } from '@/components/ReviewCard';
 import { FaqAccordion } from '@/components/FaqAccordion';
-import { ImagePlaceholder } from '@/components/ImagePlaceholder';
-import { TrustBadges } from '@/components/TrustBadges';
 import { ProductOfferSection } from './ProductOfferSection';
 import { CrossSellSection } from './CrossSellSection';
 import { ProductRatingBar } from '@/components/ProductRatingBar';
-import { ProductHeroTrustPills } from '@/components/ProductHeroTrustPills';
 import { ProductViewPixel } from '@/components/ProductViewPixel';
+import { PainAgitationSection } from '@/components/PainAgitationSection';
+import { ProductSocialProofBar } from '@/components/ProductSocialProofBar';
+import { ProductHowToSection } from '@/components/ProductHowToSection';
+import { ClinicalIngredientsSection } from '@/components/ClinicalIngredientsSection';
+import { AuthorityCredibilitySection } from '@/components/AuthorityCredibilitySection';
+import { RealExperiencesSection } from '@/components/RealExperiencesSection';
+import { GuaranteeSection } from '@/components/GuaranteeSection';
+import { ResultsTimelineSection } from '@/components/ResultsTimelineSection';
+import { getProductTheme } from '@/lib/productTheme';
+import { cn } from '@/lib/utils';
+import {
+  CheckCircle2,
+  ShieldCheck,
+  FlaskConical,
+  XCircle,
+  Truck,
+  RotateCcw,
+  Banknote,
+} from 'lucide-react';
+import Image from 'next/image';
+import { notFound } from 'next/navigation';
+import { getTranslations } from 'next-intl/server';
 
 type Props = { params: { locale: string; slug: string } };
 
@@ -31,51 +44,115 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
 
   const t = await getTranslations({ locale, namespace: 'product' });
   const offersT = await getTranslations({ locale, namespace: 'offers' });
-  const cro = await getTranslations({ locale, namespace: 'productCro' });
+  const croShared = await getTranslations({ locale, namespace: 'productCro' });
   const faqT = await getTranslations({ locale, namespace: 'faq' });
-  const reviewT = await getTranslations({ locale, namespace: 'reviews' });
   const guarT = await getTranslations({ locale, namespace: 'guarantee' });
 
-  const faqItems = faqT.raw('items') as { q: string; a: string }[];
-  const timeline = cro.raw('timeline') as { week: string; title: string; desc: string }[];
-  const painQuotes = cro.raw('painQuotes') as { quote: string; fail: string; reason: string }[];
-  
-  const compareClinics = cro.raw('compareClinics') as { title: string; price: string; points: string[] };
-  const compareCheap = cro.raw('compareCheap') as { title: string; price: string; points: string[] };
-  const compareUs = cro.raw('compareUs') as { title: string; price: string; points: string[] };
-  
-  const noNasties = cro.raw('noNasties') as string[];
-  const deliverySteps = cro.raw('deliverySteps') as { title: string; desc: string }[];
+  const cro = product.cro;
+  const faqProductItems = (faqT.raw('productItems') as { q: string; a: string }[]) || [];
+  const faqShippingItems = (faqT.raw('shippingItems') as { q: string; a: string }[]) || [];
+  const faqItems = (faqT.raw('items') as { q: string; a: string }[]) || [];
+  const productFaq = faqProductItems.length ? faqProductItems : faqItems.slice(0, 4);
+  const shippingFaq = faqShippingItems.length ? faqShippingItems : faqItems.slice(4);
 
-  const reviews = [
-    { initials: 'م.ع', rating: 5, text: loc === 'ar' ? 'النتيجة تدريجية وواضحة مع الاستخدام المنتظم. راضية جدًا.' : 'Gradual and visible results with consistent use. Very satisfied.', concern: product.concern[loc], city: loc === 'ar' ? 'دبي' : 'Dubai' },
-    { initials: 'س.ف', rating: 5, text: loc === 'ar' ? 'السيروم خفيف ومريح. أحب أن التجربة كلها كانت سهلة.' : 'Light and comfortable serum. I love how easy the whole experience was.', concern: product.concern[loc], city: loc === 'ar' ? 'أبوظبي' : 'Abu Dhabi' },
-    { initials: 'ل.م', rating: 5, text: loc === 'ar' ? 'الدفع عند الاستلام خلاني أجرب بدون تردد. نوصي به.' : 'Cash on delivery made it easy to try. Recommend it.', concern: product.concern[loc], city: loc === 'ar' ? 'الشارقة' : 'Sharjah' },
-    { initials: 'ن.ش', rating: 5, text: loc === 'ar' ? 'أفضل قرار اتخذته لبشرتي. آثار الحبوب خفت بشكل ملحوظ بعد أول علبة.' : 'Best decision for my skin. Acne marks faded noticeably after the first box.', concern: product.concern[loc], city: loc === 'ar' ? 'العين' : 'Al Ain' },
+  const compareClinics = croShared.raw('compareClinics') as { title: string; price: string; points: string[] };
+  const compareCheap = croShared.raw('compareCheap') as { title: string; price: string; points: string[] };
+  const compareUs = croShared.raw('compareUs') as { title: string; price: string; points: string[] };
+  const noNasties = croShared.raw('noNasties') as string[];
+  const deliverySteps = croShared.raw('deliverySteps') as { title: string; desc: string }[];
+  const deliveryEmirates = croShared.raw('deliveryEmirates') as string[];
+
+  const compProduct = PRODUCTS.find((p) => p.id === product.complementaryId);
+  const theme = getProductTheme(product);
+  const isTxa = product.id === 'tranexamic-niacinamide-serum';
+  const doseLabel = isTxa
+    ? loc === 'ar'
+      ? '15% ترانيكساميك'
+      : '15% TXA'
+    : loc === 'ar'
+      ? '16% أزيليك'
+      : '16% Azelaic';
+
+  const heroTrust = [
+    { icon: FlaskConical, label: loc === 'ar' ? '30 مل' : '30 ml' },
+    { icon: Banknote, label: 'COD' },
+    { icon: Truck, label: loc === 'ar' ? '24–48س' : '24–48h' },
+    { icon: RotateCcw, label: loc === 'ar' ? '30 يوم' : '30 days' },
   ];
 
-  const compProduct = PRODUCTS.find(p => p.id === product.complementaryId);
-
   return (
-    <>
+    <div key={product.id}>
       <ProductViewPixel productId={product.id} valueAed={199} />
-      {/* 1. CRO Hero — copy left, photo right (desktop) */}
-      <section className="bg-gradient-to-b from-pearl via-ivory to-sand py-8 md:py-14 overflow-hidden">
+
+      {/* HERO — cold traffic lands here */}
+      <section className={cn('bg-gradient-to-b pt-4 pb-8 md:pt-8 md:pb-12 overflow-hidden', theme.heroGradient)}>
         <div className="max-w-6xl mx-auto px-4 md:px-6">
-          {/* dir=ltr keeps copy LEFT + photo RIGHT on all locales (Arabic page is RTL globally) */}
-          <div
-            className="grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch md:min-h-[520px]"
-            dir="ltr"
-          >
-            {/* LEFT — copy + offers */}
-            <div
-              className="flex flex-col min-h-0 order-2 md:order-1"
-              dir={loc === 'ar' ? 'rtl' : 'ltr'}
-            >
-              <h1 className="text-2xl md:text-[2rem] lg:text-[2.35rem] font-black text-mocha mb-3 md:mb-4 leading-[1.2] tracking-tight">
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 items-start" dir="ltr">
+            {/* Image + trust pills under it (Nama layout) */}
+            <div className="order-1 md:order-2 md:sticky md:top-24 space-y-3">
+              <div
+                className={cn(
+                  'relative w-full aspect-[4/5] max-h-[520px] rounded-[1.5rem] border overflow-hidden',
+                  theme.accentLight,
+                  isTxa ? 'border-blush-accent/25' : 'border-mint-accent/25',
+                )}
+              >
+                <Image
+                  src={product.imageUrl}
+                  alt={product.name[loc]}
+                  fill
+                  className="object-contain p-4 md:p-6"
+                  priority
+                  sizes="(max-width: 768px) 100vw, 480px"
+                />
+                <div className="absolute top-3 end-3 z-10 bg-white px-2.5 py-1 rounded-full border border-sand shadow-soft flex items-center gap-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-gold" />
+                  <span className="text-[10px] font-bold text-mocha">
+                    {loc === 'ar' ? 'ضمان ٣٠ يوم' : '30-day guarantee'}
+                  </span>
+                </div>
+                <span
+                  className={cn(
+                    'absolute bottom-3 start-3 text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-white border border-sand',
+                    theme.accent,
+                  )}
+                >
+                  {doseLabel}
+                </span>
+              </div>
+
+              {/* 4 trust pills under image — Nama style */}
+              <div className="grid grid-cols-4 gap-1.5" dir={loc === 'ar' ? 'rtl' : 'ltr'}>
+                {heroTrust.map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="flex flex-col items-center justify-center gap-1 rounded-xl bg-white border border-sand px-1 py-2.5 text-center min-h-[64px]"
+                  >
+                    <Icon size={14} className="text-gold shrink-0" />
+                    <span className="text-[9px] md:text-[10px] font-bold text-mocha leading-tight">
+                      {label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex flex-col order-2 md:order-1" dir={loc === 'ar' ? 'rtl' : 'ltr'}>
+              <span
+                className={cn(
+                  'inline-flex self-start items-center gap-2 text-[11px] font-bold tracking-wide px-3 py-1 rounded-full mb-2.5 border',
+                  theme.accentMuted,
+                  isTxa ? 'border-blush-accent/20 text-blush-accent' : 'border-mint-accent/20 text-mint-accent',
+                )}
+              >
+                <Truck className="w-3.5 h-3.5" />
+                {product.heroBadge[loc]}
+              </span>
+
+              <h1 className="text-[1.55rem] md:text-[1.85rem] lg:text-[2.1rem] font-extrabold text-ink mb-3 md:mb-2.5 leading-[1.25] tracking-tight">
                 {product.heroHeadline[loc]}
               </h1>
-              <p className="text-taupe text-base md:text-[1.05rem] leading-relaxed mb-4 md:mb-5 font-medium">
+              <p className="text-taupe text-[0.9rem] md:text-[0.95rem] leading-relaxed mb-4 md:mb-3 font-medium">
                 {product.subheadline[loc]}
               </p>
 
@@ -85,308 +162,310 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
                 reviewCount={product.reviewCountPlaceholder}
                 confirmedLabel={offersT('confirmedReviews')}
                 priceLabel={offersT('priceFromBottle', {
-                  price: loc === 'ar' ? '199 درهم' : '199 AED',
+                  price: loc === 'ar' ? '199 د.ا' : '199 AED',
                 })}
               />
 
-              <ProductOfferSection product={product} locale={loc} />
-            </div>
-
-            {/* RIGHT — product photo */}
-            <div className="flex items-center justify-center order-1 md:order-2 md:min-h-[520px]">
-              <div className="relative w-full max-w-[440px] aspect-square md:aspect-auto md:h-full md:max-h-[520px] md:min-h-[480px] bg-white rounded-[2rem] border border-sand shadow-2xl p-6 md:p-8">
-                <Image
-                  src={product.imageUrl}
-                  alt={product.name[loc]}
-                  fill
-                  className="object-contain p-4"
-                  priority
-                  sizes="(max-width: 768px) 100vw, 440px"
-                />
-                <div className="absolute top-4 end-4 z-10 bg-white/95 backdrop-blur-md px-3 py-2 rounded-full border border-sand shadow-lg flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-gold" />
-                  <span className="text-xs font-bold text-mocha">
-                    {loc === 'ar' ? 'ضمان 30 يوم' : '30-day guarantee'}
-                  </span>
-                </div>
+              <div className="mt-1 md:mt-0">
+                <ProductOfferSection product={product} locale={loc} />
               </div>
             </div>
-          </div>
-
-          <div dir={loc === 'ar' ? 'rtl' : 'ltr'}>
-            <ProductHeroTrustPills locale={loc} />
           </div>
         </div>
       </section>
 
-      {/* Stat — UAE social proof */}
-      <div className="bg-rose/5 border-y border-rose/10 py-4">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <p className="text-sm md:text-base font-bold text-mocha">{cro('stat')}</p>
-          <p className="text-[11px] text-taupe mt-1">{cro('statSource')}</p>
-        </div>
-      </div>
+      <ProductSocialProofBar
+        locale={loc}
+        rating={product.ratingPlaceholder}
+        reviewCount={product.reviewCountPlaceholder}
+      />
 
-      {/* 2. Trust Strip */}
-      <div className="bg-white border-y border-sand py-6 shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 md:px-6">
-          <TrustBadges className="gap-x-3 gap-y-3 md:gap-x-6 md:gap-y-4" />
-        </div>
-      </div>
-
-      {/* 3. The Real Problem (Agitation) */}
-      <SectionShell background="pearl">
-        <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-mocha mb-4">{cro('painHeadline')}</h2>
-          <p className="text-lg text-taupe">{cro('painSub')}</p>
-        </div>
-        
-        <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-          {painQuotes.map((item, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-2xl shadow-soft border border-sand flex flex-col h-full">
-              <div className="mb-4">
-                 <p className="text-mocha font-bold italic leading-relaxed text-lg">{item.quote}</p>
-              </div>
-              <div className="mt-auto pt-4 border-t border-sand/50">
-                <div className="flex items-center gap-2 mb-2">
-                  <XCircle className="w-5 h-5 text-red-500" />
-                  <span className="font-bold text-red-600 text-sm">{item.fail}</span>
-                </div>
-                <p className="text-xs text-taupe leading-relaxed">{item.reason}</p>
-              </div>
-            </div>
-          ))}
-        </div>
+      {/* Pain + regional stat */}
+      <SectionShell background="pearl" className="py-14 md:py-20" lazy>
+        <PainAgitationSection
+          eyebrow={cro.painEyebrow[loc]}
+          headline={cro.painHeadline[loc]}
+          subheadline={cro.painSub[loc]}
+          quotes={cro.painQuotes}
+          statNumber={cro.statNumber[loc]}
+          statText={cro.stat[loc]}
+          statSource={cro.statSource[loc]}
+          imageUrl={product.painImageUrl}
+          productImageUrl={product.imageUrl}
+          doseLabel={doseLabel}
+          imageAlt={product.name[loc]}
+          theme={theme}
+          locale={loc}
+        />
       </SectionShell>
 
-      {/* 4. The Solution / Mechanism */}
-      <SectionShell background="ivory" className="overflow-hidden">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="order-2 md:order-1">
-              <div className="w-16 h-16 bg-rose/10 rounded-full flex items-center justify-center mb-6">
-                <FlaskConical className="w-8 h-8 text-rose" />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-mocha mb-6">{cro('mechanismHeadline')}</h2>
-              <p className="text-lg text-taupe leading-relaxed mb-8">{cro('mechanismBody')}</p>
-              <ul className="space-y-4">
-                {product.benefitBullets.map((b) => (
-                  <li key={b.ar} className="flex items-center gap-3 text-base text-mocha font-bold bg-white p-3 rounded-lg border border-sand shadow-sm">
-                    <CheckCircle2 size={20} className="text-green-500 flex-shrink-0" />
-                    <span>{b[loc]}</span>
+      {/* Ingredients — Nama style */}
+      <SectionShell background="ivory" className="py-14 md:py-20" lazy>
+        <ClinicalIngredientsSection
+          product={product}
+          locale={loc}
+          theme={theme}
+          noNasties={noNasties}
+          noNastiesHeadline={croShared('noNastiesHeadline')}
+        />
+      </SectionShell>
+
+      {/* Authority & credibility — Nama style, UAE-adapted */}
+      <SectionShell background="white" className="py-14 md:py-20" lazy>
+        <AuthorityCredibilitySection
+          locale={loc}
+          theme={theme}
+          expertQuote={cro.expertQuote[loc]}
+          expertTitle={cro.expertTitle[loc]}
+          rating={product.ratingPlaceholder}
+          reviewCount={product.reviewCountPlaceholder}
+          doseLabel={doseLabel}
+        />
+      </SectionShell>
+
+      {/* Timeline — Nama horizontal results */}
+      <SectionShell background="ivory" className="py-14 md:py-20" lazy>
+        <ResultsTimelineSection
+          locale={loc}
+          badge={loc === 'ar' ? 'النتيجة من الزجاجة الأولى' : 'Results from the first bottle'}
+          headline={cro.timelineHeadline[loc]}
+          subheadline={cro.timelineSub[loc]}
+          steps={cro.timeline}
+          nudge={cro.timelineBundleNudge[loc]}
+        />
+      </SectionShell>
+
+      {/* Real experiences — before compare */}
+      <SectionShell background="white" className="py-14 md:py-20" lazy>
+        <RealExperiencesSection
+          locale={loc}
+          reviews={product.reviews}
+          concern={product.concern[loc]}
+          eyebrow={croShared('realExperiencesEyebrow')}
+          headline={croShared('realExperiencesHeadline')}
+          subheadline={croShared('realExperiencesSubheadline')}
+          confirmedLabel={croShared('confirmedBadge')}
+        />
+      </SectionShell>
+
+      {/* Compare */}
+      <SectionShell background="ivory" className="py-14 md:py-20" lazy>
+        <div className="max-w-4xl mx-auto text-center mb-10">
+          <h2 className="text-2xl md:text-4xl font-extrabold text-ink mb-3">{croShared('compareHeadline')}</h2>
+          <p className="text-taupe">{croShared('compareSub')}</p>
+        </div>
+        <div className="max-w-5xl mx-auto overflow-x-auto pb-2 -mx-4 px-4 md:mx-auto md:px-0 md:overflow-visible">
+          <div className="grid grid-cols-3 gap-3 md:gap-5 min-w-[680px] md:min-w-0 items-stretch">
+            <div className="bg-sand/15 border border-sand rounded-2xl p-4 md:p-6 opacity-75">
+              <h3 className="font-bold text-sm md:text-base text-mocha mb-2">{compareClinics.title}</h3>
+              <p className="text-red-500 font-bold text-sm mb-4">{compareClinics.price}</p>
+              <ul className="space-y-3">
+                {compareClinics.points.map((pt, i) => (
+                  <li key={i} className="flex gap-2 text-xs md:text-sm text-taupe">
+                    <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    {pt}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="order-1 md:order-2">
-               <ImagePlaceholder aspect="square" variant="lifestyle" className="rounded-2xl shadow-xl border-4 border-white" />
+            <div className="bg-sand/15 border border-sand rounded-2xl p-4 md:p-6 opacity-75">
+              <h3 className="font-bold text-sm md:text-base text-mocha mb-2">{compareCheap.title}</h3>
+              <p className="text-red-500 font-bold text-sm mb-4">{compareCheap.price}</p>
+              <ul className="space-y-3">
+                {compareCheap.points.map((pt, i) => (
+                  <li key={i} className="flex gap-2 text-xs md:text-sm text-taupe">
+                    <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                    {pt}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="bg-ink border-2 border-gold rounded-2xl p-4 md:p-6 relative z-10 md:scale-105 shadow-glow">
+              <div className="absolute -top-2.5 end-3 bg-gold text-ink text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wider">
+                {loc === 'ar' ? 'الأفضل' : 'BEST'}
+              </div>
+              <h3 className="font-bold text-base md:text-lg text-ivory mb-2">{compareUs.title}</h3>
+              <p className="text-gold font-extrabold text-sm mb-4">{compareUs.price}</p>
+              <ul className="space-y-3">
+                {cro.compareUsPoints.map((pt, i) => (
+                  <li key={i} className="flex gap-2 text-xs md:text-sm text-ivory">
+                    <CheckCircle2 className="w-4 h-4 text-success shrink-0 mt-0.5" />
+                    {pt[loc]}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
       </SectionShell>
 
-      {/* 5. Ingredients Deep Dive */}
-      <SectionShell background="white">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-mocha text-center mb-12">{t('ingredientsTitle')}</h2>
-        <div className={`grid gap-6 ${product.keyIngredients.length === 1 ? 'max-w-md mx-auto' : 'md:grid-cols-2 max-w-4xl mx-auto'}`}>
-          {product.keyIngredients.map((ing) => (
-            <IngredientCard key={ing.name.ar} ingredient={ing} locale={loc} />
-          ))}
-        </div>
+      {/* Guarantee — Nama style */}
+      <SectionShell background="ivory" className="py-14 md:py-20" lazy>
+        <GuaranteeSection
+          badge={guarT('badge')}
+          headline={guarT('headline')}
+          body={guarT('body')}
+          steps={(guarT.raw('steps') as { title: string; desc: string; icon: 'phone' | 'package' | 'shield' }[])}
+        />
       </SectionShell>
 
-      {/* 6. Timeline (What to expect) */}
-      <SectionShell background="pearl">
-        <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-mocha mb-4">{cro('timelineHeadline')}</h2>
-          <p className="text-lg text-taupe">{cro('timelineSub')}</p>
-        </div>
-        
-        <div className="max-w-4xl mx-auto relative">
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-1 bg-sand/50 -translate-x-1/2 rounded-full hidden md:block"></div>
-          <div className="space-y-8">
-            {timeline.map((step, idx) => (
-              <div key={idx} className={`relative flex flex-col md:flex-row items-center gap-6 ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-                <div className="w-16 h-16 bg-white border-4 border-rose text-rose font-black text-xl rounded-full flex items-center justify-center shrink-0 z-10 shadow-lg">
-                   {idx + 1}
+      {/* How to use — Nama style */}
+      <SectionShell background="pearl" className="py-14 md:py-20" lazy>
+        <ProductHowToSection
+          locale={loc}
+          eyebrow={loc === 'ar' ? 'طريقة الاستخدام' : 'How to use'}
+          howToUse={product.howToUse}
+          headline={cro.howToHeadline[loc]}
+          subheadline={cro.howToSub[loc]}
+          steps={
+            isTxa
+              ? [
+                  {
+                    icon: 'droplets',
+                    title: { ar: 'وجه نظيف', en: 'Clean face' },
+                    desc: {
+                      ar: 'اغسلي بشرتج بلطف قبل السيروم — بدون تقشير قاسٍ.',
+                      en: 'Gently cleanse before serum — no harsh peels.',
+                    },
+                  },
+                  {
+                    icon: 'sun',
+                    title: { ar: '٢–٣ قطرات', en: '2–3 drops' },
+                    desc: {
+                      ar: 'وزّعي على الوجه والرقبة. خفيف — ما يلزّق في حر الإمارات.',
+                      en: 'Spread on face and neck. Light — won’t sticky in UAE heat.',
+                    },
+                  },
+                  {
+                    icon: 'moon',
+                    title: { ar: 'ترطيب بعدها', en: 'Moisturise after' },
+                    desc: {
+                      ar: 'اقفلي الترطيب عشان السيروم يشتغل بهدوء.',
+                      en: 'Seal with moisturiser so the serum works calmly.',
+                    },
+                  },
+                  {
+                    icon: 'clock',
+                    title: { ar: 'SPF كل صبح', en: 'SPF every morning' },
+                    desc: {
+                      ar: 'الانتظام ٣٠ يوم + واقي شمس = الفرق الحقيقي.',
+                      en: '30 days consistency + SPF = the real difference.',
+                    },
+                  },
+                ]
+              : [
+                  {
+                    icon: 'droplets',
+                    title: { ar: 'وجه نظيف مساءً', en: 'Clean face PM' },
+                    desc: {
+                      ar: 'روتين المساء بعد الغسول — أبسط ما يكون.',
+                      en: 'Evening routine after cleanser — as simple as it gets.',
+                    },
+                  },
+                  {
+                    icon: 'moon',
+                    title: { ar: '٢–٣ قطرات', en: '2–3 drops' },
+                    desc: {
+                      ar: '١٦٪ Azelaic بهدوء على الآثار والمناطق الحساسة بحذر.',
+                      en: '16% Azelaic gently on marks — careful on sensitive areas.',
+                    },
+                  },
+                  {
+                    icon: 'sun',
+                    title: { ar: 'ترطيب + SPF صبح', en: 'Moisturise + SPF AM' },
+                    desc: {
+                      ar: 'صباحاً دائماً واقي شمس. بدون SPF النتيجة تنقص.',
+                      en: 'Always SPF in the morning. Without it, results drop.',
+                    },
+                  },
+                  {
+                    icon: 'clock',
+                    title: { ar: '٣٠ يوم انتظام', en: '30 days consistency' },
+                    desc: {
+                      ar: 'إذا بشرتج حساسة ابدئي يوم ويوم أول أسبوع.',
+                      en: 'Sensitive skin: start every other night for week one.',
+                    },
+                  },
+                ]
+          }
+          stats={
+            loc === 'ar'
+              ? [
+                  { value: '30 مل', label: 'في كل زجاجة' },
+                  { value: '2–3', label: 'قطرات يومياً' },
+                  { value: '30', label: 'يوم لكل زجاجة' },
+                  { value: '<60', label: 'ثانية باليوم' },
+                ]
+              : [
+                  { value: '30 ml', label: 'per bottle' },
+                  { value: '2–3', label: 'drops daily' },
+                  { value: '30', label: 'days per bottle' },
+                  { value: '<60', label: 'seconds a day' },
+                ]
+          }
+        />
+      </SectionShell>
+
+      {/* COD delivery */}
+      <SectionShell background="white" className="py-14 md:py-20" lazy>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-4xl font-extrabold text-ink mb-2">{croShared('deliveryHeadline')}</h2>
+            <p className="text-taupe">{croShared('deliverySubheadline')}</p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6 mb-10">
+            {deliverySteps.map((step, idx) => (
+              <div key={idx} className="text-center p-5 rounded-2xl bg-pearl border border-sand">
+                <div className="w-12 h-12 bg-white border-2 border-ink text-ink font-black text-lg rounded-full flex items-center justify-center mx-auto mb-4">
+                  {idx + 1}
                 </div>
-                <div className="bg-white p-6 rounded-2xl shadow-md border border-sand w-full md:w-[calc(50%-3rem)] relative">
-                  <span className="text-rose text-sm font-bold block mb-1">{step.week}</span>
-                  <h3 className="text-xl font-bold text-mocha mb-2">{step.title}</h3>
-                  <p className="text-taupe leading-relaxed text-sm">{step.desc}</p>
-                </div>
+                <h3 className="font-bold text-base text-ink mb-2">{step.title}</h3>
+                <p className="text-taupe text-sm leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
-        </div>
-      </SectionShell>
-
-      {/* 7. Comparison Matrix */}
-      <SectionShell background="white">
-         <div className="max-w-4xl mx-auto text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-mocha mb-4">{cro('compareHeadline')}</h2>
-          <p className="text-lg text-taupe">{cro('compareSub')}</p>
-        </div>
-
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-6">
-           {/* Clinics */}
-           <div className="bg-sand/10 border border-sand rounded-2xl p-6 opacity-70">
-             <h3 className="font-bold text-lg text-mocha mb-2">{compareClinics.title}</h3>
-             <p className="text-red-500 font-bold mb-6">{compareClinics.price}</p>
-             <ul className="space-y-4">
-               {compareClinics.points.map((pt, i) => (
-                 <li key={i} className="flex gap-2 text-sm text-taupe">
-                   <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-                   {pt}
-                 </li>
-               ))}
-             </ul>
-           </div>
-           
-           {/* Cheap Serums */}
-           <div className="bg-sand/10 border border-sand rounded-2xl p-6 opacity-70">
-             <h3 className="font-bold text-lg text-mocha mb-2">{compareCheap.title}</h3>
-             <p className="text-red-500 font-bold mb-6">{compareCheap.price}</p>
-             <ul className="space-y-4">
-               {compareCheap.points.map((pt, i) => (
-                 <li key={i} className="flex gap-2 text-sm text-taupe">
-                   <XCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
-                   {pt}
-                 </li>
-               ))}
-             </ul>
-           </div>
-
-           {/* Skinouva */}
-           <div className="bg-mocha border-2 border-gold rounded-2xl p-6 shadow-xl transform scale-105 relative z-10">
-             <div className="absolute -top-3 right-4 bg-gold text-mocha text-[10px] font-black px-2 py-1 rounded-full uppercase tracking-wider">
-               {loc === 'ar' ? 'الخيار الأفضل' : 'BEST CHOICE'}
-             </div>
-             <h3 className="font-bold text-xl text-ivory mb-2">{compareUs.title}</h3>
-             <p className="text-gold font-extrabold mb-6">{compareUs.price}</p>
-             <ul className="space-y-4">
-               {compareUs.points.map((pt, i) => (
-                 <li key={i} className="flex gap-2 text-sm text-ivory">
-                   <CheckCircle2 className="w-5 h-5 text-green-400 shrink-0 mt-0.5" />
-                   {pt}
-                 </li>
-               ))}
-             </ul>
-           </div>
-        </div>
-      </SectionShell>
-
-      {/* 8. No Nasties & Expert Authority */}
-      <SectionShell background="ivory">
-        <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <div className="bg-white p-8 rounded-3xl border border-sand shadow-sm">
-             <div className="flex items-center gap-3 mb-6">
-                <Leaf className="w-8 h-8 text-green-600" />
-                <h3 className="text-2xl font-extrabold text-mocha">{cro('noNastiesHeadline')}</h3>
-             </div>
-             <div className="grid grid-cols-2 gap-4">
-               {noNasties.map((n, i) => (
-                 <div key={i} className="flex items-center gap-2 text-taupe font-medium text-sm">
-                   <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
-                     <Check className="w-3 h-3 text-green-600" />
-                   </div>
-                   {n}
-                 </div>
-               ))}
-             </div>
-          </div>
-
-          <div className="relative">
-             <div className="absolute -top-6 -left-6 w-12 h-12 bg-rose text-white rounded-full flex items-center justify-center font-serif text-3xl">&quot;</div>
-             <div className="bg-mocha text-ivory p-8 md:p-10 rounded-3xl shadow-xl">
-                <p className="text-lg md:text-xl leading-relaxed italic mb-6">
-                  {cro('expertQuote')}
-                </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                     <Stethoscope className="w-6 h-6 text-gold" />
-                  </div>
-                  <div>
-                    <p className="font-bold text-lg">{cro('expertTitle')}</p>
-                    <p className="text-sm text-ivory/60">{loc === 'ar' ? 'معتمد' : 'Certified'}</p>
-                  </div>
-                </div>
-             </div>
+          <div className="bg-pearl border border-sand rounded-2xl p-5 md:p-7 text-center">
+            <p className="text-sm font-bold text-ink mb-3">{croShared('deliveryEmiratesLabel')}</p>
+            <div className="flex flex-wrap justify-center gap-2 mb-3">
+              {deliveryEmirates.map((emirate) => (
+                <span key={emirate} className="text-xs font-bold text-mocha bg-white border border-sand px-3 py-1 rounded-full">
+                  {emirate}
+                </span>
+              ))}
+            </div>
+            <p className="text-[11px] text-taupe">{croShared('deliveryPartners')}</p>
           </div>
         </div>
       </SectionShell>
 
-      {/* 9. Reviews */}
-      <SectionShell background="pearl">
-        <h2 className="text-3xl md:text-4xl font-extrabold text-mocha text-center mb-12">{t('reviews')}</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          {reviews.map((r) => <ReviewCard key={r.initials} {...r} />)}
-        </div>
-      </SectionShell>
-
-      {/* 10. Ultimate Guarantee Block */}
-      <SectionShell background="mocha" className="bg-mocha overflow-hidden relative">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gold via-transparent to-transparent"></div>
-        <div className="max-w-4xl mx-auto flex flex-col items-center text-center relative z-10">
-           <div className="w-24 h-24 bg-gradient-to-br from-gold to-yellow-600 rounded-full flex items-center justify-center mb-6 border-4 border-mocha outline outline-2 outline-gold/50 shadow-2xl">
-             <ShieldCheck className="w-12 h-12 text-mocha" />
-           </div>
-           <h2 className="text-3xl md:text-5xl font-black text-ivory mb-6 leading-tight">{guarT('headline')}</h2>
-           <p className="text-ivory/90 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-8 font-medium">{guarT('body')}</p>
-           
-           <div className="bg-white/10 backdrop-blur-sm border border-white/20 p-6 rounded-2xl w-full">
-             <p className="text-white text-sm md:text-base leading-relaxed">
-               {loc === 'ar' 
-                 ? 'جربي العلبة الأولى كاملة. إذا لم تلاحظي فرقاً يستحق، تواصلي معنا وسنعيد لك أموالك بالكامل، بدون أسئلة معقدة. لأننا إذا لم نمنحك النتيجة، لا نستحق أموالك.'
-                 : 'Try the first box completely. If you don\'t see a worthwhile difference, contact us and we\'ll refund you fully, no complicated questions. If we don\'t deliver results, we don\'t deserve your money.'}
-             </p>
-           </div>
-        </div>
-      </SectionShell>
-
-      {/* 11. Delivery Process */}
-      <SectionShell background="white">
+      {/* FAQ split */}
+      <SectionShell background="ivory" className="py-14 md:py-20" lazy>
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-extrabold text-mocha mb-4">{cro('deliveryHeadline')}</h2>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 relative">
-             <div className="hidden md:block absolute top-8 left-[16%] right-[16%] h-0.5 bg-sand"></div>
-             {deliverySteps.map((step, idx) => (
-               <div key={idx} className="relative flex flex-col items-center text-center">
-                 <div className="w-16 h-16 bg-white border-2 border-mocha text-mocha font-black text-2xl rounded-full flex items-center justify-center z-10 mb-6 shadow-sm">
-                   {idx + 1}
-                 </div>
-                 <h3 className="font-bold text-xl text-mocha mb-3">{step.title}</h3>
-                 <p className="text-taupe leading-relaxed text-sm">{step.desc}</p>
-               </div>
-             ))}
+          <h2 className="text-2xl md:text-4xl font-extrabold text-ink text-center mb-3">{t('faq')}</h2>
+          <p className="text-center text-taupe mb-10">
+            {loc === 'ar' ? 'قبل ما تطلبين — كل اللي تحتاجين تعرفينه' : 'Before you order — everything you need'}
+          </p>
+          <div className="grid md:grid-cols-2 gap-5">
+            <div className="bg-white p-5 md:p-7 rounded-2xl border border-sand">
+              <h3 className="text-lg font-extrabold text-ink mb-4">{faqT('productTitle')}</h3>
+              <FaqAccordion items={productFaq} />
+            </div>
+            <div className="bg-white p-5 md:p-7 rounded-2xl border border-sand">
+              <h3 className="text-lg font-extrabold text-ink mb-4">{faqT('shippingTitle')}</h3>
+              <FaqAccordion items={shippingFaq} />
+            </div>
           </div>
         </div>
       </SectionShell>
 
-      {/* 12. AOV Booster - Cross Sell Section at the bottom */}
+      {/* Cross-sell — end of page, single complementary product */}
       {compProduct && (
-        <SectionShell background="pearl" className="border-t border-sand">
-           <CrossSellSection mainProduct={product} complementaryProduct={compProduct} locale={loc} />
+        <SectionShell background="pearl" className="border-t border-sand py-14 md:py-20 pb-28 md:pb-20" lazy>
+          <CrossSellSection complementaryProduct={compProduct} locale={loc} />
         </SectionShell>
       )}
 
-      {/* 13. FAQ */}
-      <SectionShell background="ivory">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-mocha text-center mb-12">{t('faq')}</h2>
-          <div className="bg-white p-6 md:p-8 rounded-2xl shadow-soft border border-sand">
-             <FaqAccordion items={faqItems} />
-          </div>
-        </div>
-      </SectionShell>
-
-      {/* Bottom Sticky CTA Anchor Area - to make sure we don't hide footer content */}
-      <div className="h-24 md:h-0"></div>
-      
-      {/* Sticky Mobile CTA */}
-      <ProductOfferSection product={product} locale={loc} stickyMobile={true} />
-    </>
+      <ProductOfferSection product={product} locale={loc} stickyMobile />
+    </div>
   );
 }

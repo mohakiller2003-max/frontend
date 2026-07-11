@@ -2,87 +2,105 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { useLocale, useTranslations } from 'next-intl';
-import { Star } from 'lucide-react';
-import { cn, formatAED } from '@/lib/utils';
+import { useLocale } from 'next-intl';
+import { ChevronLeft, Star } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import type { Product } from '@/data/products';
-import { useCartStore } from '@/features/cart/store';
+import { getProductTheme } from '@/lib/productTheme';
 
 type ProductCardProps = {
   product: Product;
   className?: string;
 };
 
+/** Nama-style product discovery card */
 export function ProductCard({ product, className }: ProductCardProps) {
   const locale = useLocale() as 'ar' | 'en';
-  const t = useTranslations('offers');
-  const { addItem, open: openCart } = useCartStore();
+  const ar = locale === 'ar';
+  const theme = getProductTheme(product);
+  const href = `/${locale}/products/${product.slug[locale]}`;
+  const isTxa = product.id === 'tranexamic-niacinamide-serum';
 
-  const handleCTA = () => {
-    addItem(product.id, 2); // default 2 pieces
-    openCart();
-  };
+  const routineBadge = isTxa
+    ? ar
+      ? 'روتين البقع · 15% ترانيكساميك'
+      : 'Spot routine · 15% TXA'
+    : ar
+      ? 'روتين الآثار · 16% أزيليك'
+      : 'Marks routine · 16% Azelaic';
 
-  const popularOffer = product.offers.find((o) => o.quantity === 2)!;
+  const fromPrice = ar ? '199 د.ا' : '199 AED';
 
   return (
-    <div className={cn('bg-ivory border border-sand rounded-card-lg overflow-hidden shadow-soft hover:shadow-card transition-shadow duration-200 flex flex-col', className)}>
-      {/* Product Image */}
-      <Link href={`/${locale}/products/${product.slug[locale]}`} tabIndex={-1} aria-hidden="true">
-        <div className="relative aspect-[3/4] bg-white">
+    <article
+      className={cn(
+        'bg-white border border-[#E8E2DA] rounded-[1.5rem] overflow-hidden shadow-[0_8px_30px_rgba(40,30,20,0.06)] flex flex-col group h-full',
+        className,
+      )}
+    >
+      <Link href={href} className="relative block">
+        <div className={cn('relative aspect-[4/5]', theme.accentLight)}>
+          <span className="absolute top-3 end-3 z-10 text-[10px] md:text-[11px] font-bold text-ink bg-white/95 border border-[#E8E2DA] px-2.5 py-1 rounded-full shadow-sm max-w-[85%] truncate">
+            {routineBadge}
+          </span>
           <Image
             src={product.imageUrl}
             alt={product.name[locale]}
             fill
-            className="object-contain p-4"
-            sizes="(max-width: 768px) 100vw, 320px"
+            className="object-contain p-6 md:p-8 group-hover:scale-[1.02] transition-transform duration-300"
+            sizes="(max-width: 768px) 100vw, 420px"
           />
         </div>
       </Link>
 
-      <div className="p-5 flex flex-col flex-1">
-        {/* Rating */}
-        <div className="flex items-center gap-1.5 mb-2">
+      <div className="p-5 md:p-6 flex flex-col flex-1 text-start">
+        <Link href={href} className="hover:opacity-85 transition-opacity">
+          <h3 className="font-extrabold text-ink text-base md:text-lg leading-snug mb-2">
+            {product.name[locale]}
+          </h3>
+        </Link>
+
+        <p className="text-sm text-taupe leading-relaxed mb-4 line-clamp-3 flex-1">
+          {product.subheadline[locale]}
+        </p>
+
+        <div className="flex items-center gap-2 mb-5">
           <div className="flex gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
-                size={12}
-                className={i < Math.floor(product.ratingPlaceholder) ? 'text-gold fill-gold' : 'text-sand fill-sand'}
-                aria-hidden="true"
+                size={13}
+                className={
+                  i < Math.round(product.ratingPlaceholder)
+                    ? 'text-gold fill-gold'
+                    : 'text-sand fill-sand'
+                }
+                aria-hidden
               />
             ))}
           </div>
-          <span className="text-xs text-taupe">{product.ratingPlaceholder}/5</span>
+          <span className="text-xs text-taupe font-medium tabular-nums">
+            ({product.reviewCountPlaceholder})
+          </span>
         </div>
 
-        {/* Headline */}
-        <Link href={`/${locale}/products/${product.slug[locale]}`} className="hover:text-rose transition-colors">
-          <h3 className="font-semibold text-mocha text-base leading-snug mb-1">
-            {product.name[locale]}
-          </h3>
-        </Link>
-        <p className="text-sm text-taupe leading-relaxed mb-4 flex-1">
-          {product.subheadline[locale]}
-        </p>
+        <div className="flex items-end justify-between gap-3 pt-4 border-t border-[#E8E2DA]">
+          <div>
+            <p className="text-[10px] font-semibold text-taupe mb-0.5">
+              {ar ? 'يبدأ من' : 'From'}
+            </p>
+            <p className="text-lg md:text-xl font-extrabold text-ink tabular-nums">{fromPrice}</p>
+          </div>
 
-        {/* Price preview */}
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm text-taupe">{locale === 'ar' ? 'يبدأ من' : 'From'}</span>
-          <span className="font-bold text-mocha">{formatAED(199)}</span>
+          <Link
+            href={href}
+            className="inline-flex items-center gap-1.5 text-xs md:text-sm font-bold text-ink bg-[#EEF2EF] hover:bg-[#E4EBE6] px-3.5 py-2.5 rounded-xl transition-colors shrink-0"
+          >
+            {ar ? 'تصفح العروض' : 'Browse offers'}
+            <ChevronLeft size={14} className={ar ? '' : 'rotate-180'} />
+          </Link>
         </div>
-
-        {/* Scarcity */}
-        <p className="text-xs text-red-500 mb-3 font-bold animate-pulse">{t('scarcity')}</p>
-
-        {/* CTA */}
-        <button
-          onClick={handleCTA}
-          className="w-full bg-mocha text-ivory py-3 rounded-pill font-semibold text-sm hover:bg-mocha/90 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-mocha"
-        >
-          {locale === 'ar' ? 'اختاري العرض' : 'Choose Offer'}
-        </button>
       </div>
-    </div>
+    </article>
   );
 }

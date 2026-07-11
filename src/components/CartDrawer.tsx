@@ -10,7 +10,6 @@ import { PRODUCT_MAP, PRODUCTS } from '@/data/products';
 import { cn, formatAED, generateEventId } from '@/lib/utils';
 import { firePixelEvent } from '@/features/tracking/pixels';
 import { TrustBadges } from './TrustBadges';
-import { ImagePlaceholder } from './ImagePlaceholder';
 
 export function CartDrawer() {
   const t = useTranslations('cart');
@@ -108,9 +107,9 @@ export function CartDrawer() {
                     if (!product) return null;
                     return (
                       <div key={item.productId} className="flex gap-3 bg-white rounded-card p-3 border border-sand/60">
-                        <div className="w-16 h-16 flex-shrink-0">
-                          <ImagePlaceholder className="!rounded-lg w-16 h-16" aspect="square" variant="serum" />
-                        </div>
+                      <div className="w-16 h-16 flex-shrink-0 relative rounded-lg overflow-hidden bg-pearl border border-sand/60">
+                        <img src={product.imageUrl} alt="" className="w-full h-full object-contain p-1" />
+                      </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-mocha text-sm leading-snug mb-1 line-clamp-2">
                             {product.shortHeadline[locale]}
@@ -118,7 +117,7 @@ export function CartDrawer() {
                           <p className="text-xs text-taupe">
                             {item.quantity}× {locale === 'ar' ? t('bundle') : t('bundle')}
                           </p>
-                          <p className="font-semibold text-mocha text-sm mt-1">{formatAED(item.priceAed)}</p>
+                          <p className="font-semibold text-mocha text-sm mt-1">{formatAED(item.priceAed, locale)}</p>
                         </div>
                         <button
                           onClick={() => removeItem(item.productId)}
@@ -138,8 +137,8 @@ export function CartDrawer() {
                         {t('crossSellTitle')}
                       </p>
                       <div className="flex gap-3 items-center">
-                        <div className="w-14 h-14 flex-shrink-0">
-                          <ImagePlaceholder className="!rounded-lg w-14 h-14" aspect="square" variant="serum" />
+                        <div className="w-14 h-14 flex-shrink-0 relative rounded-lg overflow-hidden bg-pearl border border-sand/60">
+                          <img src={crossSellProduct!.imageUrl} alt="" className="w-full h-full object-contain p-1" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-medium text-mocha text-sm leading-snug line-clamp-2">
@@ -150,7 +149,7 @@ export function CartDrawer() {
                               <Star key={i} size={10} className={i < Math.floor(crossSellProduct!.ratingPlaceholder) ? 'text-gold fill-gold' : 'text-sand fill-sand'} />
                             ))}
                           </div>
-                          <p className="text-xs text-taupe mt-0.5">{locale === 'ar' ? 'يبدأ من' : 'From'} {formatAED(199)}</p>
+                          <p className="text-xs text-taupe mt-0.5">{locale === 'ar' ? 'يبدأ من' : 'From'} {formatAED(199, locale)}</p>
                         </div>
                         <button
                           onClick={() => { addItem(crossSellProduct!.id, 1); }}
@@ -182,7 +181,7 @@ export function CartDrawer() {
               <div className="px-5 py-4 border-t border-sand bg-ivory">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-mocha font-medium">{t('total')}</span>
-                  <span className="text-xl font-bold text-mocha">{formatAED(total())}</span>
+                  <span className="text-xl font-bold text-mocha">{formatAED(total(), locale)}</span>
                 </div>
                 <button
                   onClick={() => {

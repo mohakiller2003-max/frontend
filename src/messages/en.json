@@ -22,10 +22,10 @@
     "ctaSecondary": "See Results & Products"
   },
   "trust": {
-    "cod": "Cash on delivery",
-    "delivery": "VIP Climate-Controlled Shipping (24-48H)",
-    "ingredients": "Carefully selected ingredients",
-    "secure": "Results from Box 1 or Full Refund"
+    "cod": "Cash on delivery only",
+    "delivery": "VIP cooled shipping 24–48h",
+    "ingredients": "Clear dose on the label",
+    "secure": "30-day guarantee — full refund"
   },
   "products": {
     "tranexamic": {
@@ -54,7 +54,8 @@
     "selectOffer": "Choose your offer:",
     "codNote": "Cash on delivery · no online payment",
     "priceFromBottle": "From {price} / bottle",
-    "confirmedReviews": "reviews · verified"
+    "confirmedReviews": "reviews · verified",
+    "stickyCtaMobile": "Add to cart"
   },
   "cart": {
     "title": "Your Cart",
@@ -216,39 +217,78 @@
     "emailLabel": "Email (optional)"
   },
   "faq": {
-    "title": "Frequently Asked Questions",
+    "title": "Questions before you order",
+    "subtitle": "Everything you need to know before paying at the door.",
+    "productTitle": "About the product",
+    "shippingTitle": "Shipping & payment",
     "items": [
       {
-        "q": "Is cash on delivery available?",
-        "a": "Yes, cash on delivery is available for all orders within the UAE. No card required."
+        "q": "Is the concentration on the label?",
+        "a": "Yes. Dark-spot serum is 15% TXA + Niacinamide; acne-marks serum is 16% Azelaic — clear doses on the bottle, not vague claims."
       },
       {
-        "q": "How long does UAE delivery take?",
-        "a": "Orders typically arrive within 2-4 business days across the UAE."
+        "q": "Is cash on delivery available across the UAE?",
+        "a": "Yes. COD (cash or card at the door) is available in Dubai, Abu Dhabi, Sharjah, Ajman, RAK, Fujairah, and Al Ain. No online payment."
+      },
+      {
+        "q": "How long does delivery take?",
+        "a": "VIP cooled shipping in 24–48 hours for main cities, and 2–4 business days for other UAE areas."
+      },
+      {
+        "q": "Which serum should I choose?",
+        "a": "Dark spots / uneven tone → 15% TXA. Acne marks / redness → 16% Azelaic. For strongest results, take the full AM/PM routine."
       },
       {
         "q": "Can I use both serums together?",
-        "a": "Yes, both serums can be used as part of a combined routine. We recommend consulting a specialist for your skin type."
-      },
-      {
-        "q": "Which serum should I choose for dark spots?",
-        "a": "The Tranexamic + Niacinamide serum is designed to help with the appearance of dark spots and uneven-looking tone."
-      },
-      {
-        "q": "Which serum should I choose for acne marks?",
-        "a": "The Azelaic serum is designed to help with the appearance of post-blemish marks and uneven-looking skin."
+        "a": "Yes. Many customers use TXA in the morning and Azelaic at night. Start gradually if your skin is sensitive."
       },
       {
         "q": "Is it suitable for sensitive skin?",
-        "a": "Our products are designed for daily use. If you have very sensitive skin, we recommend starting gradually and observing your skin's reaction."
+        "a": "Formulated without artificial fragrance or drying alcohol. Very sensitive skin: start every other day, then daily."
       },
       {
-        "q": "When should I expect visible-looking improvement?",
-        "a": "Realistic results require consistency. Look for gradual visible improvement over weeks of regular use, not exaggerated overnight promises."
+        "q": "When will I notice a difference?",
+        "a": "Calmer feel and better texture in the first 7 days. Clearer spot/mark improvement from week two. End of first bottle = before/after comparison."
       },
       {
-        "q": "What if I entered the wrong phone number?",
-        "a": "Contact us as soon as possible so we can update your order information before shipping."
+        "q": "What is the refund guarantee?",
+        "a": "30-day satisfaction guarantee. Try the bottle. If you do not see a worthwhile difference — full refund, even if empty."
+      }
+    ],
+    "productItems": [
+      {
+        "q": "What is the difference between the two serums?",
+        "a": "15% TXA targets the look of dark spots and uneven tone. 16% Azelaic targets the look of acne marks, redness, and texture."
+      },
+      {
+        "q": "Why not vitamin C?",
+        "a": "Standard vitamin C oxidizes quickly in Gulf heat. TXA and azelaic are more heat-stable and better suited to UAE conditions."
+      },
+      {
+        "q": "When will I see real results?",
+        "a": "First 7 days: calm and texture. Week two: spots/marks start fading. End of month: clear difference in photos."
+      },
+      {
+        "q": "Is the formula clean?",
+        "a": "No artificial fragrance, no drying alcohol, no parabens. Active concentration is stated clearly."
+      }
+    ],
+    "shippingItems": [
+      {
+        "q": "Is cash on delivery available?",
+        "a": "Yes, 100%. Name and mobile only. Pay cash or card when the order arrives."
+      },
+      {
+        "q": "How long is UAE delivery?",
+        "a": "24–48 hours for main cities with cooled shipping. 2–4 days for other areas."
+      },
+      {
+        "q": "Can I edit or refuse the order?",
+        "a": "Contact us before dispatch to edit name/number/address. At the door you can inspect before paying."
+      },
+      {
+        "q": "What if the product arrives damaged?",
+        "a": "Send a photo immediately and we will handle replacement under our guarantee policy."
       }
     ]
   },
@@ -367,30 +407,51 @@
     ]
   },
   "guarantee": {
-    "headline": "The Iron-Clad Skinouva Promise: Visible Results or 100% Refund",
-    "body": "We don't play with words. Use the serum for 30 days. If you don't see a visible reduction in pigmentation, an even skin tone, and a change that your friends and family compliment... message us. We will refund every single dirham. Even if the bottle is completely empty. You carry zero risk.",
-    "cta": "Order Now with Absolute Peace of Mind"
+    "headline": "30 days — or your money back. No questions.",
+    "body": "Try the first bottle fully. If you do not feel a difference worth it, contact us and we refund every dirham — even if the bottle is empty. If our formula did not work for you, we do not deserve your money.",
+    "cta": "Choose your serum — pay at the door",
+    "badge": "Zero risk",
+    "steps": [
+      {
+        "title": "Call us",
+        "desc": "Any day within the 30 days",
+        "icon": "phone"
+      },
+      {
+        "title": "Return the bottle",
+        "desc": "Even if empty — we don’t mind",
+        "icon": "package"
+      },
+      {
+        "title": "Full refund",
+        "desc": "Within 3–5 business days",
+        "icon": "shield"
+      }
+    ]
   },
   "productCro": {
     "stat": "92% of UAE women suffer from stubborn pigmentation due to intense UV exposure and constant AC.",
+    "statNumber": "92%",
     "statSource": "Source: Gulf Skincare Research, 2024",
-    "painHeadline": "You know these struggles well — and why normal creams fail",
-    "painSub": "It's not your fault. Most products only treat the dead surface layer, completely ignoring the dark pigment root trapped beneath.",
+    "painEyebrow": "Do you struggle with these?",
+    "painHeadline": "Problems you know — real solutions",
+    "painSub": "We don't just mask symptoms. We target the root cause — one ingredient for each pain point.",
     "painQuotes": [
       {
         "quote": "\"I spent thousands on laser sessions, and once summer hit, the dark spots came back even worse.\"",
-        "fail": "Harsh Laser & Peeling",
-        "reason": "Destroys the skin barrier in our hot climate, triggering Post-Inflammatory Hyperpigmentation (PIH)."
+        "reason": "15% TXA + Niacinamide targets pigment at the source — without burning your barrier in UAE heat."
       },
       {
         "quote": "\"My skin gets so oily in Dubai humidity. My makeup melts in 2 hours, exposing all my red and dark marks.\"",
-        "fail": "Hiding Behind Makeup",
-        "reason": "Clogs pores, worsens breakouts, and deepens the appearance of existing dark marks."
+        "reason": "Light, fast-absorbing serum — calms skin and supports clearer-looking marks without heavy makeup layers."
       },
       {
         "quote": "\"I tried famous, expensive vitamin C serums. They were sticky and did absolutely nothing for my spots.\"",
-        "fail": "Commercial Vitamin C",
-        "reason": "Oxidizes rapidly in the heat, losing its potency before it can even reach the pigmentation."
+        "reason": "15% TXA + Niacinamide clearly labelled — clinical concentrations, not heat-oxidized vitamin C."
+      },
+      {
+        "quote": "\"Every summer the spots come back stronger — and I cover them with foundation every single day.\"",
+        "reason": "A simple daily routine built for Gulf sun and AC — gradual visible improvement from week two."
       }
     ],
     "mechanismHeadline": "The secret is treating the root, not burning the surface",
@@ -414,144 +475,153 @@
         "desc": "Now you can compare before & after photos. Uneven tone is drastically reduced, and you'll confidently go out makeup-free. (The 2nd box locks in these results)."
       }
     ],
-    "compareHeadline": "Compare & Decide — Why Skinouva?",
-    "compareSub": "Everything you've tried before, and why it hasn't given you the clear skin you deserve.",
+    "compareHeadline": "Compare — then decide for yourself",
+    "compareSub": "Everything you’ve tried… and why it failed in UAE heat.",
     "compareClinics": {
-      "title": "Aesthetic & Laser Clinics",
-      "price": "3,000+ AED / sessions",
+      "title": "Clinics & laser",
+      "price": "3,000+ AED",
       "points": [
-        "Painful with required downtime",
-        "High risk of rebound pigmentation",
-        "Extremely expensive to maintain",
-        "Not suitable for all skin types"
+        "Pain and downtime",
+        "Pigment can rebound in summer",
+        "Expensive to maintain",
+        "Not for every skin type"
       ]
     },
     "compareCheap": {
-      "title": "Standard Beauty Serums",
-      "price": "100 - 200 AED",
+      "title": "Regular serums / vitamin C",
+      "price": "80–200 AED",
       "points": [
-        "Temporary, surface-level effect",
-        "Oxidizes and spoils quickly",
-        "Sticky, uncomfortable texture",
-        "Extremely low active concentrations"
+        "Temporary surface effect",
+        "Oxidizes in heat",
+        "Weak or hidden dose",
+        "Not built for Gulf climate"
       ]
     },
     "compareUs": {
-      "title": "Skinouva Serums",
-      "price": "199 AED / full month",
+      "title": "Skinouva",
+      "price": "From 199 AED / month",
       "points": [
-        "Treats the pigment root from within",
-        "100% safe, painless, no redness",
-        "Precise clinical concentrations",
-        "Full money-back guarantee"
+        "Clear dose on the label",
+        "Built for UAE sun + AC",
+        "Zero downtime",
+        "COD + 30-day guarantee"
       ]
     },
-    "noNastiesHeadline": "A clean formula that respects your skin",
+    "noNastiesHeadline": "What you won’t find in your bottle",
     "noNasties": [
-      "No Artificial Fragrance",
-      "No Drying Alcohol",
-      "No Parabens",
-      "No Harsh Peeling Acids",
-      "Non-Comedogenic",
-      "Safe for Sensitive Skin"
+      "No artificial fragrance",
+      "No drying alcohol",
+      "No parabens",
+      "No harsh peels",
+      "Non-comedogenic",
+      "Suitable for sensitive skin with care",
+      "No heavy sticky oils",
+      "Clear dose — not a secret blend"
     ],
     "expertQuote": "\"Treating pigmentation in the Gulf requires a delicate balance. Aggressive peeling in a high-UV environment damages the skin. Skinouva's approach uses proven ingredients like Tranexamic and Azelaic acid to calmly and safely dismantle pigment, making it the perfect choice for consistent daily use.\"",
     "expertTitle": "Skincare Specialist",
-    "deliveryHeadline": "How does your order arrive? It's simple.",
+    "deliveryHeadline": "From order to your door — 3 steps",
+    "deliverySubheadline": "No online payment. No surprises. Inspect, then pay.",
+    "deliveryEmiratesLabel": "We deliver to all UAE emirates",
+    "deliveryPartners": "Delivery partners: Aramex · Fetchr · Quiqup",
+    "deliveryEmirates": ["Dubai", "Abu Dhabi", "Sharjah", "Ajman", "Ras Al Khaimah", "Fujairah", "Al Ain"],
+    "timelineBundleNudge": "The first bottle gives you results. Two or three lock them in — save up to 248 AED.",
+    "midOfferEyebrow": "Ready to try with zero risk?",
+    "midOfferHeadline": "Choose your offer — pay at the door only",
+    "realExperiencesEyebrow": "Real experiences",
+    "realExperiencesHeadline": "What 487+ Emirati women are saying",
+    "realExperiencesSubheadline": "Confirmed purchases from Dubai, Abu Dhabi, Sharjah and more — not fake comments, real results.",
+    "reviewsHeadline": "Women who read the dose before they ordered",
+    "reviewsSubheadline": "Confirmed buyers from Dubai, Abu Dhabi, Sharjah — not fake comments",
+    "confirmedBadge": "Confirmed",
     "deliverySteps": [
       {
-        "title": "Order without paying",
-        "desc": "Select your offer, enter your name and number. No credit card required."
+        "title": "Choose your offer",
+        "desc": "One, two, or three bottles. Name and mobile only — no online payment."
       },
       {
-        "title": "We call to confirm",
-        "desc": "Our UAE team will call you to accurately confirm your delivery address."
+        "title": "We call to confirm the address",
+        "desc": "Our UAE team contacts you within hours to speed shipping — not to pressure you."
       },
       {
-        "title": "Receive & pay at door",
-        "desc": "The courier arrives within 24-48 hours anywhere in the UAE. Pay with cash or card on delivery."
+        "title": "Receive, inspect, then pay",
+        "desc": "VIP cooled shipping in 24–48h. Check at the door, then pay cash or card."
       }
     ]
   },
   "homeCro": {
     "hero": {
-      "badge": "100% Proven & Guaranteed Results",
-      "headline": "Flawless Glass Skin in 14 Days",
-      "subheadline": "Pharmaceutical-grade serums designed to dismantle the deepest pigmentation and acne marks. Visible results guaranteed, or your money back no questions asked.",
-      "ctaPrimary": "Order Now - Pay on Delivery",
-      "ctaSecondary": "Discover the Science",
-      "trust": "Free UAE Delivery | Cash on Delivery | 30-Day Guarantee"
+      "badge": "UAE skin lab · Clear dose on the label",
+      "headline": "Clinical serums for clearer skin in the UAE",
+      "subheadline": "Two clinical formulas with the dose on the label — targeting dark spots and acne marks. Built for Gulf sun and AC. Pay at the door only — no needles, no clinic sessions.",
+      "ctaPrimary": "Explore the clinical serums",
+      "ctaSecondary": "See the concentrations",
+      "trust": "VIP cooled shipping · Pay at the door · 30-day guarantee"
     },
-    "climate": {
-      "headline": "Why do your expensive imported brands fail in Dubai?",
-      "subheadline": "Your routine isn't wrong; it just wasn't built for our environment.",
+    "pillars": {
+      "eyebrow": "Why Skinouva",
+      "headline": "A derm lab, not a beauty shop",
+      "subheadline": "Four pillars we never drop: dose clarity, heat stability, clean formula, and UAE COD comfort.",
       "points": [
         {
-          "title": "Intense Gulf UV Rays",
-          "desc": "Hyper-activates melanin production, making dark spots deeper and much harder to fade with standard products."
+          "title": "Clear dose on the label",
+          "desc": "15% TXA and 16% Azelaic stated clearly. Not vague “natural” claims — a dose you can read."
         },
         {
-          "title": "A/C & Humidity Shock",
-          "desc": "Moving between freezing A/C and extreme outdoor humidity shatters your skin barrier, causing sudden breakouts and sensitivity."
+          "title": "Built for Gulf heat",
+          "desc": "Sun + AC + humidity. Heat-stable actives — not vitamin C that oxidizes in transit."
         },
         {
-          "title": "Rapid Ingredient Oxidation",
-          "desc": "Standard Vitamin C serums oxidize and lose their potency almost immediately when exposed to transit heat or local humidity."
+          "title": "Clean formula",
+          "desc": "No artificial fragrance, no drying alcohol, no parabens. Made for daily use."
+        },
+        {
+          "title": "COD + 30-day guarantee",
+          "desc": "Try without paying online. If you do not notice a difference — full refund."
         }
       ],
-      "solution": "Skinouva isn't just another skincare brand. We are a derma-cosmetic line utilizing Tranexamic and Azelaic acids—highly heat-stable ingredients perfect for the UAE environment."
+      "solution": "Skinouva is not an imported brand we adapted. A derm line built for UAE skin — clear dose, cooled shipping, pay at the door."
     },
     "collection": {
-      "headline": "Don't buy a product, invest in a result",
-      "subheadline": "We've selected the most potent clinical ingredients for the deepest skin concerns. No complicated 10-step routines.",
-      "bundleBadge": "The Smartest Choice for Maximum Results",
-      "bundleTitle": "The Complete Skinouva Routine",
-      "bundleDesc": "Combine the pigment-breaking power of Tranexamic with the texture-smoothing power of Azelaic for a complete AM/PM protocol. Achieve results 3x faster.",
-      "bundleCta": "Get the Complete Routine — Save 20%"
-    },
-    "authority": {
-      "headline": "Radical Clinical Transparency. No Trade Secrets.",
-      "subheadline": "We proudly state our active ingredient percentages because we believe in the absolute potency of our formulas.",
-      "stats": [
-        {
-          "value": "0%",
-          "label": "Artificial Fragrance or Drying Alcohol"
-        },
-        {
-          "value": "100%",
-          "label": "Heat-Stable Formulations (No Oxidation)"
-        },
-        {
-          "value": "3X",
-          "label": "Deeper Absorption via Encapsulation"
-        }
-      ]
+      "eyebrow": "The full line",
+      "headline": "Two serums. Two concerns. One clinical routine.",
+      "subheadline": "Pick the problem that bothers you — or combine both for a full AM/PM routine.",
+      "bundleBadge": "Smartest routine · strongest result",
+      "bundleTitle": "TXA + Azelaic — complete UAE routine",
+      "bundleDesc": "Morning: tranexamic for pigment. Night: azelaic for marks and texture. Clinic-style system — without appointments.",
+      "bundleCta": "Get the full routine — save"
     },
     "codExperience": {
-      "badge": "VIP Delivery Service",
-      "headline": "Order Today, Receive Tomorrow. No Card.",
-      "subheadline": "Do not pay a single dirham until you hold the product in your hands.",
+      "badge": "Zero risk",
+      "headline": "From order to your door in 3 steps",
+      "subheadline": "No online payment. No commitment. No surprises.",
       "steps": [
         {
           "step": "01",
-          "title": "Order in seconds, zero payment",
-          "desc": "Just enter your number. No card needed. We take 100% of the risk."
+          "title": "Choose your routine",
+          "desc": "Dark spots, acne marks, or the full routine. Name and mobile only."
         },
         {
           "step": "02",
-          "title": "Fast Personal Confirmation",
-          "desc": "Our UAE concierge will call you immediately to confirm your address for priority dispatch."
+          "title": "We call to confirm the address",
+          "desc": "Our UAE team contacts you within hours — to speed shipping, not to pressure you."
         },
         {
           "step": "03",
-          "title": "VIP Express Delivery & Pay at Door",
-          "desc": "Our courier arrives in a climate-controlled vehicle within 24H. Inspect your order, then pay cash or card comfortably."
+          "title": "Receive, inspect, then pay",
+          "desc": "VIP cooled shipping in 24–48h. Check the order at the door, then pay cash or card."
         }
       ]
     },
     "socialProof": {
-      "headline": "Real Results, Zero Filters",
-      "subheadline": "Thousands of women across the UAE have reclaimed their confidence with Skinouva."
+      "headline": "Women who read the dose before they ordered",
+      "subheadline": "Skinouva is for buyers who do not trust ads. They read, checked, then ordered COD."
+    },
+    "ritual": {
+      "eyebrow": "Begin your ritual",
+      "headline": "Your skin deserves science, not promises",
+      "body": "Start your clinical routine today. Pay at the door, cooled shipping across the UAE, and a 30-day money-back guarantee — zero risk.",
+      "cta": "Explore the serums now"
     }
   }
 }
