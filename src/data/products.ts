@@ -76,6 +76,10 @@ export type Product = {
   ratingPlaceholder: number;
   reviewCountPlaceholder: number;
   imageUrl: string;
+  /** Before/after hero on PDP (above offers) */
+  pdpImageUrl?: string;
+  /** Lab lifestyle image for ingredients section */
+  ingredientsImageUrl?: string;
   urgencyLine: LocalizedText;
   ctaRoutine: LocalizedText;
   painImageUrl?: string;
@@ -192,7 +196,9 @@ export const PRODUCTS: Product[] = [
     complementaryId: 'azelaic-acne-marks-serum',
     ratingPlaceholder: 4.9,
     reviewCountPlaceholder: 428,
-    imageUrl: '/products/medicube-txa-niacinamide-v2.png',
+    imageUrl: '/products/pack-txa.png',
+    pdpImageUrl: '/products/ba-txa.png',
+    ingredientsImageUrl: '/products/ingredients-txa.png',
     urgencyLine: {
       ar: 'شحن VIP المجاني لكل الإمارات ينتهي خلال —',
       en: 'Free VIP UAE shipping ends in —',
@@ -440,7 +446,9 @@ export const PRODUCTS: Product[] = [
     complementaryId: 'tranexamic-niacinamide-serum',
     ratingPlaceholder: 4.9,
     reviewCountPlaceholder: 386,
-    imageUrl: '/products/bb-calming-azelaic-v2.png',
+    imageUrl: '/products/pack-azelaic.png',
+    pdpImageUrl: '/products/ba-azelaic.png',
+    ingredientsImageUrl: '/products/ingredients-azelaic.png',
     urgencyLine: {
       ar: 'شحن VIP المجاني لكل الإمارات ينتهي خلال —',
       en: 'Free VIP UAE shipping ends in —',

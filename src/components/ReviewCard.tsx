@@ -47,27 +47,27 @@ export function ReviewCard({
           ))}
         </div>
         {confirmed && confirmedLabel && (
-          <span className="text-[10px] font-bold uppercase tracking-wide text-success bg-success/10 px-2 py-0.5 rounded-full shrink-0">
+          <span className="text-[10px] font-bold uppercase tracking-wide text-[#134E3A] bg-[#134E3A]/10 px-2 py-0.5 rounded-full shrink-0">
             {confirmedLabel}
           </span>
         )}
       </div>
 
-      <p className="text-ink text-sm md:text-[15px] leading-relaxed mb-6 flex-1">&ldquo;{text}&rdquo;</p>
+      <p className="text-[#222222] text-sm md:text-[15px] leading-relaxed mb-6 flex-1">&ldquo;{text}&rdquo;</p>
 
-      <div className="flex items-center gap-3 pt-4 border-t border-sand/60">
-        <div className="w-10 h-10 rounded-full bg-pearl border border-sand flex items-center justify-center shrink-0">
-          <span className="text-sm font-bold text-ink">{avatarLetter}</span>
+      <div className="flex items-center gap-3 pt-4 border-t border-[#E8E3DC]">
+        <div className="w-10 h-10 rounded-full bg-[#134E3A] flex items-center justify-center shrink-0">
+          <span className="text-sm font-bold text-gold">{avatarLetter}</span>
         </div>
         <div className="min-w-0">
-          {name && <p className="text-sm font-extrabold text-ink truncate">{name}</p>}
+          {name && <p className="text-sm font-extrabold text-[#134E3A] truncate">{name}</p>}
           {(age || city) && (
-            <p className="text-xs font-semibold text-taupe truncate">
+            <p className="text-xs font-semibold text-[#5A6B5C] truncate">
               {[age, city].filter(Boolean).join(' · ')}
             </p>
           )}
-          {!name && concern && <p className="text-[11px] text-taupe truncate">{concern}</p>}
-          {name && concern && <p className="text-[11px] text-taupe truncate mt-0.5">{concern}</p>}
+          {!name && concern && <p className="text-[11px] text-[#5A6B5C] truncate">{concern}</p>}
+          {name && concern && <p className="text-[11px] text-[#5A6B5C] truncate mt-0.5">{concern}</p>}
         </div>
       </div>
     </div>

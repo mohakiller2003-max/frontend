@@ -39,7 +39,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-mocha/80 hover:text-mocha text-sm font-medium transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose rounded"
+                className="text-[#222222] hover:text-[#134E3A] text-sm font-semibold transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#134E3A]/40 rounded"
               >
                 {link.label}
               </Link>
@@ -102,7 +102,7 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
-                className="text-mocha py-3 px-2 text-base font-medium border-b border-sand/40 last:border-0 hover:text-rose transition-colors"
+                className="text-[#222222] py-3 px-2 text-base font-semibold border-b border-sand/40 last:border-0 hover:text-[#134E3A] transition-colors"
               >
                 {link.label}
               </Link>

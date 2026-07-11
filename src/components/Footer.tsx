@@ -13,17 +13,17 @@ function FooterSection({ title, children }: { title: string; children: React.Rea
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="border-b border-ivory/10 md:border-none">
+    <div className="border-b border-[#134E3A]/10 md:border-none">
       <button
         onClick={() => setOpen((o) => !o)}
         className="w-full flex items-center justify-between py-4 md:py-0 md:cursor-default focus:outline-none"
         aria-expanded={open}
       >
-        <h3 className="text-sm font-semibold text-ivory uppercase tracking-wider">{title}</h3>
+        <h3 className="text-sm font-bold text-[#134E3A]">{title}</h3>
         <ChevronDown
           size={16}
           className={cn(
-            'text-ivory/50 transition-transform duration-300 md:hidden',
+            'text-[#134E3A]/50 transition-transform duration-300 md:hidden',
             open && 'rotate-180'
           )}
         />
@@ -40,6 +40,7 @@ function FooterSection({ title, children }: { title: string; children: React.Rea
   );
 }
 
+/** Nama-style footer: cream bg + forest green text */
 export function Footer() {
   const t = useTranslations('footer');
   const nav = useTranslations('nav');
@@ -66,47 +67,49 @@ export function Footer() {
     { href: `/${locale}/contact`, label: nav('contact') },
   ];
 
-  const linkClass = 'text-ivory/60 text-sm hover:text-ivory transition-colors';
+  const linkClass = 'text-[#5A6B5C] text-sm hover:text-[#134E3A] transition-colors';
 
   return (
-    <footer className="bg-mocha text-ivory/90 pt-10 pb-8">
+    <footer className="bg-[#F4F0E5] text-[#134E3A] pt-12 pb-8 border-t border-[#E8E3DC]">
       <div className="max-w-content mx-auto px-4 md:px-6">
 
-        {/* Brand — always visible */}
+        {/* Brand — mobile */}
         <div className="mb-6 md:mb-0 md:hidden">
           <div className="mb-3">
-            <Logo locale={locale} className="[&_div]:bg-ivory/20 [&_span]:text-ivory [&_.font-arabic]:text-ivory [&_.text-taupe]:text-ivory/60" />
+            <Logo locale={locale} />
           </div>
-          <p className="text-ivory/60 text-sm leading-relaxed mb-3">{t('tagline')}</p>
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="text-ivory/80 text-sm hover:text-ivory transition-colors block mb-3"
-            dir="ltr"
-          >
-            {CONTACT_EMAIL}
-          </a>
-          <LanguageSwitcher className="border-ivory/30 text-ivory hover:border-ivory/60 hover:bg-ivory/10" />
-        </div>
-
-        {/* Desktop grid + Mobile accordion */}
-        <div className="md:grid md:grid-cols-4 md:gap-8 md:mb-10">
-          {/* Brand — desktop only */}
-          <div className="hidden md:block">
-            <div className="mb-4">
-              <Logo locale={locale} className="[&_div]:bg-ivory/20 [&_span]:text-ivory [&_.font-arabic]:text-ivory [&_.text-taupe]:text-ivory/60" />
-            </div>
-            <p className="text-ivory/60 text-sm leading-relaxed mb-3">{t('tagline')}</p>
+          <p className="text-[#5A6B5C] text-sm leading-relaxed mb-3">{t('tagline')}</p>
+          <div className="mb-3 text-start">
             <a
               href={`mailto:${CONTACT_EMAIL}`}
-              className="text-ivory/80 text-sm hover:text-ivory transition-colors block mb-4"
+              className="text-[#134E3A] text-sm hover:underline transition-colors inline-block"
               dir="ltr"
             >
               {CONTACT_EMAIL}
             </a>
-            <LanguageSwitcher className="border-ivory/30 text-ivory hover:border-ivory/60 hover:bg-ivory/10" />
+          </div>
+          <LanguageSwitcher className="border-[#134E3A]/30 text-[#134E3A] hover:border-[#134E3A]/60 hover:bg-[#134E3A]/5" />
+        </div>
+
+        <div className="md:grid md:grid-cols-4 md:gap-8 md:mb-10">
+          {/* Brand — desktop */}
+          <div className="hidden md:block">
+            <div className="mb-4">
+              <Logo locale={locale} />
+            </div>
+            <p className="text-[#5A6B5C] text-sm leading-relaxed mb-3">{t('tagline')}</p>
+            <div className="mb-4 text-start">
+              <a
+                href={`mailto:${CONTACT_EMAIL}`}
+                className="text-[#134E3A] text-sm hover:underline transition-colors inline-block"
+                dir="ltr"
+              >
+                {CONTACT_EMAIL}
+              </a>
+            </div>
+            <LanguageSwitcher className="border-[#134E3A]/30 text-[#134E3A] hover:border-[#134E3A]/60 hover:bg-[#134E3A]/5" />
           </div>
 
-          {/* Products */}
           <FooterSection title={t('products')}>
             <ul className="space-y-2.5">
               {productLinks.map((l) => (
@@ -117,7 +120,6 @@ export function Footer() {
             </ul>
           </FooterSection>
 
-          {/* Policies */}
           <FooterSection title={t('legal')}>
             <ul className="space-y-2.5 mb-4">
               {policyLinks.map((l) => (
@@ -127,13 +129,12 @@ export function Footer() {
               ))}
             </ul>
             <div className="flex gap-3 mt-3">
-              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="w-8 h-8 rounded-full bg-ivory/10 flex items-center justify-center hover:bg-ivory/20 transition-colors text-xs font-bold">TK</a>
-              <a href="https://snapchat.com" target="_blank" rel="noopener noreferrer" aria-label="Snapchat" className="w-8 h-8 rounded-full bg-ivory/10 flex items-center justify-center hover:bg-ivory/20 transition-colors text-xs font-bold">SC</a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full bg-ivory/10 flex items-center justify-center hover:bg-ivory/20 transition-colors text-xs font-bold">IG</a>
+              <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok" className="w-8 h-8 rounded-full border border-[#134E3A]/25 text-[#134E3A] flex items-center justify-center hover:bg-[#134E3A]/5 transition-colors text-xs font-bold">TK</a>
+              <a href="https://snapchat.com" target="_blank" rel="noopener noreferrer" aria-label="Snapchat" className="w-8 h-8 rounded-full border border-[#134E3A]/25 text-[#134E3A] flex items-center justify-center hover:bg-[#134E3A]/5 transition-colors text-xs font-bold">SC</a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="w-8 h-8 rounded-full border border-[#134E3A]/25 text-[#134E3A] flex items-center justify-center hover:bg-[#134E3A]/5 transition-colors text-xs font-bold">IG</a>
             </div>
           </FooterSection>
 
-          {/* Quick Links — last on mobile & desktop column order */}
           <FooterSection title={t('quickLinks')}>
             <ul className="space-y-2.5">
               {quickLinks.map((l) => (
@@ -145,10 +146,10 @@ export function Footer() {
           </FooterSection>
         </div>
 
-        <div className="border-t border-ivory/10 mt-4 md:mt-0 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-ivory/40 text-xs">
+        <div className="border-t border-[#134E3A]/10 mt-4 md:mt-0 pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-[#5A6B5C] text-xs">
           <p>© {year} Skinouva / سكينوفا. {t('rights')}.</p>
           <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5 bg-ivory/5 px-3 py-1 rounded-pill border border-ivory/10">
+            <span className="flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-pill border border-[#134E3A]/20 text-[#134E3A]">
               <span>🚚</span>
               <span>{locale === 'ar' ? 'الدفع عند الاستلام — الإمارات' : 'Cash on Delivery — UAE'}</span>
             </span>

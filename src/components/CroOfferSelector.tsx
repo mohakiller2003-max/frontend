@@ -85,7 +85,7 @@ function OfferCard({
       )}
     >
       {isStarter && (
-        <span className="absolute -top-2.5 start-3 z-10 text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-md bg-[#E8F5EF] text-[#4E7D5A]">
+        <span className="absolute -top-2.5 start-3 z-10 text-[9px] md:text-[10px] font-bold px-2 py-0.5 rounded-md bg-success/15 text-success">
           {locale === 'ar' ? 'نتيجة من الأولى' : 'From bottle 1'}
         </span>
       )}

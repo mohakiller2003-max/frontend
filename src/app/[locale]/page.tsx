@@ -104,11 +104,15 @@ export default async function HomePage({ params: { locale } }: Props) {
       />
 
       {/* 3. Product grid — 2 problems + duo */}
-      <SectionShell background="pearl" id="products" className="py-20 md:py-28">
+      <SectionShell background="transparent" id="products" className="py-20 md:py-28 bg-[#F5F2E9]">
         <div className="text-center mb-14 max-w-3xl mx-auto">
-          <p className="section-eyebrow mb-4">{cro('collection.eyebrow')}</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-4">{cro('collection.headline')}</h2>
-          <p className="text-lg text-taupe">{cro('collection.subheadline')}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#134E3A] mb-4">
+            {cro('collection.eyebrow')}
+          </p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#134E3A] mb-4">
+            {cro('collection.headline')}
+          </h2>
+          <p className="text-lg text-[#5A6B5C]">{cro('collection.subheadline')}</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto">
@@ -119,45 +123,58 @@ export default async function HomePage({ params: { locale } }: Props) {
       </SectionShell>
 
       {/* 4. Why us — 4 authority pillars */}
-      <SectionShell background="ivory" className="py-20 md:py-28" lazy>
+      <SectionShell background="white" className="py-20 md:py-28" lazy>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-14 max-w-3xl mx-auto">
-            <p className="section-eyebrow mb-4">{cro('pillars.eyebrow')}</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-4 leading-tight">{cro('pillars.headline')}</h2>
-            <p className="text-lg text-taupe">{cro('pillars.subheadline')}</p>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#134E3A] mb-4">
+              {cro('pillars.eyebrow')}
+            </p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#134E3A] mb-4 leading-tight">
+              {cro('pillars.headline')}
+            </h2>
+            <p className="text-lg text-[#5A6B5C]">{cro('pillars.subheadline')}</p>
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
             {pillars.map((point, i) => {
               const Icon = pillarIcons[i] || Sun;
               return (
-                <div key={i} className="glass-card p-6 md:p-7 h-full">
-                  <div className="w-12 h-12 rounded-2xl bg-pearl flex items-center justify-center mb-5">
-                    <Icon className="w-6 h-6 text-ink" />
+                <div
+                  key={i}
+                  className="bg-white border border-[#E8E3DC] rounded-[1.75rem] p-6 md:p-7 h-full shadow-soft"
+                >
+                  <div className="w-12 h-12 rounded-2xl bg-[#134E3A] flex items-center justify-center mb-5">
+                    <Icon className="w-6 h-6 text-gold" />
                   </div>
-                  <h3 className="text-base font-bold text-ink mb-3">{point.title}</h3>
-                  <p className="text-taupe text-sm leading-relaxed">{point.desc}</p>
+                  <h3 className="text-base font-bold text-[#134E3A] mb-3">{point.title}</h3>
+                  <p className="text-[#5A6B5C] text-sm leading-relaxed">{point.desc}</p>
                 </div>
               );
             })}
           </div>
 
-          <div className="bg-ink text-ivory p-8 md:p-10 rounded-[2rem] text-center max-w-3xl mx-auto">
+          <div className="bg-[#134E3A] text-white p-8 md:p-10 rounded-[2rem] text-center max-w-3xl mx-auto shadow-soft">
             <div className="flex items-center justify-center gap-2 mb-4">
               <Wind className="w-5 h-5 text-gold" />
               <Sun className="w-5 h-5 text-gold" />
             </div>
-            <p className="text-base md:text-lg leading-relaxed font-medium">{cro('pillars.solution')}</p>
+            <p className="text-base md:text-lg leading-relaxed font-medium">
+              {cro('pillars.solution')}
+            </p>
           </div>
         </div>
       </SectionShell>
 
       {/* 5. Skeptic reviews */}
-      <SectionShell background="white" className="py-20 md:py-28" lazy>
+      <SectionShell background="transparent" className="py-20 md:py-28 bg-[#F5F2E9]" lazy>
         <div className="text-center mb-12 max-w-2xl mx-auto">
-          <p className="section-eyebrow mb-4">{loc === 'ar' ? 'آراء مؤكدة' : 'Confirmed buyers'}</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-3">{cro('socialProof.headline')}</h2>
-          <p className="text-taupe">{cro('socialProof.subheadline')}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#134E3A] mb-4">
+            {loc === 'ar' ? 'آراء مؤكدة' : 'Confirmed buyers'}
+          </p>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-[#134E3A] mb-3">
+            {cro('socialProof.headline')}
+          </h2>
+          <p className="text-[#5A6B5C]">{cro('socialProof.subheadline')}</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {reviews.map((r) => (
@@ -177,14 +194,16 @@ export default async function HomePage({ params: { locale } }: Props) {
       </SectionShell>
 
       {/* 6. COD 3-step */}
-      <SectionShell background="pearl" className="py-20 md:py-28" lazy>
+      <SectionShell background="white" className="py-20 md:py-28" lazy>
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16 max-w-2xl mx-auto">
-            <span className="inline-block text-xs font-bold uppercase tracking-widest text-blush-accent mb-4">
+            <span className="inline-flex items-center gap-1.5 text-xs font-bold text-[#134E3A] bg-[#134E3A]/10 px-3.5 py-1.5 rounded-full mb-4">
               {cro('codExperience.badge')}
             </span>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-4">{cro('codExperience.headline')}</h2>
-            <p className="text-taupe text-lg">{cro('codExperience.subheadline')}</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-[#134E3A] mb-4">
+              {cro('codExperience.headline')}
+            </h2>
+            <p className="text-[#5A6B5C] text-lg">{cro('codExperience.subheadline')}</p>
           </div>
           <div className="grid md:grid-cols-3 gap-10">
             {deliverySteps.map((step, idx) => {
@@ -192,12 +211,12 @@ export default async function HomePage({ params: { locale } }: Props) {
               const Icon = Icons[idx];
               return (
                 <div key={idx} className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-white border border-sand flex items-center justify-center shadow-soft">
-                    <Icon className="w-7 h-7 text-ink" />
+                  <div className="w-16 h-16 mx-auto mb-5 rounded-full bg-[#134E3A] border-[3px] border-gold flex items-center justify-center shadow-soft">
+                    <Icon className="w-7 h-7 text-gold" />
                   </div>
-                  <span className="text-xs font-bold text-taupe">{step.step}</span>
-                  <h3 className="font-bold text-lg text-ink mt-2 mb-2">{step.title}</h3>
-                  <p className="text-sm text-taupe leading-relaxed">{step.desc}</p>
+                  <span className="text-xs font-bold text-gold">{step.step}</span>
+                  <h3 className="font-bold text-lg text-[#134E3A] mt-2 mb-2">{step.title}</h3>
+                  <p className="text-sm text-[#5A6B5C] leading-relaxed">{step.desc}</p>
                 </div>
               );
             })}

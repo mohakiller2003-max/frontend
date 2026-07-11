@@ -92,16 +92,15 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
             <div className="order-1 md:order-2 md:sticky md:top-24 space-y-3">
               <div
                 className={cn(
-                  'relative w-full aspect-[4/5] max-h-[520px] rounded-[1.5rem] border overflow-hidden',
-                  theme.accentLight,
+                  'relative w-full aspect-[3/4] max-h-[640px] rounded-[1.5rem] border overflow-hidden bg-white',
                   isTxa ? 'border-blush-accent/25' : 'border-mint-accent/25',
                 )}
               >
                 <Image
-                  src={product.imageUrl}
+                  src={product.pdpImageUrl || product.imageUrl}
                   alt={product.name[loc]}
                   fill
-                  className="object-contain p-4 md:p-6"
+                  className="object-cover object-top"
                   priority
                   sizes="(max-width: 768px) 100vw, 480px"
                 />
@@ -111,14 +110,6 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
                     {loc === 'ar' ? 'ضمان ٣٠ يوم' : '30-day guarantee'}
                   </span>
                 </div>
-                <span
-                  className={cn(
-                    'absolute bottom-3 start-3 text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-white border border-sand',
-                    theme.accent,
-                  )}
-                >
-                  {doseLabel}
-                </span>
               </div>
 
               {/* 4 trust pills under image — Nama style */}
@@ -199,8 +190,8 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
         />
       </SectionShell>
 
-      {/* Ingredients — Nama style */}
-      <SectionShell background="ivory" className="py-14 md:py-20" lazy>
+      {/* Ingredients — Nama style (cream + forest green) */}
+      <SectionShell background="transparent" className="py-14 md:py-20 bg-[#F2EFDF]" lazy>
         <ClinicalIngredientsSection
           product={product}
           locale={loc}
@@ -224,7 +215,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
       </SectionShell>
 
       {/* Timeline — Nama horizontal results */}
-      <SectionShell background="ivory" className="py-14 md:py-20" lazy>
+      <SectionShell background="transparent" className="py-14 md:py-20 bg-[#F5F2E9]" lazy>
         <ResultsTimelineSection
           locale={loc}
           badge={loc === 'ar' ? 'النتيجة من الزجاجة الأولى' : 'Results from the first bottle'}
@@ -300,7 +291,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
       </SectionShell>
 
       {/* Guarantee — Nama style */}
-      <SectionShell background="ivory" className="py-14 md:py-20" lazy>
+      <SectionShell background="white" className="py-14 md:py-20" lazy>
         <GuaranteeSection
           badge={guarT('badge')}
           headline={guarT('headline')}
@@ -310,7 +301,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
       </SectionShell>
 
       {/* How to use — Nama style */}
-      <SectionShell background="pearl" className="py-14 md:py-20" lazy>
+      <SectionShell background="transparent" className="py-14 md:py-20 bg-[#F5F2E9]" lazy>
         <ProductHowToSection
           locale={loc}
           eyebrow={loc === 'ar' ? 'طريقة الاستخدام' : 'How to use'}
@@ -407,33 +398,43 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
       </SectionShell>
 
       {/* COD delivery */}
-      <SectionShell background="white" className="py-14 md:py-20" lazy>
+      <SectionShell background="transparent" className="py-14 md:py-20 bg-[#F5F2E9]" lazy>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-4xl font-extrabold text-ink mb-2">{croShared('deliveryHeadline')}</h2>
-            <p className="text-taupe">{croShared('deliverySubheadline')}</p>
+            <h2 className="text-2xl md:text-4xl font-extrabold text-[#134E3A] mb-2">
+              {croShared('deliveryHeadline')}
+            </h2>
+            <p className="text-[#5A6B5C]">{croShared('deliverySubheadline')}</p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 mb-10">
             {deliverySteps.map((step, idx) => (
-              <div key={idx} className="text-center p-5 rounded-2xl bg-pearl border border-sand">
-                <div className="w-12 h-12 bg-white border-2 border-ink text-ink font-black text-lg rounded-full flex items-center justify-center mx-auto mb-4">
+              <div
+                key={idx}
+                className="text-center p-5 rounded-2xl bg-white border border-[#E8E3DC] shadow-soft"
+              >
+                <div className="w-12 h-12 bg-[#134E3A] border-[3px] border-gold text-gold font-black text-lg rounded-full flex items-center justify-center mx-auto mb-4 shadow-soft">
                   {idx + 1}
                 </div>
-                <h3 className="font-bold text-base text-ink mb-2">{step.title}</h3>
-                <p className="text-taupe text-sm leading-relaxed">{step.desc}</p>
+                <h3 className="font-bold text-base text-[#134E3A] mb-2">{step.title}</h3>
+                <p className="text-[#5A6B5C] text-sm leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
-          <div className="bg-pearl border border-sand rounded-2xl p-5 md:p-7 text-center">
-            <p className="text-sm font-bold text-ink mb-3">{croShared('deliveryEmiratesLabel')}</p>
+          <div className="bg-white border border-[#E8E3DC] rounded-2xl p-5 md:p-7 text-center shadow-soft">
+            <p className="text-sm font-bold text-[#134E3A] mb-3">
+              {croShared('deliveryEmiratesLabel')}
+            </p>
             <div className="flex flex-wrap justify-center gap-2 mb-3">
               {deliveryEmirates.map((emirate) => (
-                <span key={emirate} className="text-xs font-bold text-mocha bg-white border border-sand px-3 py-1 rounded-full">
+                <span
+                  key={emirate}
+                  className="text-xs font-bold text-[#134E3A] bg-[#F5F1E6] border border-[#E8E3DC] px-3 py-1 rounded-full"
+                >
                   {emirate}
                 </span>
               ))}
             </div>
-            <p className="text-[11px] text-taupe">{croShared('deliveryPartners')}</p>
+            <p className="text-[11px] text-[#5A6B5C]">{croShared('deliveryPartners')}</p>
           </div>
         </div>
       </SectionShell>

@@ -30,7 +30,7 @@ const ICONS = {
   package: Package,
 };
 
-/** Nama-style how-to: eyebrow + 4 rich cards + tip strip + dark stats bar */
+/** Nama-style how-to: forest green + gold accents */
 export function ProductHowToSection({
   locale,
   eyebrow,
@@ -45,9 +45,11 @@ export function ProductHowToSection({
   return (
     <div className="max-w-5xl mx-auto">
       <div className="text-center mb-10 md:mb-12">
-        <p className="text-sm font-semibold text-taupe mb-2">{eyebrow}</p>
-        <h2 className="text-2xl md:text-4xl font-extrabold text-ink mb-3 leading-tight">{headline}</h2>
-        <p className="text-taupe text-sm md:text-base">{subheadline}</p>
+        <p className="text-sm font-bold text-[#134E3A] mb-2">{eyebrow}</p>
+        <h2 className="text-2xl md:text-4xl font-extrabold text-[#134E3A] mb-3 leading-tight">
+          {headline}
+        </h2>
+        <p className="text-[#5A6B5C] text-sm md:text-base">{subheadline}</p>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
@@ -56,25 +58,25 @@ export function ProductHowToSection({
           return (
             <div
               key={`${step.title.en}-${i}`}
-              className="bg-white border border-sand rounded-2xl p-4 md:p-5 shadow-soft text-center md:text-start"
+              className="bg-white border border-[#E8E3DC] rounded-2xl p-4 md:p-5 shadow-soft text-center md:text-start"
             >
-              <div className="w-10 h-10 rounded-full bg-ink text-ivory flex items-center justify-center mx-auto md:mx-0 mb-3">
+              <div className="w-10 h-10 rounded-full bg-[#134E3A] text-gold flex items-center justify-center mx-auto md:mx-0 mb-3">
                 <Icon size={18} />
               </div>
-              <p className="font-extrabold text-ink text-sm md:text-base mb-1.5 leading-snug">
+              <p className="font-extrabold text-[#134E3A] text-sm md:text-base mb-1.5 leading-snug">
                 {step.title[loc]}
               </p>
-              <p className="text-[11px] md:text-xs text-taupe leading-relaxed">{step.desc[loc]}</p>
+              <p className="text-[11px] md:text-xs text-[#5A6B5C] leading-relaxed">{step.desc[loc]}</p>
             </div>
           );
         })}
       </div>
 
-      <p className="text-center text-taupe leading-relaxed max-w-3xl mx-auto text-xs md:text-sm bg-white border border-sand rounded-2xl px-5 py-4 mb-6">
+      <p className="text-center text-[#5A6B5C] leading-relaxed max-w-3xl mx-auto text-xs md:text-sm bg-white border border-[#E8E3DC] rounded-2xl px-5 py-4 mb-6">
         {howToUse[loc]}
       </p>
 
-      <div className="bg-ink rounded-2xl md:rounded-[1.5rem] px-4 py-5 md:px-8 md:py-6">
+      <div className="bg-[#134E3A] rounded-2xl md:rounded-[1.5rem] px-4 py-5 md:px-8 md:py-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-2">
           {stats.map((s, i) => (
             <div
@@ -85,7 +87,7 @@ export function ProductHowToSection({
               )}
             >
               <p className="text-2xl md:text-3xl font-black text-gold tabular-nums mb-1">{s.value}</p>
-              <p className="text-[10px] md:text-xs text-ivory/70 font-medium leading-snug">{s.label}</p>
+              <p className="text-[10px] md:text-xs text-white/75 font-medium leading-snug">{s.label}</p>
             </div>
           ))}
         </div>

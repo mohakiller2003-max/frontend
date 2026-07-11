@@ -28,7 +28,7 @@ export function AnnouncementBar() {
   }, [locale]);
 
   return (
-    <div className="bg-ink text-ivory py-2.5 px-4 text-center relative z-40">
+    <div className="bg-[#134E3A] text-white py-2.5 px-4 text-center relative z-40">
       <p className="text-[11px] md:text-xs font-semibold tracking-wide transition-opacity duration-300">
         {messages[locale][index]}
       </p>

@@ -82,7 +82,7 @@ export default function ThankYouPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-ivory via-pearl to-sand pb-16">
       {/* Sticky call banner */}
-      <div className="sticky top-0 z-40 bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-lg">
+      <div className="sticky top-0 z-40 bg-gradient-to-r from-mocha to-emerald-deep text-white shadow-lg">
         <div className="max-w-2xl mx-auto px-4 py-4">
           <div className="flex items-start gap-3">
             <span className="relative flex h-3 w-3 mt-1.5 shrink-0">

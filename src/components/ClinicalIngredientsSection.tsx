@@ -1,5 +1,5 @@
+import { Check, Droplets, FlaskConical, Leaf, ShieldCheck, Sparkles } from 'lucide-react';
 import Image from 'next/image';
-import { Check, Leaf, ShieldCheck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Ingredient, LocalizedText, Product } from '@/data/products';
 import type { ProductTheme } from '@/lib/productTheme';
@@ -13,7 +13,9 @@ type Props = {
   noNastiesHeadline: string;
 };
 
-/** Nama-style: product image + free-from | dose-first ingredient cards */
+const freeFromIcons = [Leaf, FlaskConical, Droplets, ShieldCheck, Sparkles, Check, Leaf, Droplets];
+
+/** Nama-style ingredients: cream section, forest-green accents, dose cards */
 export function ClinicalIngredientsSection({
   product,
   locale,
@@ -23,60 +25,19 @@ export function ClinicalIngredientsSection({
 }: Props) {
   const loc = locale;
   const ar = loc === 'ar';
-  const isTxa = theme.id === 'txa';
 
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-start">
-        {/* Left: image + free-from */}
-        <div className="space-y-5">
-          <div
-            className={cn(
-              'relative aspect-[4/5] max-h-[480px] rounded-[1.5rem] overflow-hidden border',
-              theme.accentLight,
-              isTxa ? 'border-blush-accent/20' : 'border-mint-accent/20',
-            )}
-          >
-            <Image
-              src={product.imageUrl}
-              alt={product.name[loc]}
-              fill
-              className="object-contain p-8 md:p-10"
-              sizes="(max-width: 1024px) 100vw, 480px"
-              loading="lazy"
-            />
-          </div>
-
-          <div className="bg-white border border-sand rounded-2xl p-5 md:p-6 shadow-soft">
-            <div className="flex items-center gap-2 mb-4">
-              <ShieldCheck className="w-5 h-5 text-success" />
-              <h3 className="font-extrabold text-ink text-base md:text-lg">{noNastiesHeadline}</h3>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {noNasties.map((n) => (
-                <div
-                  key={n}
-                  className="flex items-center gap-2 rounded-xl bg-pearl border border-sand px-2.5 py-2.5"
-                >
-                  <span className="w-5 h-5 rounded-full bg-success/15 flex items-center justify-center shrink-0">
-                    <Check size={11} className="text-success" strokeWidth={3} />
-                  </span>
-                  <span className="text-[11px] md:text-xs font-semibold text-mocha leading-tight">{n}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Right: ingredients */}
+      <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+        {/* Content first → right in RTL (Nama), left in LTR */}
         <div>
-          <p className="text-sm font-semibold text-taupe mb-2">
-            {ar ? 'المكوّنات الفعّالة' : 'Active ingredients'}
+          <p className="text-xs md:text-sm font-bold text-[#134E3A] mb-2">
+            {ar ? 'المكونات الفعالة' : 'Active Ingredients'}
           </p>
-          <h2 className="text-2xl md:text-[1.85rem] font-extrabold text-ink leading-tight mb-2.5">
+          <h2 className="text-2xl md:text-[1.9rem] font-extrabold text-[#134E3A] leading-tight mb-3">
             {ar ? 'السر في التركيز، مو في القائمة' : 'The secret is the dose, not the list'}
           </h2>
-          <p className="text-sm text-taupe leading-relaxed mb-6 max-w-lg">
+          <p className="text-sm md:text-[15px] text-[#555555] leading-relaxed mb-7 max-w-lg">
             {ar
               ? 'كل مكوّن بجرعة واضحة على العبوة — مو خلطة عامة بدون تركيز.'
               : 'Every active at a clear dose on the label — not a vague blend without concentration.'}
@@ -89,18 +50,65 @@ export function ClinicalIngredientsSection({
           </div>
 
           {product.benefitBullets.length > 0 && (
-            <ul className="mt-5 space-y-2">
+            <ul className="mt-5 space-y-2.5">
               {product.benefitBullets.slice(0, 3).map((b: LocalizedText) => (
                 <li
                   key={b.ar}
-                  className="flex items-start gap-2.5 text-sm font-semibold text-mocha bg-white border border-sand rounded-xl px-3 py-2.5"
+                  className="flex items-center gap-3 text-sm font-semibold text-[#222222] bg-white border border-[#E8E3DC] rounded-2xl px-4 py-3 shadow-soft"
                 >
-                  <Leaf size={15} className="text-success shrink-0 mt-0.5" />
+                  <span className="w-8 h-8 rounded-full bg-[#134E3A]/10 flex items-center justify-center shrink-0">
+                    <Leaf size={15} className="text-[#134E3A]" />
+                  </span>
                   <span>{b[loc]}</span>
                 </li>
               ))}
             </ul>
           )}
+        </div>
+
+        {/* Image + free-from — forced same width */}
+        <div className="min-w-0 w-full">
+          <div className="w-full rounded-[1.25rem] overflow-hidden bg-white border border-[#E8E3DC] shadow-soft">
+            <div className="relative w-full pb-[125%]">
+              <Image
+                src={product.ingredientsImageUrl || product.imageUrl}
+                alt={product.name[loc]}
+                fill
+                className={
+                  product.ingredientsImageUrl
+                    ? 'object-cover'
+                    : cn('object-contain p-4 md:p-5')
+                }
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                loading="lazy"
+              />
+            </div>
+          </div>
+
+          <div className="w-full mt-5 bg-white border border-[#E8E3DC] rounded-[1.25rem] p-5 md:p-6 shadow-soft">
+            <div className="flex items-center gap-2 mb-4">
+              <ShieldCheck className="w-5 h-5 text-gold" strokeWidth={2.25} />
+              <h3 className="font-extrabold text-[#134E3A] text-base md:text-lg">
+                {noNastiesHeadline}
+              </h3>
+            </div>
+            <div className="grid grid-cols-2 gap-2.5">
+              {noNasties.map((n, i) => {
+                const Icon = freeFromIcons[i % freeFromIcons.length];
+                return (
+                  <div
+                    key={n}
+                    className="flex items-center justify-between gap-2 rounded-xl bg-[#F5F1E6] border border-[#E8E3DC]/80 px-3 py-2.5"
+                  >
+                    <span className="text-[11px] md:text-xs font-semibold text-[#134E3A] leading-tight">
+                      {n}
+                    </span>
+                    <Icon size={14} className="text-[#134E3A] shrink-0 opacity-80" />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </div>

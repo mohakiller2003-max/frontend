@@ -5,11 +5,30 @@
 :root {
   --font-arabic: 'Tajawal', 'Segoe UI', system-ui, sans-serif;
   --font-inter: 'Inter', system-ui, sans-serif;
+  --bg-primary: #ffffff;
+  --bg-secondary: #faf8f4;
+  --heading: #222222;
+  --body-text: #555555;
+  --border: #e8e3dc;
+  --brand: #1f4d45;
+  --brand-hover: #163b35;
+  --accent: #c8a96a;
+  --success: #6b8e7a;
 }
+
 @layer base {
   body {
-    @apply bg-ivory text-ink antialiased;
+    @apply bg-ivory text-taupe antialiased;
     font-family: var(--font-inter);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-ink;
   }
 
   [lang='ar'] body,
@@ -18,7 +37,7 @@
   }
 
   *:focus-visible {
-    @apply outline-none ring-2 ring-rose/50 ring-offset-2 ring-offset-ivory;
+    @apply outline-none ring-2 ring-mocha/40 ring-offset-2 ring-offset-ivory;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -35,7 +54,10 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center bg-mocha text-ivory font-bold rounded-2xl hover:bg-mocha/90 active:scale-[0.98] transition-colors shadow-card;
+    @apply inline-flex items-center justify-center bg-mocha text-ivory font-bold rounded-2xl active:scale-[0.98] transition-colors shadow-card;
+  }
+  .btn-primary:hover {
+    background-color: #163b35;
   }
 
   .btn-secondary {
@@ -43,7 +65,7 @@
   }
 
   .section-eyebrow {
-    @apply text-xs font-bold uppercase tracking-[0.2em] text-taupe;
+    @apply text-xs font-bold uppercase tracking-[0.2em] text-mocha;
   }
 
   /* Solid card — no backdrop-blur (blur kills scroll FPS on mobile) */
