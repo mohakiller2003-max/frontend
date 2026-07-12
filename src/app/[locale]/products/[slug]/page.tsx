@@ -373,7 +373,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
           videoSrc={
             isTxa
               ? '/products/howto-txa.mp4?v=3'
-              : '/products/howto-az.mp4?v=1'
+              : '/products/howto-az.mp4?v=2'
           }
           steps={
             isTxa
