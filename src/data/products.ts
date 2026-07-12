@@ -446,9 +446,9 @@ export const PRODUCTS: Product[] = [
     complementaryId: 'tranexamic-niacinamide-serum',
     ratingPlaceholder: 4.9,
     reviewCountPlaceholder: 386,
-    imageUrl: '/products/pack-azelaic.png',
+    imageUrl: '/products/pack-azelaic-v2.png',
     pdpImageUrl: '/products/ba-azelaic.png',
-    ingredientsImageUrl: '/products/ingredients-azelaic.png',
+    ingredientsImageUrl: '/products/ingredients-azelaic-v2.png',
     urgencyLine: {
       ar: 'شحن VIP المجاني لكل الإمارات ينتهي خلال —',
       en: 'Free VIP UAE shipping ends in —',

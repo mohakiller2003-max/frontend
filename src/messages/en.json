@@ -214,8 +214,15 @@
     "messageLabel": "Your Message",
     "submit": "Send Message",
     "success": "Thank you! We will get back to you soon.",
-    "emailLabel": "Email (optional)"
+    "emailLabel": "Email (optional)",
+    "hoursTitle": "Support hours",
+    "hoursDays": "Sat – Thu",
+    "hoursTime": "9 AM – 9 PM",
+    "emailTitle": "Email",
+    "whatsappTitle": "WhatsApp",
+    "whatsappCta": "Message us on WhatsApp"
   },
+
   "faq": {
     "title": "Questions before you order",
     "subtitle": "Everything you need to know before paying at the door.",

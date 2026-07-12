@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server';
+import Image from 'next/image';
 import Link from 'next/link';
 import { SectionShell } from '@/components/SectionShell';
 import { TrustBadges } from '@/components/TrustBadges';
-import { ImagePlaceholder } from '@/components/ImagePlaceholder';
 
 type Props = { params: { locale: string } };
 
@@ -21,8 +21,15 @@ export default async function AboutPage({ params: { locale } }: Props) {
               <p className="text-taupe leading-relaxed text-base md:text-lg mb-6">{t('body')}</p>
               <TrustBadges compact className="justify-start" />
             </div>
-            <div>
-              <ImagePlaceholder aspect="portrait" variant="lifestyle" className="max-w-sm mx-auto" />
+            <div className="relative aspect-[3/4] max-w-sm mx-auto w-full overflow-hidden rounded-card shadow-soft">
+              <Image
+                src="/about-founder.png"
+                alt={loc === 'ar' ? 'سكينوفا — من نحن' : 'Skinouva — About us'}
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 768px) 100vw, 384px"
+                priority
+              />
             </div>
           </div>
         </div>
