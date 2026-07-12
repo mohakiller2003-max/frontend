@@ -198,6 +198,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
           theme={theme}
           noNasties={noNasties}
           noNastiesHeadline={croShared('noNastiesHeadline')}
+          useLabelPlaceholder={false}
         />
       </SectionShell>
 
@@ -223,6 +224,67 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
           subheadline={cro.timelineSub[loc]}
           steps={cro.timeline}
           nudge={cro.timelineBundleNudge[loc]}
+          photoSlots={
+            isTxa
+              ? [
+                  {
+                    title: { ar: 'الأسبوع ٠', en: 'Week 0' },
+                    hint: { ar: '', en: '' },
+                    src: '/products/timeline-txa-w0-v2.png',
+                    alt:
+                      loc === 'ar'
+                        ? 'قبل البدء — بقع داكنة ظاهرة'
+                        : 'Before starting — visible dark spots',
+                  },
+                  {
+                    title: { ar: 'الأسبوع ٢', en: 'Week 2' },
+                    hint: { ar: '', en: '' },
+                    src: '/products/timeline-txa-w2-v2.png',
+                    alt:
+                      loc === 'ar'
+                        ? 'بعد أسبوعين — البقع تبدأ تفكّ'
+                        : 'Week 2 — spots starting to soften',
+                  },
+                  {
+                    title: { ar: 'الأسبوع ٤', en: 'Week 4' },
+                    hint: { ar: '', en: '' },
+                    src: '/products/timeline-txa-w4-v2.png',
+                    alt:
+                      loc === 'ar'
+                        ? 'نهاية الزجاجة — فرق أوضح'
+                        : 'End of bottle — clearer difference',
+                  },
+                ]
+              : [
+                  {
+                    title: { ar: 'الأسبوع ٠', en: 'Week 0' },
+                    hint: { ar: '', en: '' },
+                    src: '/products/timeline-az-w0-v2.png',
+                    alt:
+                      loc === 'ar'
+                        ? 'قبل البدء — حبوب وآثار ظاهرة'
+                        : 'Before starting — breakouts and marks visible',
+                  },
+                  {
+                    title: { ar: 'الأسبوع ٢', en: 'Week 2' },
+                    hint: { ar: '', en: '' },
+                    src: '/products/timeline-az-w2-v2.png',
+                    alt:
+                      loc === 'ar'
+                        ? 'بعد أسبوعين — بشرة أهدى وآثار أخف'
+                        : 'Week 2 — calmer skin, lighter marks',
+                  },
+                  {
+                    title: { ar: 'الأسبوع ٤', en: 'Week 4' },
+                    hint: { ar: '', en: '' },
+                    src: '/products/timeline-az-w4-v2.png',
+                    alt:
+                      loc === 'ar'
+                        ? 'نهاية الزجاجة — دورة أوضح'
+                        : 'End of bottle — clearer cycle',
+                  },
+                ]
+          }
         />
       </SectionShell>
 
@@ -308,6 +370,11 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
           howToUse={product.howToUse}
           headline={cro.howToHeadline[loc]}
           subheadline={cro.howToSub[loc]}
+          videoSrc={
+            isTxa
+              ? '/products/howto-txa.mp4?v=2'
+              : '/products/howto-az.mp4?v=1'
+          }
           steps={
             isTxa
               ? [

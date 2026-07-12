@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import type { Ingredient, LocalizedText, Product } from '@/data/products';
 import type { ProductTheme } from '@/lib/productTheme';
 import { IngredientCard } from '@/components/IngredientCard';
+import { PhotoSlotPlaceholder } from '@/components/PhotoSlotPlaceholder';
 
 type Props = {
   product: Product;
@@ -11,6 +12,8 @@ type Props = {
   theme: ProductTheme;
   noNasties: string[];
   noNastiesHeadline: string;
+  /** Force labeled local slot instead of current ingredients image */
+  useLabelPlaceholder?: boolean;
 };
 
 const freeFromIcons = [Leaf, FlaskConical, Droplets, ShieldCheck, Sparkles, Check, Leaf, Droplets];
@@ -22,9 +25,17 @@ export function ClinicalIngredientsSection({
   theme,
   noNasties,
   noNastiesHeadline,
+  useLabelPlaceholder = true,
 }: Props) {
   const loc = locale;
   const ar = loc === 'ar';
+  const doseHint = product.id.includes('tranexamic')
+    ? ar
+      ? 'ماكرو للصيقة ١٥٪ ترانيكساميك — واضحة وقابلة للقراءة'
+      : 'Macro of 15% TXA label — sharp and readable'
+    : ar
+      ? 'ماكرو للصيقة ١٦٪ أزيليك — واضحة وقابلة للقراءة'
+      : 'Macro of 16% Azelaic label — sharp and readable';
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -69,20 +80,31 @@ export function ClinicalIngredientsSection({
         {/* Image + free-from — forced same width */}
         <div className="min-w-0 w-full">
           <div className="w-full rounded-[1.25rem] overflow-hidden bg-white border border-[#E8E3DC] shadow-soft">
-            <div className="relative w-full pb-[125%]">
-              <Image
-                src={product.ingredientsImageUrl || product.imageUrl}
-                alt={product.name[loc]}
-                fill
-                className={
-                  product.ingredientsImageUrl
-                    ? 'object-cover'
-                    : cn('object-contain p-4 md:p-5')
-                }
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                loading="lazy"
+            {useLabelPlaceholder ? (
+              <PhotoSlotPlaceholder
+                locale={loc}
+                kind="label"
+                title={ar ? 'لصيقة التركيز على العبوة' : 'Dose label on bottle'}
+                hint={doseHint}
+                aspect="portrait"
+                className="!rounded-none border-0"
               />
-            </div>
+            ) : (
+              <div className="relative w-full pb-[125%]">
+                <Image
+                  src={product.ingredientsImageUrl || product.imageUrl}
+                  alt={product.name[loc]}
+                  fill
+                  className={
+                    product.ingredientsImageUrl
+                      ? 'object-cover'
+                      : cn('object-contain p-4 md:p-5')
+                  }
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  loading="lazy"
+                />
+              </div>
+            )}
           </div>
 
           <div className="w-full mt-5 bg-white border border-[#E8E3DC] rounded-[1.25rem] p-5 md:p-6 shadow-soft">

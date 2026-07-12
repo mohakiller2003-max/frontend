@@ -1,6 +1,7 @@
 import { Clock, Droplets, Sun, Moon, Sparkles, Heart, Package } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { LocalizedText } from '@/data/products';
+import { PhotoSlotPlaceholder } from '@/components/PhotoSlotPlaceholder';
 
 type HowToStep = {
   icon?: 'droplets' | 'moon' | 'sun' | 'clock' | 'sparkles' | 'heart' | 'package';
@@ -18,6 +19,11 @@ type Props = {
   subheadline: string;
   steps: HowToStep[];
   stats: StatItem[];
+  /** Local preview slots for texture + apply video */
+  showMediaSlots?: boolean;
+  /** Real howto video path under /public */
+  videoSrc?: string | null;
+  videoPoster?: string | null;
 };
 
 const ICONS = {
@@ -39,8 +45,12 @@ export function ProductHowToSection({
   subheadline,
   steps,
   stats,
+  showMediaSlots = true,
+  videoSrc = null,
+  videoPoster = null,
 }: Props) {
   const loc = locale;
+  const ar = loc === 'ar';
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -51,6 +61,57 @@ export function ProductHowToSection({
         </h2>
         <p className="text-[#5A6B5C] text-sm md:text-base">{subheadline}</p>
       </div>
+
+      {showMediaSlots ? (
+        <div className="grid md:grid-cols-[1.1fr_0.9fr] gap-4 mb-8">
+          {videoSrc ? (
+            <div className="relative w-full overflow-hidden rounded-[1.25rem] border border-[#E8E3DC] bg-[#134E3A] aspect-[16/10] shadow-soft">
+              <video
+                className="absolute inset-0 h-full w-full object-cover"
+                src={videoSrc}
+                poster={videoPoster || undefined}
+                controls
+                playsInline
+                preload="metadata"
+                aria-label={ar ? 'فيديو طريقة الاستخدام' : 'How to use video'}
+              >
+                {ar
+                  ? 'المتصفح ما يدعم تشغيل الفيديو.'
+                  : 'Your browser does not support the video tag.'}
+              </video>
+            </div>
+          ) : (
+            <PhotoSlotPlaceholder
+              locale={loc}
+              kind="video"
+              title={ar ? 'فيديو ١٥–٢٥ ثانية' : '15–25s video'}
+              hint={
+                ar
+                  ? 'وجه نظيف → ٢–٣ قطرات → تدليك خفيف. بدون صوت أو موسيقى صاخبة.'
+                  : 'Clean face → 2–3 drops → light pat. Mute or soft audio only.'
+              }
+              aspect="landscape"
+              className="md:aspect-[16/10] !aspect-[16/10]"
+            />
+          )}
+          <div className="grid grid-cols-2 gap-3">
+            <PhotoSlotPlaceholder
+              locale={loc}
+              kind="texture"
+              title={ar ? 'قطرة' : 'Drop'}
+              hint={ar ? 'تكستشر خفيف على البشرة' : 'Light texture on skin'}
+              aspect="square"
+            />
+            <PhotoSlotPlaceholder
+              locale={loc}
+              kind="apply"
+              title={ar ? 'تطبيق' : 'Apply'}
+              hint={ar ? '٢–٣ قطرات على الوجه' : '2–3 drops on face'}
+              aspect="square"
+            />
+          </div>
+        </div>
+      ) : null}
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6">
         {steps.map((step, i) => {
