@@ -332,7 +332,7 @@ export const PRODUCTS: Product[] = [
       howToHeadline: { ar: 'أبسط روتين عمرج جربتيه', en: 'The simplest routine you’ll actually keep' },
       howToSub: { ar: '٣٠ ثانية باليوم · ٢–٣ قطرات · بدون تعقيد', en: '30 seconds a day · 2–3 drops · no fuss' },
     },
-    painImageUrl: '',
+    painImageUrl: '/products/pain-txa.png',
     reviews: [
       {
         initials: 'ه.ش',
@@ -582,7 +582,7 @@ export const PRODUCTS: Product[] = [
       howToHeadline: { ar: 'روتين مساء بسيط', en: 'Simple night routine' },
       howToSub: { ar: 'قطرات · ترطيب · SPF الصبح — خلاص', en: 'Drops · moisturiser · SPF in the morning — done' },
     },
-    painImageUrl: '',
+    painImageUrl: '/products/pain-azelaic.png',
     reviews: [
       {
         initials: 'س.ر',
