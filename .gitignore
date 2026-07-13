@@ -27,6 +27,10 @@ yarn-error.log*
 .env*.local
 .env
 
+# large media — host outside git / EasyPanel archive
+/public/products/*.mp4
+*.mp4
+
 # vercel
 .vercel
 
