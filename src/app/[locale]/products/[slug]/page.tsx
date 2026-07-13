@@ -370,7 +370,7 @@ export default async function ProductPage({ params: { locale, slug } }: Props) {
           howToUse={product.howToUse}
           headline={cro.howToHeadline[loc]}
           subheadline={cro.howToSub[loc]}
-          videoSrc={null}
+          videoSrc={isTxa ? null : '/products/howto-az.mp4?v=3'}
           steps={
             isTxa
               ? [

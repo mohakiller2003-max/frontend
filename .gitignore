@@ -27,9 +27,10 @@ yarn-error.log*
 .env*.local
 .env
 
-# large media — host outside git / EasyPanel archive
-/public/products/*.mp4
+# large media — allow only compressed how-to clips under ~15MB
 *.mp4
+!/public/products/howto-az.mp4
+!/public/products/howto-txa.mp4
 
 # vercel
 .vercel
